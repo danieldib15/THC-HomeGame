@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Home Game · Poker</title>
-<link href="https://protect.checkpoint.com/v2/r01/___https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;500;600;700;800&display=swap___.Y3AxOmJhbmNvYWJjYnJhc2lsc2E6YzpvOjc3NjYyMmU1OWE4Y2ExN2QwZmIyYzdiMzY1ZWIyNGQzOjc6YjBkZjo5NDJkMTA4Mjk0NzhjNmQzZDJkZDA2MGZkYzgwNWYzYzJmYmYyZWZmMzRjZjhiZjY3OGIyNDMxYTU3NTI3OTBkOnA6VDpG" rel="stylesheet">
-<script src="https://protect.checkpoint.com/v2/r01/___https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js___.Y3AxOmJhbmNvYWJjYnJhc2lsc2E6YzpvOjc3NjYyMmU1OWE4Y2ExN2QwZmIyYzdiMzY1ZWIyNGQzOjc6NzJkMDpmNTlhODIzM2YyNTliM2YyZDUzZjhhZDg5MGI5Y2Q4NDg0MDEzMzgzNTc1OTM1MjEwMzc5YWVmNDhmM2U5ZmE2OnA6VDpG"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
 :root {
   --bg: #0d0d0d;
@@ -38,414 +37,202 @@ body {
   min-height: 100vh;
   padding-bottom: 60px;
 }
-
-/* HEADER */
 .header {
-background: var(–surface);
-border-bottom: 1px solid var(–border);
-padding: 16px 20px;
-display: flex; align-items: center; justify-content: space-between;
-position: sticky; top: 0; z-index: 100;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 100;
 }
-.logo { font-family: ‘Bebas Neue’, sans-serif; font-size: 26px; letter-spacing: 2px; color: var(–gold); line-height: 1; }
-.logo-sub { font-size: 10px; color: var(–text-muted); letter-spacing: 3px; text-transform: uppercase; }
+.logo { font-family: 'Bebas Neue', sans-serif; font-size: 26px; letter-spacing: 2px; color: var(--gold); line-height: 1; }
+.logo-sub { font-size: 10px; color: var(--text-muted); letter-spacing: 3px; text-transform: uppercase; }
 .pot-live { text-align: right; }
-.pot-live-label { font-size: 10px; color: var(–text-muted); letter-spacing: 2px; text-transform: uppercase; }
-.pot-live-value { font-family: ‘Bebas Neue’, sans-serif; font-size: 28px; color: var(–gold); letter-spacing: 1px; line-height: 1; }
-
-/* MAIN */
+.pot-live-label { font-size: 10px; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; }
+.pot-live-value { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--gold); letter-spacing: 1px; line-height: 1; }
 .main { max-width: 680px; margin: 0 auto; padding: 20px 16px; }
-.section-title {
-font-size: 10px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase;
-color: var(–text-muted); margin-bottom: 10px; margin-top: 28px;
-display: flex; align-items: center; gap: 8px;
-}
+.section-title { font-size: 10px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; margin-top: 28px; display: flex; align-items: center; gap: 8px; }
 .section-title:first-child { margin-top: 0; }
-.section-title::after { content: ‘’; flex: 1; height: 1px; background: var(–border); }
-
-/* SESSION SETUP */
-.setup-card {
-background: var(–surface); border: 1px solid var(–border);
-border-radius: var(–radius); padding: 16px;
-}
+.section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.setup-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
 .setup-row { display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap; }
 .field-group { display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 120px; }
-.field-label { font-size: 10px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(–text-muted); }
-.field-input {
-background: var(–surface2); border: 1px solid var(–border); border-radius: var(–radius-sm);
-padding: 10px 13px; color: var(–text); font-family: ‘Nunito’, sans-serif;
-font-size: 14px; font-weight: 600; outline: none; transition: border-color 0.2s; width: 100%;
-}
-.field-input:focus { border-color: var(–gold); }
-.field-input::placeholder { color: var(–text-muted); font-weight: 400; }
-
-/* SESSION INFO BAR (after setup) */
-.session-info-bar {
-background: var(–surface); border: 1px solid var(–border);
-border-radius: var(–radius); padding: 12px 16px;
-display: flex; align-items: center; justify-content: space-between; gap: 12px;
-flex-wrap: wrap;
-}
+.field-label { font-size: 10px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); }
+.field-input { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 13px; color: var(--text); font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 600; outline: none; transition: border-color 0.2s; width: 100%; }
+.field-input:focus { border-color: var(--gold); }
+.field-input::placeholder { color: var(--text-muted); font-weight: 400; }
+.session-info-bar { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 .session-info-left { display: flex; align-items: center; gap: 10px; }
 .session-info-date { font-size: 15px; font-weight: 700; }
-.session-info-buyin {
-background: var(–gold-dim); border: 1px solid rgba(230,185,74,0.2);
-border-radius: 20px; padding: 3px 10px;
-font-size: 12px; font-weight: 700; color: var(–gold);
-}
-.btn-edit-session {
-background: none; border: 1px solid var(–border); color: var(–text-muted);
-border-radius: 6px; padding: 5px 12px; font-family: ‘Nunito’, sans-serif;
-font-size: 11px; font-weight: 700; cursor: pointer; transition: all 0.15s;
-}
-.btn-edit-session:hover { border-color: var(–gold); color: var(–gold); }
-
-/* ADD PLAYER (simplified) */
-.add-form { background: var(–surface); border: 1px solid var(–border); border-radius: var(–radius); padding: 16px; }
+.session-info-buyin { background: var(--gold-dim); border: 1px solid rgba(230,185,74,0.2); border-radius: 20px; padding: 3px 10px; font-size: 12px; font-weight: 700; color: var(--gold); }
+.btn-edit-session { background: none; border: 1px solid var(--border); color: var(--text-muted); border-radius: 6px; padding: 5px 12px; font-family: 'Nunito', sans-serif; font-size: 11px; font-weight: 700; cursor: pointer; transition: all 0.15s; }
+.btn-edit-session:hover { border-color: var(--gold); color: var(--gold); }
+.add-form { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
 .add-form-row { display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap; }
-.btn-add {
-background: var(–gold); color: #0d0d0d; border: none; border-radius: var(–radius-sm);
-padding: 10px 22px; font-family: ‘Nunito’, sans-serif; font-size: 14px; font-weight: 800;
-cursor: pointer; white-space: nowrap; height: 42px; align-self: flex-end;
-transition: opacity 0.15s;
-}
+.btn-add { background: var(--gold); color: #0d0d0d; border: none; border-radius: var(--radius-sm); padding: 10px 22px; font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; cursor: pointer; white-space: nowrap; height: 42px; align-self: flex-end; transition: opacity 0.15s; }
 .btn-add:hover { opacity: 0.85; }
-
-/* INVESTMENT TABLE */
-.inv-table { background: var(–surface); border: 1px solid var(–border); border-radius: var(–radius); overflow: hidden; }
-.inv-header, .inv-row, .inv-footer {
-display: grid;
-grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1.1fr 32px;
-}
-.inv-header { background: var(–surface2); border-bottom: 1px solid var(–border); }
-.inv-row { border-bottom: 1px solid var(–border); cursor: pointer; transition: background 0.15s; }
+.inv-table { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.inv-header, .inv-row, .inv-footer { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1.1fr 32px; }
+.inv-header { background: var(--surface2); border-bottom: 1px solid var(--border); }
+.inv-row { border-bottom: 1px solid var(--border); cursor: pointer; transition: background 0.15s; }
 .inv-row:last-child { border-bottom: none; }
 .inv-row:hover { background: rgba(230,185,74,0.04); }
-.inv-footer { background: var(–surface2); border-top: 1px solid rgba(230,185,74,0.2); }
+.inv-footer { background: var(--surface2); border-top: 1px solid rgba(230,185,74,0.2); }
 .inv-cell { padding: 10px 8px; font-size: 12px; display: flex; align-items: center; }
 .inv-cell.center { justify-content: center; }
 .inv-cell.right { justify-content: flex-end; }
-.inv-header .inv-cell { font-size: 9px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(–text-muted); }
-.inv-footer .inv-cell { font-weight: 800; color: var(–gold); font-size: 12px; }
+.inv-header .inv-cell { font-size: 9px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); }
+.inv-footer .inv-cell { font-weight: 800; color: var(--gold); font-size: 12px; }
 .player-name-cell { font-weight: 800; font-size: 13px; display: flex; align-items: center; gap: 5px; }
-.edit-hint { font-size: 9px; color: var(–text-muted); font-weight: 400; background: var(–surface2); border-radius: 4px; padding: 2px 5px; }
+.edit-hint { font-size: 9px; color: var(--text-muted); font-weight: 400; background: var(--surface2); border-radius: 4px; padding: 2px 5px; }
 .btn-remove-sm { background: none; border: none; color: rgba(224,92,92,0.35); font-size: 14px; cursor: pointer; padding: 4px; transition: color 0.15s; display: flex; align-items: center; justify-content: center; }
-.btn-remove-sm:hover { color: var(–red); }
-
+.btn-remove-sm:hover { color: var(--red); }
 @media(max-width:480px) {
-.inv-header, .inv-row, .inv-footer { grid-template-columns: 1.6fr 1fr 1fr 1fr 1fr 1fr 28px; }
-.inv-cell { padding: 9px 5px; font-size: 11px; }
-.edit-hint { display: none; }
+  .inv-header, .inv-row, .inv-footer { grid-template-columns: 1.6fr 1fr 1fr 1fr 1fr 1fr 28px; }
+  .inv-cell { padding: 9px 5px; font-size: 11px; }
+  .edit-hint { display: none; }
 }
-
-/* PRIZES */
-.prizes-card { background: var(–surface); border: 1px solid var(–border); border-radius: var(–radius); padding: 18px; }
+.prizes-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; }
 .prize-rows { display: flex; flex-direction: column; gap: 10px; }
-.prize-row-item { background: var(–surface2); border: 1px solid var(–border); border-radius: var(–radius-sm); padding: 12px 14px; }
+.prize-row-item { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; }
 .prize-row-top { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-.prize-rank { font-family: ‘Bebas Neue’, sans-serif; font-size: 17px; min-width: 65px; }
-.prize-player-select {
-flex: 1; min-width: 120px; background: var(–surface3); border: 1px solid var(–border);
-border-radius: 6px; padding: 7px 10px; color: var(–text); font-family: ‘Nunito’, sans-serif;
-font-size: 13px; font-weight: 600; outline: none; cursor: pointer;
-}
-.prize-player-select:focus { border-color: var(–gold); }
+.prize-rank { font-family: 'Bebas Neue', sans-serif; font-size: 17px; min-width: 65px; }
+.prize-player-select { flex: 1; min-width: 120px; background: var(--surface3); border: 1px solid var(--border); border-radius: 6px; padding: 7px 10px; color: var(--text); font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 600; outline: none; cursor: pointer; }
+.prize-player-select:focus { border-color: var(--gold); }
 .prize-amount-group { display: flex; align-items: center; gap: 6px; }
-.prize-amount-label { font-size: 11px; color: var(–text-muted); }
-.prize-amount-input {
-background: var(–surface3); border: 1px solid var(–border); border-radius: 6px;
-padding: 7px 10px; color: var(–text); font-family: ‘Nunito’, sans-serif;
-font-size: 13px; font-weight: 700; outline: none; width: 110px;
-}
-.prize-amount-input:focus { border-color: var(–gold); }
-.prize-hint { font-size: 11px; color: var(–text-muted); margin-top: 7px; padding-left: 75px; }
-.prize-hint strong { color: var(–gold); }
-.prizes-footer {
-margin-top: 16px; padding-top: 14px; border-top: 1px solid var(–border);
-display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
-}
-.prizes-remain { font-size: 13px; color: var(–text-soft); }
-.prizes-remain strong { color: var(–gold); font-size: 16px; }
-.prizes-remain.over strong { color: var(–red); }
-.btn-calc {
-background: var(–gold); color: #0d0d0d; border: none; border-radius: var(–radius-sm);
-padding: 11px 26px; font-family: ‘Nunito’, sans-serif; font-size: 14px; font-weight: 800;
-cursor: pointer; transition: opacity 0.15s;
-}
+.prize-amount-label { font-size: 11px; color: var(--text-muted); }
+.prize-amount-input { background: var(--surface3); border: 1px solid var(--border); border-radius: 6px; padding: 7px 10px; color: var(--text); font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700; outline: none; width: 110px; }
+.prize-amount-input:focus { border-color: var(--gold); }
+.prize-hint { font-size: 11px; color: var(--text-muted); margin-top: 7px; padding-left: 75px; }
+.prize-hint strong { color: var(--gold); }
+.prizes-footer { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+.prizes-remain { font-size: 13px; color: var(--text-soft); }
+.prizes-remain strong { color: var(--gold); font-size: 16px; }
+.prizes-remain.over strong { color: var(--red); }
+.btn-calc { background: var(--gold); color: #0d0d0d; border: none; border-radius: var(--radius-sm); padding: 11px 26px; font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; cursor: pointer; transition: opacity 0.15s; }
 .btn-calc:hover { opacity: 0.85; }
-
-/* RESULTS */
-.results-card { background: var(–surface); border: 1px solid rgba(230,185,74,0.2); border-radius: var(–radius); overflow: hidden; }
-.results-header {
-background: linear-gradient(135deg, rgba(230,185,74,0.1), rgba(230,185,74,0.03));
-padding: 16px 20px; border-bottom: 1px solid rgba(230,185,74,0.12);
-display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
-}
-.results-title { font-family: ‘Bebas Neue’, sans-serif; font-size: 22px; color: var(–gold); letter-spacing: 2px; }
-.results-pot { font-size: 13px; color: var(–text-soft); }
-.results-pot strong { color: var(–gold); }
-.result-item {
-display: flex; align-items: center; gap: 14px; padding: 13px 20px;
-border-bottom: 1px solid var(–border);
-}
+.results-card { background: var(--surface); border: 1px solid rgba(230,185,74,0.2); border-radius: var(--radius); overflow: hidden; }
+.results-header { background: linear-gradient(135deg, rgba(230,185,74,0.1), rgba(230,185,74,0.03)); padding: 16px 20px; border-bottom: 1px solid rgba(230,185,74,0.12); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+.results-title { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--gold); letter-spacing: 2px; }
+.results-pot { font-size: 13px; color: var(--text-soft); }
+.results-pot strong { color: var(--gold); }
+.result-item { display: flex; align-items: center; gap: 14px; padding: 13px 20px; border-bottom: 1px solid var(--border); }
 .result-item:last-child { border-bottom: none; }
 .result-item.winner { background: rgba(230,185,74,0.03); }
 .result-item.loser { opacity: 0.45; }
 .result-medal { font-size: 22px; width: 30px; text-align: center; flex-shrink: 0; }
 .result-info { flex: 1; }
 .result-name { font-size: 16px; font-weight: 800; }
-.result-spent { font-size: 11px; color: var(–text-muted); margin-top: 2px; }
+.result-spent { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
 .result-right { text-align: right; }
-.result-prize { font-family: ‘Bebas Neue’, sans-serif; font-size: 24px; color: var(–gold); letter-spacing: 1px; }
+.result-prize { font-family: 'Bebas Neue', sans-serif; font-size: 24px; color: var(--gold); letter-spacing: 1px; }
 .result-pnl { font-size: 12px; font-weight: 700; margin-top: 1px; }
-.pnl-pos { color: var(–green); }
-.pnl-neg { color: var(–red); }
-.pnl-zero { color: var(–text-muted); }
-
-/* RESULT ACTIONS */
+.pnl-pos { color: var(--green); }
+.pnl-neg { color: var(--red); }
+.pnl-zero { color: var(--text-muted); }
 .result-actions { display: flex; gap: 10px; padding: 14px 16px; flex-wrap: wrap; }
-.btn-save {
-flex: 1; min-width: 140px;
-background: var(–surface2); border: 1px solid var(–border); color: var(–text-soft);
-border-radius: var(–radius-sm); padding: 11px; font-family: ‘Nunito’, sans-serif;
-font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.15s;
-}
-.btn-save:hover { border-color: var(–gold); color: var(–gold); }
-.btn-screenshot {
-flex: 1; min-width: 140px;
-background: var(–green-dim); border: 1px solid rgba(76,175,125,0.25); color: var(–green);
-border-radius: var(–radius-sm); padding: 11px; font-family: ‘Nunito’, sans-serif;
-font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.15s;
-}
+.btn-save { flex: 1; min-width: 140px; background: var(--surface2); border: 1px solid var(--border); color: var(--text-soft); border-radius: var(--radius-sm); padding: 11px; font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.15s; }
+.btn-save:hover { border-color: var(--gold); color: var(--gold); }
+.btn-screenshot { flex: 1; min-width: 140px; background: var(--green-dim); border: 1px solid rgba(76,175,125,0.25); color: var(--green); border-radius: var(--radius-sm); padding: 11px; font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.15s; }
 .btn-screenshot:hover { background: rgba(76,175,125,0.2); }
-
-/* HISTORY */
-.history-card { background: var(–surface); border: 1px solid var(–border); border-radius: var(–radius); overflow: hidden; }
-.history-item { display: flex; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(–border); font-size: 13px; gap: 10px; }
+.history-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.history-item { display: flex; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--border); font-size: 13px; gap: 10px; }
 .history-item:last-child { border-bottom: none; }
 .history-name { font-weight: 700; }
-.history-meta { font-size: 11px; color: var(–text-muted); margin-top: 2px; }
-.history-pot { font-family: ‘Bebas Neue’, sans-serif; font-size: 20px; color: var(–gold); flex-shrink: 0; }
-.history-footer { padding: 10px 16px; border-top: 1px solid var(–border); background: var(–surface2); text-align: center; }
-.btn-clear { background: none; border: none; color: rgba(224,92,92,0.45); font-family: ‘Nunito’, sans-serif; font-size: 12px; cursor: pointer; }
-.btn-clear:hover { color: var(–red); }
-.btn-remove-hist { background: none; border: 1px solid rgba(224,92,92,0.2); color: var(–red); border-radius: 6px; padding: 4px 9px; font-size: 14px; cursor: pointer; flex-shrink: 0; transition: background 0.15s; }
-.btn-remove-hist:hover { background: var(–red-dim); }
-
-/* PLAYER MODAL */
-.modal-overlay {
-position: fixed; inset: 0; background: rgba(0,0,0,0.75);
-display: flex; align-items: flex-end; justify-content: center;
-z-index: 200; animation: fadeOverlay 0.15s ease;
-}
+.history-meta { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+.history-pot { font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: var(--gold); flex-shrink: 0; }
+.history-footer { padding: 10px 16px; border-top: 1px solid var(--border); background: var(--surface2); text-align: center; }
+.btn-clear { background: none; border: none; color: rgba(224,92,92,0.45); font-family: 'Nunito', sans-serif; font-size: 12px; cursor: pointer; }
+.btn-clear:hover { color: var(--red); }
+.btn-remove-hist { background: none; border: 1px solid rgba(224,92,92,0.2); color: var(--red); border-radius: 6px; padding: 4px 9px; font-size: 14px; cursor: pointer; flex-shrink: 0; transition: background 0.15s; }
+.btn-remove-hist:hover { background: var(--red-dim); }
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.75); display: flex; align-items: flex-end; justify-content: center; z-index: 200; animation: fadeOverlay 0.15s ease; }
 @media(min-width:500px) { .modal-overlay { align-items: center; } }
 @keyframes fadeOverlay { from{opacity:0} to{opacity:1} }
-.modal-box {
-background: var(–surface); border: 1px solid var(–border);
-border-radius: var(–radius) var(–radius) 0 0;
-width: 100%; max-width: 480px; padding: 24px 20px 32px;
-animation: slideUp 0.2s ease;
-}
-@media(min-width:500px) { .modal-box { border-radius: var(–radius); } }
+.modal-box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius) var(--radius) 0 0; width: 100%; max-width: 480px; padding: 24px 20px 32px; animation: slideUp 0.2s ease; }
+@media(min-width:500px) { .modal-box { border-radius: var(--radius); } }
 @keyframes slideUp { from{transform:translateY(40px);opacity:0} to{transform:translateY(0);opacity:1} }
-.modal-player-name { font-family: ‘Bebas Neue’, sans-serif; font-size: 26px; color: var(–gold); letter-spacing: 2px; margin-bottom: 4px; }
-.modal-player-total { font-size: 12px; color: var(–text-muted); margin-bottom: 20px; }
-.modal-player-total strong { color: var(–text-soft); }
+.modal-player-name { font-family: 'Bebas Neue', sans-serif; font-size: 26px; color: var(--gold); letter-spacing: 2px; margin-bottom: 4px; }
+.modal-player-total { font-size: 12px; color: var(--text-muted); margin-bottom: 20px; }
+.modal-player-total strong { color: var(--text-soft); }
 .modal-fields { display: flex; flex-direction: column; gap: 14px; }
-.modal-field-row {
-background: var(–surface2); border: 1px solid var(–border);
-border-radius: var(–radius-sm); padding: 12px 14px;
-display: flex; align-items: center; gap: 12px;
-}
+.modal-field-row { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; display: flex; align-items: center; gap: 12px; }
 .modal-field-left { flex: 1; }
 .modal-field-type { font-size: 9px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 2px; }
-.modal-field-value { font-family: ‘Bebas Neue’, sans-serif; font-size: 22px; letter-spacing: 0.5px; }
-.modal-field-note { font-size: 10px; color: var(–text-muted); margin-top: 1px; }
+.modal-field-value { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 0.5px; }
+.modal-field-note { font-size: 10px; color: var(--text-muted); margin-top: 1px; }
 .modal-field-right { display: flex; gap: 6px; align-items: center; }
-.modal-input {
-background: var(–surface3); border: 1px solid var(–border); border-radius: 6px;
-padding: 8px 10px; color: var(–text); font-family: ‘Nunito’, sans-serif;
-font-size: 13px; font-weight: 600; outline: none; width: 88px; text-align: center;
-transition: border-color 0.15s;
-}
+.modal-input { background: var(--surface3); border: 1px solid var(--border); border-radius: 6px; padding: 8px 10px; color: var(--text); font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 600; outline: none; width: 88px; text-align: center; transition: border-color 0.15s; }
 .modal-input:focus { border-color: currentColor; }
-.modal-input::placeholder { color: var(–text-muted); font-weight: 400; font-size: 11px; }
-.modal-btn-action { border: none; border-radius: 6px; padding: 8px 12px; font-family: ‘Nunito’, sans-serif; font-size: 14px; font-weight: 800; cursor: pointer; transition: opacity 0.15s; line-height: 1; }
+.modal-input::placeholder { color: var(--text-muted); font-weight: 400; font-size: 11px; }
+.modal-btn-action { border: none; border-radius: 6px; padding: 8px 12px; font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; cursor: pointer; transition: opacity 0.15s; line-height: 1; }
 .modal-btn-action:hover { opacity: 0.75; }
-.modal-close { display: block; width: 100%; margin-top: 20px; background: var(–surface2); border: 1px solid var(–border); color: var(–text-soft); border-radius: var(–radius-sm); padding: 12px; font-family: ‘Nunito’, sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.15s; }
-.modal-close:hover { border-color: var(–gold); color: var(–gold); }
-
-/* CONFIRM */
+.modal-close { display: block; width: 100%; margin-top: 20px; background: var(--surface2); border: 1px solid var(--border); color: var(--text-soft); border-radius: var(--radius-sm); padding: 12px; font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.15s; }
+.modal-close:hover { border-color: var(--gold); color: var(--gold); }
 .confirm-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.75); display: flex; align-items: center; justify-content: center; z-index: 300; animation: fadeOverlay 0.15s ease; }
-.confirm-box { background: var(–surface2); border: 1px solid var(–border); border-radius: var(–radius); padding: 24px 24px 20px; max-width: 300px; width: 90%; text-align: center; animation: popIn 0.15s ease; }
+.confirm-box { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px 24px 20px; max-width: 300px; width: 90%; text-align: center; animation: popIn 0.15s ease; }
 @keyframes popIn { from{opacity:0;transform:scale(0.93)} to{opacity:1;transform:scale(1)} }
 .confirm-msg { font-size: 15px; font-weight: 600; line-height: 1.5; margin-bottom: 20px; }
-.confirm-msg strong { color: var(–gold); }
+.confirm-msg strong { color: var(--gold); }
 .confirm-btns { display: flex; gap: 10px; justify-content: center; }
-.confirm-yes { background: var(–red-dim); border: 1px solid rgba(224,92,92,0.35); color: var(–red); border-radius: var(–radius-sm); padding: 10px 24px; font-family: ‘Nunito’, sans-serif; font-size: 14px; font-weight: 800; cursor: pointer; }
-.confirm-no { background: var(–surface3); border: 1px solid var(–border); color: var(–text-soft); border-radius: var(–radius-sm); padding: 10px 24px; font-family: ‘Nunito’, sans-serif; font-size: 14px; font-weight: 800; cursor: pointer; }
-
-/* TOAST */
-.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(–surface3); border: 1px solid var(–border); border-radius: 30px; padding: 10px 22px; font-size: 13px; font-weight: 600; color: var(–text); transition: transform 0.3s; z-index: 999; white-space: nowrap; }
+.confirm-yes { background: var(--red-dim); border: 1px solid rgba(224,92,92,0.35); color: var(--red); border-radius: var(--radius-sm); padding: 10px 24px; font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; cursor: pointer; }
+.confirm-no { background: var(--surface3); border: 1px solid var(--border); color: var(--text-soft); border-radius: var(--radius-sm); padding: 10px 24px; font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; cursor: pointer; }
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--surface3); border: 1px solid var(--border); border-radius: 30px; padding: 10px 22px; font-size: 13px; font-weight: 600; color: var(--text); transition: transform 0.3s; z-index: 999; white-space: nowrap; }
 .toast.show { transform: translateX(-50%) translateY(0); }
-
-/* SCREENSHOT CARD (hidden, used for image export) */
-#screenshotCard {
-position: fixed; left: -9999px; top: 0;
-width: 420px;
-background: #0d0d0d;
-font-family: ‘Nunito’, sans-serif;
-color: #f0f0f0;
-border-radius: 16px;
-overflow: hidden;
-padding: 0;
-}
-.sc-header {
-background: #161616;
-padding: 18px 20px 14px;
-border-bottom: 1px solid rgba(255,255,255,0.07);
-}
-.sc-title { font-family: ‘Bebas Neue’, sans-serif; font-size: 28px; color: #e6b94a; letter-spacing: 3px; }
-.sc-meta { font-size: 12px; color: rgba(240,240,240,0.5); margin-top: 2px; }
-.sc-pot { font-family: ‘Bebas Neue’, sans-serif; font-size: 18px; color: #e6b94a; margin-top: 4px; }
-.sc-row {
-display: flex; align-items: center; gap: 14px;
-padding: 13px 20px; border-bottom: 1px solid rgba(255,255,255,0.06);
-}
-.sc-row.winner { background: rgba(230,185,74,0.04); }
-.sc-row.loser { opacity: 0.45; }
-.sc-medal { font-size: 22px; width: 30px; text-align: center; flex-shrink: 0; }
-.sc-info { flex: 1; }
-.sc-name { font-size: 15px; font-weight: 800; }
-.sc-spent { font-size: 11px; color: rgba(240,240,240,0.4); margin-top: 2px; }
-.sc-right { text-align: right; }
-.sc-prize { font-family: ‘Bebas Neue’, sans-serif; font-size: 22px; color: #e6b94a; }
-.sc-pnl { font-size: 11px; font-weight: 700; margin-top: 1px; }
-.sc-sep { font-size: 9px; letter-spacing: 3px; text-align: center; padding: 7px; color: rgba(240,240,240,0.3); background: #1e1e1e; border-bottom: 1px solid rgba(255,255,255,0.06); border-top: 1px solid rgba(255,255,255,0.06); }
-.sc-footer { padding: 12px 20px; background: #161616; font-size: 10px; color: rgba(240,240,240,0.3); text-align: center; letter-spacing: 2px; }
-
-/* ── EXPENSES TAB ── */
-.exp-card { background: var(–surface); border: 1px solid var(–border); border-radius: var(–radius); padding: 18px; margin-bottom: 16px; }
-.exp-card-title { font-size: 10px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; color: var(–text-muted); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
-.exp-card-title::after { content:’’; flex:1; height:1px; background:var(–border); }
+.exp-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; margin-bottom: 16px; }
+.exp-card-title { font-size: 10px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+.exp-card-title::after { content:''; flex:1; height:1px; background:var(--border); }
 .exp-row { display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap; margin-bottom: 10px; }
 .exp-row:last-child { margin-bottom: 0; }
-.exp-total-box { background: var(–surface2); border: 1px solid rgba(230,185,74,0.2); border-radius: var(–radius-sm); padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; margin-top: 14px; }
-.exp-total-label { font-size: 11px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(–text-muted); }
-.exp-total-value { font-family: ‘Bebas Neue’, sans-serif; font-size: 24px; color: var(–gold); }
-
-/* Food orders */
+.exp-total-box { background: var(--surface2); border: 1px solid rgba(230,185,74,0.2); border-radius: var(--radius-sm); padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; margin-top: 14px; }
+.exp-total-label { font-size: 11px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); }
+.exp-total-value { font-family: 'Bebas Neue', sans-serif; font-size: 24px; color: var(--gold); }
 .order-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
-.order-card { background: var(–surface2); border: 1px solid var(–border); border-radius: var(–radius-sm); padding: 13px; }
+.order-card { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; }
 .order-card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; gap: 8px; flex-wrap: wrap; }
-.order-card-label { font-size: 13px; font-weight: 800; color: var(–gold); }
-.order-card-val { font-family: ‘Bebas Neue’, sans-serif; font-size: 18px; color: var(–gold); }
+.order-card-label { font-size: 13px; font-weight: 800; color: var(--gold); }
+.order-card-val { font-family: 'Bebas Neue', sans-serif; font-size: 18px; color: var(--gold); }
 .order-who { margin-top: 8px; }
-.order-who-label { font-size: 10px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(–text-muted); margin-bottom: 6px; }
+.order-who-label { font-size: 10px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; }
 .order-players { display: flex; flex-wrap: wrap; gap: 6px; }
-.order-player-chip {
-background: var(–surface3); border: 1px solid var(–border);
-border-radius: 20px; padding: 4px 12px;
-font-size: 12px; font-weight: 700; color: var(–text-muted);
-cursor: pointer; transition: all 0.15s; user-select: none;
-}
-.order-player-chip.selected { background: rgba(230,185,74,0.15); border-color: var(–gold); color: var(–gold); }
-.order-payer-chip {
-background: var(–surface3); border: 1px solid var(–border);
-border-radius: 20px; padding: 4px 12px;
-font-size: 12px; font-weight: 700; color: var(–text-muted);
-cursor: pointer; transition: all 0.15s; user-select: none;
-}
-.order-payer-chip.selected { background: rgba(76,175,125,0.15); border-color: var(–green); color: var(–green); }
-.btn-add-order { background: var(–surface2); border: 1px solid rgba(230,185,74,0.25); color: var(–gold); border-radius: var(–radius-sm); padding: 10px; font-family: ‘Nunito’, sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; width: 100%; transition: all 0.15s; }
-.btn-add-order:hover { background: var(–gold-dim); }
-
-/* Expense summary per player */
-.exp-player-row { display: flex; align-items: center; justify-content: space-between; padding: 9px 12px; border-bottom: 1px solid var(–border); font-size: 13px; }
+.order-player-chip { background: var(--surface3); border: 1px solid var(--border); border-radius: 20px; padding: 4px 12px; font-size: 12px; font-weight: 700; color: var(--text-muted); cursor: pointer; transition: all 0.15s; user-select: none; }
+.order-player-chip.selected { background: rgba(230,185,74,0.15); border-color: var(--gold); color: var(--gold); }
+.order-payer-chip { background: var(--surface3); border: 1px solid var(--border); border-radius: 20px; padding: 4px 12px; font-size: 12px; font-weight: 700; color: var(--text-muted); cursor: pointer; transition: all 0.15s; user-select: none; }
+.order-payer-chip.selected { background: rgba(76,175,125,0.15); border-color: var(--green); color: var(--green); }
+.btn-add-order { background: var(--surface2); border: 1px solid rgba(230,185,74,0.25); color: var(--gold); border-radius: var(--radius-sm); padding: 10px; font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; width: 100%; transition: all 0.15s; }
+.btn-add-order:hover { background: var(--gold-dim); }
+.exp-player-row { display: flex; align-items: center; justify-content: space-between; padding: 9px 12px; border-bottom: 1px solid var(--border); font-size: 13px; }
 .exp-player-row:last-child { border-bottom: none; }
 .exp-player-name { font-weight: 700; }
-.exp-player-amount { font-family: ‘Bebas Neue’, sans-serif; font-size: 18px; color: var(–red); }
-
-/* ── TAB BAR ── */
-.tab-bar {
-position: fixed; bottom: 0; left: 0; right: 0;
-background: #161616;
-border-top: 1px solid rgba(255,255,255,0.08);
-display: flex;
-z-index: 150;
-padding-bottom: env(safe-area-inset-bottom);
-}
-.tab-btn {
-flex: 1; display: flex; flex-direction: column; align-items: center;
-justify-content: center; padding: 10px 0 8px;
-background: none; border: none; cursor: pointer;
-transition: opacity 0.15s;
-gap: 4px;
-}
+.tab-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #161616; border-top: 1px solid rgba(255,255,255,0.08); display: flex; z-index: 150; padding-bottom: env(safe-area-inset-bottom); }
+.tab-btn { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px 0 8px; background: none; border: none; cursor: pointer; transition: opacity 0.15s; gap: 4px; }
 .tab-btn .tab-icon { font-size: 22px; line-height: 1; }
-.tab-btn .tab-label { font-family: ‘Nunito’, sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: rgba(240,240,240,0.35); }
-.tab-btn.active .tab-label { color: var(–gold); }
-.tab-btn.active .tab-icon { filter: none; }
-
-/* push content above tab bar */
+.tab-btn .tab-label { font-family: 'Nunito', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: rgba(240,240,240,0.35); }
+.tab-btn.active .tab-label { color: var(--gold); }
 .main { padding-bottom: 80px; }
-
-/* ── RESULT TAB PAGE ── */
-.result-tab-page {
-max-width: 680px; margin: 0 auto; padding: 20px 16px 100px;
-display: none;
-}
-.result-tab-page.active { display: block; }
-.result-tab-empty {
-text-align: center; padding: 60px 20px;
-color: var(–text-muted); font-size: 14px;
-}
+.result-tab-page { max-width: 680px; margin: 0 auto; padding: 20px 16px 100px; display: none; }
+.result-tab-empty { text-align: center; padding: 60px 20px; color: var(--text-muted); font-size: 14px; }
 .result-tab-empty-icon { font-size: 40px; margin-bottom: 12px; }
-
-/* Result tab table */
-.rt-card {
-background: var(–surface); border: 1px solid rgba(230,185,74,0.2);
-border-radius: var(–radius); overflow: hidden; margin-bottom: 16px;
-}
-.rt-header {
-background: linear-gradient(135deg, rgba(230,185,74,0.1), rgba(230,185,74,0.03));
-padding: 16px 20px; border-bottom: 1px solid rgba(230,185,74,0.12);
-}
-.rt-title { font-family: ‘Bebas Neue’, sans-serif; font-size: 22px; color: var(–gold); letter-spacing: 2px; }
-.rt-meta { font-size: 12px; color: var(–text-muted); margin-top: 3px; }
-
+.rt-card { background: var(--surface); border: 1px solid rgba(230,185,74,0.2); border-radius: var(--radius); overflow: hidden; margin-bottom: 16px; }
+.rt-header { background: linear-gradient(135deg, rgba(230,185,74,0.1), rgba(230,185,74,0.03)); padding: 16px 20px; border-bottom: 1px solid rgba(230,185,74,0.12); }
+.rt-title { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--gold); letter-spacing: 2px; }
+.rt-meta { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
 .rt-table { width: 100%; border-collapse: collapse; }
-.rt-table th {
-font-size: 9px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
-color: var(–text-muted); padding: 8px 10px; background: var(–surface2);
-text-align: right; white-space: nowrap;
-}
+.rt-table th { font-size: 9px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); padding: 8px 10px; background: var(--surface2); text-align: right; white-space: nowrap; }
 .rt-table th:first-child { text-align: left; width: 28px; }
 .rt-table th:nth-child(2) { text-align: left; }
-.rt-table td {
-padding: 10px 10px; font-size: 12px; border-bottom: 1px solid var(–border);
-text-align: right; white-space: nowrap;
-}
-.rt-table td:first-child { text-align: center; font-family: ‘Bebas Neue’, sans-serif; font-size: 16px; }
+.rt-table td { padding: 10px 10px; font-size: 12px; border-bottom: 1px solid var(--border); text-align: right; white-space: nowrap; }
+.rt-table td:first-child { text-align: center; font-family: 'Bebas Neue', sans-serif; font-size: 16px; }
 .rt-table td:nth-child(2) { text-align: left; font-weight: 800; font-size: 13px; }
 .rt-table tr:last-child td { border-bottom: none; }
 .rt-table tr.rt-winner { background: rgba(230,185,74,0.03); }
 .rt-table tr.rt-loser { opacity: 0.4; }
-.rt-table tr.rt-sep td { background: var(–surface2); color: var(–text-muted); font-size: 9px; letter-spacing: 3px; text-align: center; padding: 5px; }
-.rt-table tr.rt-footer td { background: var(–surface2); font-weight: 800; color: var(–gold); border-top: 1px solid rgba(230,185,74,0.2); }
-
-.rt-img-btn {
-display: block; width: 100%;
-background: var(–green-dim); border: 1px solid rgba(76,175,125,0.25); color: var(–green);
-border-radius: var(–radius-sm); padding: 13px; font-family: ‘Nunito’, sans-serif;
-font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.15s; text-align: center;
-}
+.rt-table tr.rt-sep td { background: var(--surface2); color: var(--text-muted); font-size: 9px; letter-spacing: 3px; text-align: center; padding: 5px; }
+.rt-table tr.rt-footer td { background: var(--surface2); font-weight: 800; color: var(--gold); border-top: 1px solid rgba(230,185,74,0.2); }
+.rt-img-btn { display: block; width: 100%; background: var(--green-dim); border: 1px solid rgba(76,175,125,0.25); color: var(--green); border-radius: var(--radius-sm); padding: 13px; font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.15s; text-align: center; }
 .rt-img-btn:hover { background: rgba(76,175,125,0.2); }
 </style>
-
 </head>
 <body>
-
 <div class="header">
   <div>
     <div class="logo">HOME GAME</div>
@@ -456,32 +243,23 @@ font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.15s; text-
     <div class="pot-live-value" id="livePot">R$ 0,00</div>
   </div>
 </div>
-
 <div class="main">
-
-  <!-- SETUP -->
-
   <div id="setupSection">
     <div class="section-title">Configurar Sessão</div>
     <div class="setup-card">
       <div class="setup-row">
         <div class="field-group">
           <div class="field-label">Data da Sessão</div>
-          <input class="field-input" type="text" id="setupDate" placeholder="ex: 02/05/2025"
-            onkeydown="if(event.key==='Enter') document.getElementById('setupBuyin').focus()" />
+          <input class="field-input" type="text" id="setupDate" placeholder="ex: 02/05/2025" onkeydown="if(event.key==='Enter') document.getElementById('setupBuyin').focus()" />
         </div>
         <div class="field-group" style="max-width:160px;">
           <div class="field-label">Valor do Buy-In (R$)</div>
-          <input class="field-input" type="number" id="setupBuyin" placeholder="0,00" min="0" step="0.01"
-            onkeydown="if(event.key==='Enter') confirmSetup()" />
+          <input class="field-input" type="number" id="setupBuyin" placeholder="0,00" min="0" step="0.01" onkeydown="if(event.key==='Enter') confirmSetup()" />
         </div>
         <button class="btn-add" onclick="confirmSetup()">Confirmar →</button>
       </div>
     </div>
   </div>
-
-  <!-- SESSION INFO BAR (shown after setup) -->
-
   <div id="sessionInfoBar" style="display:none">
     <div class="section-title">Sessão</div>
     <div class="session-info-bar">
@@ -493,25 +271,18 @@ font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.15s; text-
       <button class="btn-edit-session" onclick="editSetup()">✏ Editar</button>
     </div>
   </div>
-
-  <!-- ADD PLAYER -->
-
   <div id="addPlayerSection" style="display:none">
     <div class="section-title">Adicionar Jogador</div>
     <div class="add-form">
       <div class="add-form-row">
         <div class="field-group">
           <div class="field-label">Nome</div>
-          <input class="field-input" type="text" id="newName" placeholder="Nome do jogador"
-            onkeydown="if(event.key==='Enter') addPlayer()" />
+          <input class="field-input" type="text" id="newName" placeholder="Nome do jogador" onkeydown="if(event.key==='Enter') addPlayer()" />
         </div>
         <button class="btn-add" onclick="addPlayer()">+ Adicionar</button>
       </div>
     </div>
   </div>
-
-  <!-- INVESTMENTS TABLE -->
-
   <div id="investSection" style="display:none">
     <div class="section-title">Investimentos · toque no jogador para editar</div>
     <div class="inv-table">
@@ -528,9 +299,6 @@ font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.15s; text-
       <div class="inv-footer" id="footerRow"></div>
     </div>
   </div>
-
-  <!-- PRIZES -->
-
   <div id="prizesSection" style="display:none">
     <div class="section-title">Distribuição de Prêmios</div>
     <div class="prizes-card">
@@ -541,9 +309,6 @@ font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.15s; text-
       </div>
     </div>
   </div>
-
-  <!-- RESULTS -->
-
   <div id="resultsSection" style="display:none">
     <div class="section-title">Resultado Final</div>
     <div class="results-card">
@@ -558,9 +323,6 @@ font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.15s; text-
       </div>
     </div>
   </div>
-
-  <!-- HISTORY -->
-
   <div id="historySection" style="display:none">
     <div class="section-title">Histórico de Sessões</div>
     <div class="history-card">
@@ -570,15 +332,8 @@ font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.15s; text-
       </div>
     </div>
   </div>
-
 </div>
-
-<!-- SCREENSHOT CARD (off-screen, rendered for export) -->
-
-<div id="screenshotCard"></div>
-
-<!-- TAB BAR -->
-
+<div id="screenshotCard" style="position:fixed;left:-9999px;top:0;"></div>
 <div class="tab-bar">
   <button class="tab-btn active" id="tabBtnMain" onclick="switchTab('main')">
     <span class="tab-icon">🃏</span>
@@ -593,77 +348,57 @@ font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.15s; text-
     <span class="tab-label">Resultado</span>
   </button>
 </div>
-
-<!-- EXPENSES TAB PAGE -->
-
 <div class="result-tab-page" id="expTabPage" style="display:none">
   <div style="max-width:680px;margin:0 auto;padding:20px 16px 100px;">
-
-```
-<!-- DEALERS -->
-<div class="exp-card">
-  <div class="exp-card-title">Dealers</div>
-  <div class="exp-row">
-    <div class="field-group" style="max-width:130px;">
-      <div class="field-label">Nº de Dealers</div>
-      <input class="field-input" type="number" id="dealerQty" placeholder="0" min="0" step="1"
-        oninput="this.value=Math.floor(Math.abs(this.value)||0); calcExpenses(); renderDealerPayers()" />
+    <div class="exp-card">
+      <div class="exp-card-title">Dealers</div>
+      <div class="exp-row">
+        <div class="field-group" style="max-width:130px;">
+          <div class="field-label">Nº de Dealers</div>
+          <input class="field-input" type="number" id="dealerQty" placeholder="0" min="0" step="1" oninput="this.value=Math.floor(Math.abs(this.value)||0); calcExpenses(); renderDealerPayers()" />
+        </div>
+        <div class="field-group" style="max-width:160px;">
+          <div class="field-label">Valor por Dealer (R$)</div>
+          <input class="field-input" type="number" id="dealerVal" placeholder="0,00" min="0" step="0.01" oninput="calcExpenses(); renderDealerPayers()" />
+        </div>
+      </div>
+      <div id="dealerPayerSection" style="display:none; margin-top:10px;">
+        <div class="order-who-label" style="color:var(--green);font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Quem pagou</div>
+        <div class="order-players" id="dealerPayerChips"></div>
+      </div>
+      <div class="exp-total-box" style="margin-top:14px;">
+        <span class="exp-total-label">Total Dealers</span>
+        <span class="exp-total-value" id="dealerTotal">R$ 0,00</span>
+      </div>
     </div>
-    <div class="field-group" style="max-width:160px;">
-      <div class="field-label">Valor por Dealer (R$)</div>
-      <input class="field-input" type="number" id="dealerVal" placeholder="0,00" min="0" step="0.01"
-        oninput="calcExpenses(); renderDealerPayers()" />
+    <div class="exp-card">
+      <div class="exp-card-title">Aluguel / Espaço / Serviço</div>
+      <div class="exp-row">
+        <div class="field-group" style="max-width:180px;">
+          <div class="field-label">Valor (R$)</div>
+          <input class="field-input" type="number" id="rentVal" placeholder="0,00" min="0" step="0.01" oninput="calcExpenses(); renderRentPayers()" />
+        </div>
+      </div>
+      <div id="rentPayerSection" style="display:none; margin-top:10px;">
+        <div class="order-who-label" style="color:var(--green);font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Quem pagou</div>
+        <div class="order-players" id="rentPayerChips"></div>
+      </div>
+    </div>
+    <div class="exp-card">
+      <div class="exp-card-title">Comida & Pedidos</div>
+      <div class="order-list" id="orderList"></div>
+      <button class="btn-add-order" onclick="addOrder()">+ Novo Pedido</button>
+    </div>
+    <div class="exp-card" id="expSummaryCard" style="display:none">
+      <div class="exp-card-title">Resumo por Jogador</div>
+      <div id="expSummaryList" style="background:var(--surface2);border-radius:var(--radius-sm);overflow:hidden;"></div>
+      <div class="exp-total-box" style="margin-top:10px;">
+        <span class="exp-total-label">Total Gasto na Noite</span>
+        <span class="exp-total-value" id="expGrandTotal">R$ 0,00</span>
+      </div>
     </div>
   </div>
-  <div id="dealerPayerSection" style="display:none; margin-top:10px;">
-    <div class="order-who-label" style="color:var(--green);font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Quem pagou</div>
-    <div class="order-players" id="dealerPayerChips"></div>
-  </div>
-  <div class="exp-total-box" style="margin-top:14px;">
-    <span class="exp-total-label">Total Dealers</span>
-    <span class="exp-total-value" id="dealerTotal">R$ 0,00</span>
-  </div>
 </div>
-
-<!-- RENT -->
-<div class="exp-card">
-  <div class="exp-card-title">Aluguel / Espaço / Serviço</div>
-  <div class="exp-row">
-    <div class="field-group" style="max-width:180px;">
-      <div class="field-label">Valor (R$)</div>
-      <input class="field-input" type="number" id="rentVal" placeholder="0,00" min="0" step="0.01"
-        oninput="calcExpenses(); renderRentPayers()" />
-    </div>
-  </div>
-  <div id="rentPayerSection" style="display:none; margin-top:10px;">
-    <div class="order-who-label" style="color:var(--green);font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Quem pagou</div>
-    <div class="order-players" id="rentPayerChips"></div>
-  </div>
-</div>
-
-<!-- FOOD -->
-<div class="exp-card">
-  <div class="exp-card-title">Comida & Pedidos</div>
-  <div class="order-list" id="orderList"></div>
-  <button class="btn-add-order" onclick="addOrder()">+ Novo Pedido</button>
-</div>
-
-<!-- SUMMARY -->
-<div class="exp-card" id="expSummaryCard" style="display:none">
-  <div class="exp-card-title">Resumo por Jogador</div>
-  <div id="expSummaryList" style="background:var(--surface2);border-radius:var(--radius-sm);overflow:hidden;"></div>
-  <div class="exp-total-box" style="margin-top:10px;">
-    <span class="exp-total-label">Total Gasto na Noite</span>
-    <span class="exp-total-value" id="expGrandTotal">R$ 0,00</span>
-  </div>
-</div>
-```
-
-  </div>
-</div>
-
-<!-- RESULT TAB PAGE -->
-
 <div class="result-tab-page" id="resultTabPage">
   <div id="resultTabContent">
     <div class="result-tab-empty">
@@ -672,939 +407,593 @@ font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.15s; text-
     </div>
   </div>
 </div>
-
 <div class="toast" id="toast"></div>
-
 <script>
-// ── STATE ──
-let players    = [];
-let prizeCount = 3;
-let prizeData  = [];
-let sessionDate  = '';
-let sessionBuyin = 0;
-let sessionReady = false;
+let players=[], prizeCount=3, prizeData=[], sessionDate='', sessionBuyin=0, sessionReady=false, orders=[], rentPayerId='', dealerPayerId='';
+const uid=()=>Math.random().toString(36).slice(2,8);
+const fmt=v=>'R$ '+v.toFixed(2).replace('.',',').replace(/\B(?=(\d{3})+(?!\d))/g,'.');
+const fmtClean=v=>v.toFixed(2).replace('.',',').replace(/\B(?=(\d{3})+(?!\d))/g,'.');
+const parseMoney=s=>{const v=parseFloat(String(s).replace(',','.'));return isNaN(v)||v<0?0:v;};
+function playerTotal(p){return p.buyin+p.rebuy+p.addon+p.jonsnow;}
+function totalPot(){return players.reduce((a,p)=>a+playerTotal(p),0);}
 
-const uid        = () => Math.random().toString(36).slice(2,8);
-const fmt        = v  => 'R$ ' + v.toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-const fmtClean   = v  => v.toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-const parseMoney = s  => { const v = parseFloat(String(s).replace(',','.')); return isNaN(v)||v<0 ? 0 : v; };
-function playerTotal(p) { return p.buyin + p.rebuy + p.addon + p.jonsnow; }
-function totalPot()     { return players.reduce((a,p) => a + playerTotal(p), 0); }
-
-// ── SETUP ──
-function confirmSetup() {
-  const date  = document.getElementById('setupDate').value.trim();
-  const buyin = parseMoney(document.getElementById('setupBuyin').value);
-  if (!date)    { showToast('⚠ Insira a data da sessão'); return; }
-  if (buyin<=0) { showToast('⚠ Insira o valor do Buy-In'); return; }
-  sessionDate  = date;
-  sessionBuyin = buyin;
-  sessionReady = true;
-  document.getElementById('setupSection').style.display    = 'none';
-  document.getElementById('sessionInfoBar').style.display  = 'block';
-  document.getElementById('addPlayerSection').style.display = 'block';
-  document.getElementById('infoDate').textContent  = sessionDate;
-  document.getElementById('infoBuyin').textContent = 'Buy-In: ' + fmt(sessionBuyin);
+function confirmSetup(){
+  const date=document.getElementById('setupDate').value.trim();
+  const buyin=parseMoney(document.getElementById('setupBuyin').value);
+  if(!date){showToast('⚠ Insira a data da sessão');return;}
+  if(buyin<=0){showToast('⚠ Insira o valor do Buy-In');return;}
+  sessionDate=date; sessionBuyin=buyin; sessionReady=true;
+  document.getElementById('setupSection').style.display='none';
+  document.getElementById('sessionInfoBar').style.display='block';
+  document.getElementById('addPlayerSection').style.display='block';
+  document.getElementById('infoDate').textContent=sessionDate;
+  document.getElementById('infoBuyin').textContent='Buy-In: '+fmt(sessionBuyin);
   document.getElementById('newName').focus();
 }
-
-function editSetup() {
-  document.getElementById('setupSection').style.display    = 'block';
-  document.getElementById('sessionInfoBar').style.display  = 'none';
-  document.getElementById('setupDate').value  = sessionDate;
-  document.getElementById('setupBuyin').value = sessionBuyin;
-  sessionReady = false;
+function editSetup(){
+  document.getElementById('setupSection').style.display='block';
+  document.getElementById('sessionInfoBar').style.display='none';
+  document.getElementById('setupDate').value=sessionDate;
+  document.getElementById('setupBuyin').value=sessionBuyin;
+  sessionReady=false;
 }
-
-// ── ADD PLAYER ──
-function addPlayer() {
-  if (!sessionReady) { showToast('⚠ Configure a sessão primeiro'); return; }
-  const name = document.getElementById('newName').value.trim();
-  if (!name) { showToast('⚠ Insira o nome do jogador'); return; }
-  players.push({ id: uid(), name, buyin: sessionBuyin, rebuy: 0, addon: 0, jonsnow: 0 });
-  document.getElementById('newName').value = '';
+function addPlayer(){
+  if(!sessionReady){showToast('⚠ Configure a sessão primeiro');return;}
+  const name=document.getElementById('newName').value.trim();
+  if(!name){showToast('⚠ Insira o nome do jogador');return;}
+  players.push({id:uid(),name,buyin:sessionBuyin,rebuy:0,addon:0,jonsnow:0});
+  document.getElementById('newName').value='';
   document.getElementById('newName').focus();
   render();
 }
-
-function removePlayer(id) {
-  const p = players.find(x => x.id === id);
-  showConfirm(`Remover <strong>${p.name}</strong> da mesa?`, () => {
-    players = players.filter(x => x.id !== id);
-    render();
-  });
+function removePlayer(id){
+  const p=players.find(x=>x.id===id);
+  showConfirm(`Remover <strong>${p.name}</strong> da mesa?`,()=>{players=players.filter(x=>x.id!==id);render();});
 }
-
-// ── PLAYER MODAL ──
-function openPlayerModal(id) {
-  const p = players.find(x => x.id === id);
-  const overlay = document.createElement('div');
-  overlay.className = 'modal-overlay';
-  overlay.id = 'playerModal';
-  overlay.innerHTML = `
-    <div class="modal-box">
-      <div class="modal-player-name">${p.name}</div>
-      <div class="modal-player-total">Total investido: <strong id="modalTotal">${fmt(playerTotal(p))}</strong></div>
-      <div class="modal-fields">
-        <div class="modal-field-row">
-          <div class="modal-field-left">
-            <div class="modal-field-type" style="color:var(--green)">Rebuy</div>
-            <div class="modal-field-value" style="color:var(--green)" id="modalRebuy">${fmt(p.rebuy)}</div>
-            <div class="modal-field-note">acumula · use negativo para corrigir</div>
-          </div>
-          <div class="modal-field-right">
-            <input class="modal-input" type="number" id="inpRebuy" placeholder="ex: -10" step="0.01"
-              style="color:var(--green);border-color:rgba(76,175,125,0.3)"
-              onkeydown="if(event.key==='Enter') applyRebuy('${id}')">
-            <button class="modal-btn-action"
-              style="background:var(--green-dim);color:var(--green);border:1px solid rgba(76,175,125,0.2)"
-              onclick="applyRebuy('${id}')">+</button>
-          </div>
+function openPlayerModal(id){
+  const p=players.find(x=>x.id===id);
+  const overlay=document.createElement('div');
+  overlay.className='modal-overlay'; overlay.id='playerModal';
+  overlay.innerHTML=`<div class="modal-box">
+    <div class="modal-player-name">${p.name}</div>
+    <div class="modal-player-total">Total investido: <strong id="modalTotal">${fmt(playerTotal(p))}</strong></div>
+    <div class="modal-fields">
+      <div class="modal-field-row">
+        <div class="modal-field-left">
+          <div class="modal-field-type" style="color:var(--green)">Rebuy</div>
+          <div class="modal-field-value" style="color:var(--green)" id="modalRebuy">${fmt(p.rebuy)}</div>
+          <div class="modal-field-note">acumula · use negativo para corrigir</div>
         </div>
-        <div class="modal-field-row">
-          <div class="modal-field-left">
-            <div class="modal-field-type" style="color:var(--blue)">Add-On</div>
-            <div class="modal-field-value" style="color:var(--blue)" id="modalAddon">${fmt(p.addon)}</div>
-            <div class="modal-field-note">valor fixo · substitui o anterior</div>
-          </div>
-          <div class="modal-field-right">
-            <input class="modal-input" type="number" id="inpAddon" placeholder="valor" step="0.01" min="0"
-              style="color:var(--blue);border-color:rgba(92,158,224,0.3)"
-              onkeydown="if(event.key==='Enter') applyAddon('${id}')">
-            <button class="modal-btn-action"
-              style="background:var(--blue-dim);color:var(--blue);border:1px solid rgba(92,158,224,0.2)"
-              onclick="applyAddon('${id}')">✓</button>
-          </div>
-        </div>
-        <div class="modal-field-row">
-          <div class="modal-field-left">
-            <div class="modal-field-type" style="color:var(--purple)">Jon Snow</div>
-            <div class="modal-field-value" style="color:var(--purple)" id="modalJonsnow">${fmt(p.jonsnow)}</div>
-            <div class="modal-field-note">acumula · use negativo para corrigir</div>
-          </div>
-          <div class="modal-field-right">
-            <input class="modal-input" type="number" id="inpJonsnow" placeholder="ex: -10" step="0.01"
-              style="color:var(--purple);border-color:rgba(160,125,224,0.3)"
-              onkeydown="if(event.key==='Enter') applyJonSnow('${id}')">
-            <button class="modal-btn-action"
-              style="background:var(--purple-dim);color:var(--purple);border:1px solid rgba(160,125,224,0.2)"
-              onclick="applyJonSnow('${id}')">+</button>
-          </div>
+        <div class="modal-field-right">
+          <input class="modal-input" type="number" id="inpRebuy" placeholder="ex: -10" step="0.01" style="color:var(--green);border-color:rgba(76,175,125,0.3)" onkeydown="if(event.key==='Enter') applyRebuy('${id}')">
+          <button class="modal-btn-action" style="background:var(--green-dim);color:var(--green);border:1px solid rgba(76,175,125,0.2)" onclick="applyRebuy('${id}')">+</button>
         </div>
       </div>
-      <button class="modal-close" onclick="closePlayerModal()">Fechar</button>
-    </div>`;
+      <div class="modal-field-row">
+        <div class="modal-field-left">
+          <div class="modal-field-type" style="color:var(--blue)">Add-On</div>
+          <div class="modal-field-value" style="color:var(--blue)" id="modalAddon">${fmt(p.addon)}</div>
+          <div class="modal-field-note">valor fixo · substitui o anterior</div>
+        </div>
+        <div class="modal-field-right">
+          <input class="modal-input" type="number" id="inpAddon" placeholder="valor" step="0.01" min="0" style="color:var(--blue);border-color:rgba(92,158,224,0.3)" onkeydown="if(event.key==='Enter') applyAddon('${id}')">
+          <button class="modal-btn-action" style="background:var(--blue-dim);color:var(--blue);border:1px solid rgba(92,158,224,0.2)" onclick="applyAddon('${id}')">✓</button>
+        </div>
+      </div>
+      <div class="modal-field-row">
+        <div class="modal-field-left">
+          <div class="modal-field-type" style="color:var(--purple)">Jon Snow</div>
+          <div class="modal-field-value" style="color:var(--purple)" id="modalJonsnow">${fmt(p.jonsnow)}</div>
+          <div class="modal-field-note">acumula · use negativo para corrigir</div>
+        </div>
+        <div class="modal-field-right">
+          <input class="modal-input" type="number" id="inpJonsnow" placeholder="ex: -10" step="0.01" style="color:var(--purple);border-color:rgba(160,125,224,0.3)" onkeydown="if(event.key==='Enter') applyJonSnow('${id}')">
+          <button class="modal-btn-action" style="background:var(--purple-dim);color:var(--purple);border:1px solid rgba(160,125,224,0.2)" onclick="applyJonSnow('${id}')">+</button>
+        </div>
+      </div>
+    </div>
+    <button class="modal-close" onclick="closePlayerModal()">Fechar</button>
+  </div>`;
   document.body.appendChild(overlay);
-  overlay.onclick = e => { if (e.target === overlay) closePlayerModal(); };
+  overlay.onclick=e=>{if(e.target===overlay)closePlayerModal();};
 }
-
-function closePlayerModal() {
-  const m = document.getElementById('playerModal');
-  if (m) m.remove();
-}
-
-function refreshModal(id) {
-  const p = players.find(x => x.id === id);
-  const g = id => document.getElementById(id);
-  if (!g('playerModal')) return;
-  g('modalTotal').textContent   = fmt(playerTotal(p));
-  g('modalRebuy').textContent   = fmt(p.rebuy);
-  g('modalAddon').textContent   = fmt(p.addon);
-  g('modalJonsnow').textContent = fmt(p.jonsnow);
+function closePlayerModal(){const m=document.getElementById('playerModal');if(m)m.remove();}
+function refreshModal(id){
+  const p=players.find(x=>x.id===id);
+  const g=id=>document.getElementById(id);
+  if(!g('playerModal'))return;
+  g('modalTotal').textContent=fmt(playerTotal(p));
+  g('modalRebuy').textContent=fmt(p.rebuy);
+  g('modalAddon').textContent=fmt(p.addon);
+  g('modalJonsnow').textContent=fmt(p.jonsnow);
   render();
 }
-
-function applyRebuy(id) {
-  const raw = parseFloat(document.getElementById('inpRebuy').value);
-  if (isNaN(raw) || raw === 0) { showToast('⚠ Valor inválido'); return; }
-  const p = players.find(x => x.id===id);
-  const next = p.rebuy + raw;
-  if (next < 0) { showToast('⚠ Rebuy não pode ficar negativo'); return; }
-  p.rebuy = next;
-  document.getElementById('inpRebuy').value = '';
-  refreshModal(id);
+function applyRebuy(id){
+  const raw=parseFloat(document.getElementById('inpRebuy').value);
+  if(isNaN(raw)||raw===0){showToast('⚠ Valor inválido');return;}
+  const p=players.find(x=>x.id===id);
+  const next=p.rebuy+raw;
+  if(next<0){showToast('⚠ Rebuy não pode ficar negativo');return;}
+  p.rebuy=next; document.getElementById('inpRebuy').value=''; refreshModal(id);
 }
-
-function applyAddon(id) {
-  const val = parseMoney(document.getElementById('inpAddon').value);
-  if (val <= 0) { showToast('⚠ Valor inválido'); return; }
-  players.find(x => x.id===id).addon = val;
-  document.getElementById('inpAddon').value = '';
-  refreshModal(id);
+function applyAddon(id){
+  const val=parseMoney(document.getElementById('inpAddon').value);
+  if(val<=0){showToast('⚠ Valor inválido');return;}
+  players.find(x=>x.id===id).addon=val; document.getElementById('inpAddon').value=''; refreshModal(id);
 }
-
-function applyJonSnow(id) {
-  const raw = parseFloat(document.getElementById('inpJonsnow').value);
-  if (isNaN(raw) || raw === 0) { showToast('⚠ Valor inválido'); return; }
-  const p = players.find(x => x.id===id);
-  const next = p.jonsnow + raw;
-  if (next < 0) { showToast('⚠ Jon Snow não pode ficar negativo'); return; }
-  p.jonsnow = next;
-  document.getElementById('inpJonsnow').value = '';
-  refreshModal(id);
+function applyJonSnow(id){
+  const raw=parseFloat(document.getElementById('inpJonsnow').value);
+  if(isNaN(raw)||raw===0){showToast('⚠ Valor inválido');return;}
+  const p=players.find(x=>x.id===id);
+  const next=p.jonsnow+raw;
+  if(next<0){showToast('⚠ Jon Snow não pode ficar negativo');return;}
+  p.jonsnow=next; document.getElementById('inpJonsnow').value=''; refreshModal(id);
 }
-
-// ── PRIZES ──
-function updatePrizePlayer(i, val) { prizeData[i].playerId = val; renderPrizesRemain(); }
-
-function updatePrizeAmount(i, val) {
-  prizeData[i].amount = parseMoney(val);
-  renderPrizesRemain();
-}
-
-function allocatedTotal() { return prizeData.reduce((a,b) => a + b.amount, 0); }
-
-function renderPrizesRemain() {
-  const remain = totalPot() - allocatedTotal();
-  const el     = document.getElementById('prizesRemain');
-  const over   = remain < -0.005;
-  el.className = 'prizes-remain' + (over ? ' over' : '');
-  el.innerHTML = over
-    ? `Excedido em: <strong>${fmt(Math.abs(remain))}</strong>`
-    : `Saldo restante: <strong>${fmt(Math.max(0, remain))}</strong>`;
+function updatePrizePlayer(i,val){prizeData[i].playerId=val;renderPrizesRemain();}
+function updatePrizeAmount(i,val){prizeData[i].amount=parseMoney(val);renderPrizesRemain();}
+function allocatedTotal(){return prizeData.reduce((a,b)=>a+b.amount,0);}
+function renderPrizesRemain(){
+  const remain=totalPot()-allocatedTotal();
+  const el=document.getElementById('prizesRemain');
+  const over=remain<-0.005;
+  el.className='prizes-remain'+(over?' over':'');
+  el.innerHTML=over?`Excedido em: <strong>${fmt(Math.abs(remain))}</strong>`:`Saldo restante: <strong>${fmt(Math.max(0,remain))}</strong>`;
   updateHints();
 }
-
-function updateHints() {
-  const pot         = totalPot();
-  const defaultPcts = [50, 30, 20]; // only for 1st, 2nd, 3rd
-
-  // Saldo restante = pote - tudo que já foi definido
-  const allocated = allocatedTotal();
-  const remaining = Math.max(0, pot - allocated);
-
-  document.querySelectorAll('.prize-hint').forEach((h, i) => {
-    // Só mostra sugestão para 1º, 2º e 3º lugar
-    if (i >= 3 || pot <= 0) { h.innerHTML = ''; return; }
-
-    const pct        = defaultPcts[i];
-    // Sugestão = saldo restante * porcentagem do lugar
-    const suggestion = remaining * pct / 100;
-
-    h.innerHTML = `Sugestão: <strong>${fmt(suggestion)}</strong> (${pct}% do saldo restante)`;
+function updateHints(){
+  const pot=totalPot();
+  const defaultPcts=[50,30,20];
+  const allocated=allocatedTotal();
+  const remaining=Math.max(0,pot-allocated);
+  document.querySelectorAll('.prize-hint').forEach((h,i)=>{
+    if(i>=3||pot<=0){h.innerHTML='';return;}
+    const pct=defaultPcts[i];
+    const suggestion=remaining*pct/100;
+    h.innerHTML=`Sugestão: <strong>${fmt(suggestion)}</strong> (${pct}% do saldo restante)`;
   });
 }
-
-function renderPrizes() {
-  const rankColors  = ['#e6b94a','#c0c0c0','#cd7f32','#88aacc','#a07de0','#4caf7d','#e05c5c','#e0aa5c'];
-  const placeLabels = Array.from({length: 20}, (_, i) => `${i+1}º Lugar`);
-  const prRows = document.getElementById('prizeRows');
-  prRows.innerHTML = '';
-  for (let i = 0; i < prizeCount; i++) {
-    const d     = prizeData[i] || { playerId:'', amount:0 };
-    const color = rankColors[i] || '#aaaaaa';
-    const div   = document.createElement('div');
-    div.className = 'prize-row-item';
-    let opts = `<option value="">— Selecionar jogador —</option>`;
-    players.forEach(p => {
-      opts += `<option value="${p.id}" ${d.playerId===p.id?'selected':''}>${p.name}</option>`;
-    });
-    div.innerHTML = `
-      <div class="prize-row-top">
-        <span class="prize-rank" style="color:${color}">${placeLabels[i]}</span>
-        <select class="prize-player-select" onchange="updatePrizePlayer(${i},this.value)">${opts}</select>
-        <div class="prize-amount-group">
-          <span class="prize-amount-label">R$</span>
-          <input class="prize-amount-input" type="number" min="0" step="0.01"
-            value="${d.amount > 0 ? d.amount.toFixed(2) : ''}" placeholder="0,00"
-            oninput="updatePrizeAmount(${i}, this.value)"
-            style="border-color:${color}33">
-        </div>
+function renderPrizes(){
+  const rankColors=['#e6b94a','#c0c0c0','#cd7f32','#88aacc','#a07de0','#4caf7d','#e05c5c','#e0aa5c'];
+  const placeLabels=Array.from({length:20},(_,i)=>`${i+1}º Lugar`);
+  const prRows=document.getElementById('prizeRows');
+  prRows.innerHTML='';
+  for(let i=0;i<prizeCount;i++){
+    const d=prizeData[i]||{playerId:'',amount:0};
+    const color=rankColors[i]||'#aaaaaa';
+    const div=document.createElement('div');
+    div.className='prize-row-item';
+    let opts=`<option value="">— Selecionar jogador —</option>`;
+    players.forEach(p=>{opts+=`<option value="${p.id}" ${d.playerId===p.id?'selected':''}>${p.name}</option>`;});
+    div.innerHTML=`<div class="prize-row-top">
+      <span class="prize-rank" style="color:${color}">${placeLabels[i]}</span>
+      <select class="prize-player-select" onchange="updatePrizePlayer(${i},this.value)">${opts}</select>
+      <div class="prize-amount-group">
+        <span class="prize-amount-label">R$</span>
+        <input class="prize-amount-input" type="number" min="0" step="0.01" value="${d.amount>0?d.amount.toFixed(2):''}" placeholder="0,00" oninput="updatePrizeAmount(${i},this.value)" style="border-color:${color}33">
       </div>
-      <div class="prize-hint" id="hint${i}"></div>`;
+    </div>
+    <div class="prize-hint" id="hint${i}"></div>`;
     prRows.appendChild(div);
   }
   renderPrizesRemain();
 }
-
-// ── RESULTS ──
-function calcResults() {
-  const pot   = totalPot();
-  const alloc = allocatedTotal();
-  if (alloc > pot + 0.01) { showToast('⚠ Valor dos prêmios excede o pote!'); return; }
-  for (let i = 0; i < prizeCount; i++) {
-    if (!prizeData[i].playerId) { showToast(`⚠ Selecione o ${i+1}º colocado`); return; }
-  }
-  const ids = prizeData.map(d => d.playerId);
-  if (new Set(ids).size !== ids.length) { showToast('⚠ Jogador duplicado na classificação'); return; }
-
-  const medals    = ['🥇','🥈','🥉','④','⑤','⑥','⑦','⑧'];
-  const winnerIds = prizeData.map(d => d.playerId);
-  const rl        = document.getElementById('resultsList');
-  rl.innerHTML    = '';
-
-  prizeData.forEach((d, i) => {
-    const p     = players.find(x => x.id===d.playerId);
-    const prize = d.amount;
-    const spent = playerTotal(p);
-    const pnl   = prize - spent;
-    const item  = document.createElement('div');
-    item.className = 'result-item winner';
-    item.innerHTML = `
-      <div class="result-medal">${medals[i]||'▪'}</div>
-      <div class="result-info">
-        <div class="result-name">${p.name}</div>
-        <div class="result-spent">Investido: ${fmt(spent)}</div>
-      </div>
-      <div class="result-right">
-        <div class="result-prize">${fmt(prize)}</div>
-        <div class="result-pnl ${pnl>0?'pnl-pos':pnl<0?'pnl-neg':'pnl-zero'}">${pnl>=0?'+':''}${fmt(pnl)}</div>
-      </div>`;
+function calcResults(){
+  const pot=totalPot();
+  const alloc=allocatedTotal();
+  if(alloc>pot+0.01){showToast('⚠ Valor dos prêmios excede o pote!');return;}
+  for(let i=0;i<prizeCount;i++){if(!prizeData[i].playerId){showToast(`⚠ Selecione o ${i+1}º colocado`);return;}}
+  const ids=prizeData.map(d=>d.playerId);
+  if(new Set(ids).size!==ids.length){showToast('⚠ Jogador duplicado na classificação');return;}
+  const medals=['🥇','🥈','🥉','④','⑤','⑥','⑦','⑧'];
+  const winnerIds=prizeData.map(d=>d.playerId);
+  const rl=document.getElementById('resultsList');
+  rl.innerHTML='';
+  prizeData.forEach((d,i)=>{
+    const p=players.find(x=>x.id===d.playerId);
+    const prize=d.amount; const spent=playerTotal(p); const pnl=prize-spent;
+    const item=document.createElement('div');
+    item.className='result-item winner';
+    item.innerHTML=`<div class="result-medal">${medals[i]||'▪'}</div>
+      <div class="result-info"><div class="result-name">${p.name}</div><div class="result-spent">Investido: ${fmt(spent)}</div></div>
+      <div class="result-right"><div class="result-prize">${fmt(prize)}</div><div class="result-pnl ${pnl>0?'pnl-pos':pnl<0?'pnl-neg':'pnl-zero'}">${pnl>=0?'+':''}${fmt(pnl)}</div></div>`;
     rl.appendChild(item);
   });
-
-  const nonWinners = players.filter(p => !winnerIds.includes(p.id));
-  if (nonWinners.length > 0) {
-    const sep = document.createElement('div');
-    sep.style.cssText = 'font-size:9px;letter-spacing:3px;text-align:center;padding:7px;color:rgba(240,240,240,0.3);background:var(--surface2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);';
-    sep.textContent = 'SEM PREMIAÇÃO';
-    rl.appendChild(sep);
-    nonWinners.forEach(p => {
-      const spent = playerTotal(p);
-      const item  = document.createElement('div');
-      item.className = 'result-item loser';
-      item.innerHTML = `
-        <div class="result-medal" style="font-size:16px;color:var(--text-muted)">—</div>
-        <div class="result-info">
-          <div class="result-name">${p.name}</div>
-          <div class="result-spent">Investido: ${fmt(spent)}</div>
-        </div>
-        <div class="result-right">
-          <div class="result-prize" style="font-size:16px;color:var(--text-muted)">—</div>
-          <div class="result-pnl pnl-neg">-${fmt(spent)}</div>
-        </div>`;
+  const nonWinners=players.filter(p=>!winnerIds.includes(p.id));
+  if(nonWinners.length>0){
+    const sep=document.createElement('div');
+    sep.style.cssText='font-size:9px;letter-spacing:3px;text-align:center;padding:7px;color:rgba(240,240,240,0.3);background:var(--surface2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);';
+    sep.textContent='SEM PREMIAÇÃO'; rl.appendChild(sep);
+    nonWinners.forEach(p=>{
+      const spent=playerTotal(p);
+      const item=document.createElement('div');
+      item.className='result-item loser';
+      item.innerHTML=`<div class="result-medal" style="font-size:16px;color:var(--text-muted)">—</div>
+        <div class="result-info"><div class="result-name">${p.name}</div><div class="result-spent">Investido: ${fmt(spent)}</div></div>
+        <div class="result-right"><div class="result-prize" style="font-size:16px;color:var(--text-muted)">—</div><div class="result-pnl pnl-neg">-${fmt(spent)}</div></div>`;
       rl.appendChild(item);
     });
   }
-
-  document.getElementById('resultPotDisplay').textContent = fmt(pot);
-  document.getElementById('resultsSection').style.display = 'block';
-  document.getElementById('resultsSection').scrollIntoView({ behavior:'smooth', block:'start' });
+  document.getElementById('resultPotDisplay').textContent=fmt(pot);
+  document.getElementById('resultsSection').style.display='block';
+  document.getElementById('resultsSection').scrollIntoView({behavior:'smooth',block:'start'});
 }
-
-// ── EXPORT IMAGE ──
-function exportImage() {
-  const pot        = totalPot();
-  const medals     = Array.from({length:30}, (_,i) => i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1)+'º');
-  const winnerIds  = prizeData.map(d => d.playerId);
-  const nonWinners = players.filter(p => !winnerIds.includes(p.id));
-  const allRows    = [
-    ...prizeData.map((d,i) => ({ p: players.find(x=>x.id===d.playerId), prize: d.amount, rank: medals[i]||(i+1)+'º', winner: true })),
-    ...nonWinners.map(p => ({ p, prize: 0, rank: '—', winner: false }))
-  ];
-
-  // ── Expense net per player (reuse logic from result tab) ──
-  function getExpNet(pid) {
-    let net = 0;
-    orders.forEach(o => {
-      if (o.value === 0 || o.eaterIds.length === 0) return;
-      const share = o.value / o.eaterIds.length;
-      if (o.payerId === pid) net += o.value;
-      if (o.eaterIds.includes(pid)) net -= share;
+function saveSession(){
+  const now=new Date();
+  const date=sessionDate||now.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'});
+  const history=JSON.parse(localStorage.getItem('pgHistory')||'[]');
+  history.unshift({id:uid(),name:date,date,pot:totalPot(),players:players.length});
+  localStorage.setItem('pgHistory',JSON.stringify(history.slice(0,20)));
+  renderHistory(); showToast('✅ Sessão salva!');
+}
+function deleteHistoryItem(id){
+  const history=JSON.parse(localStorage.getItem('pgHistory')||'[]');
+  const item=history.find(h=>h.id===id);
+  showConfirm(`Apagar <strong>${item?item.name:'esta sessão'}</strong> do histórico?`,()=>{
+    localStorage.setItem('pgHistory',JSON.stringify(history.filter(h=>h.id!==id)));
+    renderHistory();
+  });
+}
+function clearHistory(){
+  showConfirm('Apagar <strong>todo o histórico</strong>?',()=>{localStorage.removeItem('pgHistory');renderHistory();});
+}
+function renderHistory(){
+  const history=JSON.parse(localStorage.getItem('pgHistory')||'[]');
+  const sec=document.getElementById('historySection');
+  if(!history.length){sec.style.display='none';return;}
+  sec.style.display='block';
+  const hl=document.getElementById('historyList');
+  hl.innerHTML='';
+  history.forEach(h=>{
+    if(!h.id)h.id=uid();
+    const item=document.createElement('div');
+    item.className='history-item';
+    item.innerHTML=`<div style="flex:1"><div class="history-name">${h.name}</div><div class="history-meta">${h.date} · ${h.players} jogadores</div></div>
+      <div class="history-pot">${fmt(h.pot)}</div>
+      <button class="btn-remove-hist" onclick="deleteHistoryItem('${h.id}')">✕</button>`;
+    hl.appendChild(item);
+  });
+}
+function showConfirm(msg,onYes){
+  const overlay=document.createElement('div');
+  overlay.className='confirm-overlay';
+  overlay.innerHTML=`<div class="confirm-box"><div class="confirm-msg">${msg}</div><div class="confirm-btns"><button class="confirm-yes" id="cYes">Sim</button><button class="confirm-no" id="cNo">Não</button></div></div>`;
+  document.body.appendChild(overlay);
+  overlay.querySelector('#cYes').onclick=()=>{overlay.remove();onYes();};
+  overlay.querySelector('#cNo').onclick=()=>overlay.remove();
+  overlay.onclick=e=>{if(e.target===overlay)overlay.remove();};
+}
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+function render(){
+  document.getElementById('livePot').textContent=fmt(totalPot());
+  const investSec=document.getElementById('investSection');
+  if(players.length===0){investSec.style.display='none';}
+  else{
+    investSec.style.display='block';
+    const pRows=document.getElementById('playerRows');
+    pRows.innerHTML='';
+    players.forEach(p=>{
+      const row=document.createElement('div');
+      row.className='inv-row';
+      row.innerHTML=`<div class="inv-cell player-name-cell" onclick="openPlayerModal('${p.id}')">${p.name}<span class="edit-hint">editar</span></div>
+        <div class="inv-cell center" style="color:var(--gold)" onclick="openPlayerModal('${p.id}')">${fmtClean(p.buyin)}</div>
+        <div class="inv-cell center" style="color:var(--green)" onclick="openPlayerModal('${p.id}')">${fmtClean(p.rebuy)}</div>
+        <div class="inv-cell center" style="color:var(--blue)" onclick="openPlayerModal('${p.id}')">${fmtClean(p.addon)}</div>
+        <div class="inv-cell center" style="color:var(--purple)" onclick="openPlayerModal('${p.id}')">${fmtClean(p.jonsnow)}</div>
+        <div class="inv-cell right" style="font-weight:800" onclick="openPlayerModal('${p.id}')">${fmtClean(playerTotal(p))}</div>
+        <div class="inv-cell"><button class="btn-remove-sm" onclick="removePlayer('${p.id}')">✕</button></div>`;
+      pRows.appendChild(row);
     });
-    const rentVal = parseMoney(document.getElementById('rentVal')?.value);
-    if (rentVal > 0 && players.length > 0) {
-      if (rentPayerId === pid) net += rentVal;
-      net -= rentVal / players.length;
-    }
-    const dealerQty   = parseInt(document.getElementById('dealerQty')?.value) || 0;
-    const dealerVal   = parseMoney(document.getElementById('dealerVal')?.value);
-    const dealerTotal = dealerQty * dealerVal;
-    if (dealerTotal > 0 && players.length > 0) {
-      if (dealerPayerId === pid) net += dealerTotal;
-      net -= dealerTotal / players.length;
-    }
-    return net;
+    const foot=document.getElementById('footerRow');
+    foot.innerHTML=`<div class="inv-cell" style="font-size:11px;">TOTAL</div>
+      <div class="inv-cell center">${fmtClean(players.reduce((a,p)=>a+p.buyin,0))}</div>
+      <div class="inv-cell center">${fmtClean(players.reduce((a,p)=>a+p.rebuy,0))}</div>
+      <div class="inv-cell center">${fmtClean(players.reduce((a,p)=>a+p.addon,0))}</div>
+      <div class="inv-cell center">${fmtClean(players.reduce((a,p)=>a+p.jonsnow,0))}</div>
+      <div class="inv-cell right">${fmtClean(totalPot())}</div>
+      <div class="inv-cell"></div>`;
   }
-
-  // ── Layout ──
-  const SCALE   = 2;          // retina
-  const W       = 1100;       // logical px
-  const PAD     = 32;
-  const HEADER  = 130;
-  const COL_H   = 28;         // column header height
-  const ROW_H   = 52;
-  const FOOTER  = 44;
-  const SEP_H   = 28;
-  const hasSep  = nonWinners.length > 0;
-  const sepRows = hasSep ? 1 : 0;
-  const H       = HEADER + COL_H + allRows.length * ROW_H + sepRows * SEP_H + FOOTER;
-
-  const canvas    = document.createElement('canvas');
-  canvas.width    = W * SCALE;
-  canvas.height   = H * SCALE;
-  const ctx       = canvas.getContext('2d');
-  ctx.scale(SCALE, SCALE);
-
-  // ── Open window first (Safari requires sync) ──
-  const win = window.open('', '_blank');
-
-  // ── Helpers ──
-  function fillRect(x,y,w,h,color){ ctx.fillStyle=color; ctx.fillRect(x,y,w,h); }
-  function text(str, x, y, font, color, align='left'){
-    ctx.font=font; ctx.fillStyle=color; ctx.textAlign=align; ctx.fillText(str,x,y); ctx.textAlign='left';
+  const priz=document.getElementById('prizesSection');
+  if(players.length>=2){
+    priz.style.display='block';
+    prizeCount=players.length;
+    while(prizeData.length<prizeCount)prizeData.push({playerId:'',amount:0});
+    prizeData=prizeData.slice(0,prizeCount);
+    renderPrizes();
+  } else priz.style.display='none';
+  document.getElementById('resultsSection').style.display='none';
+}
+renderHistory();
+render();
+function switchTab(tab){
+  const mainEl=document.querySelector('.main');
+  const expEl=document.getElementById('expTabPage');
+  const resultEl=document.getElementById('resultTabPage');
+  const btnMain=document.getElementById('tabBtnMain');
+  const btnExp=document.getElementById('tabBtnExp');
+  const btnRes=document.getElementById('tabBtnResult');
+  mainEl.style.display='none'; expEl.style.display='none'; resultEl.style.display='none';
+  btnMain.classList.remove('active'); btnExp.classList.remove('active'); btnRes.classList.remove('active');
+  if(tab==='main'){mainEl.style.display='block';btnMain.classList.add('active');}
+  else if(tab==='exp'){expEl.style.display='block';btnExp.classList.add('active');renderOrders();renderDealerPayers();renderRentPayers();calcExpenses();}
+  else{resultEl.style.display='block';btnRes.classList.add('active');renderResultTab();}
+}
+function addOrder(){
+  if(players.length===0){showToast('⚠ Adicione jogadores na aba Mesa primeiro');return;}
+  orders.push({id:uid(),value:0,payerId:'',eaterIds:[]});
+  renderOrders();
+}
+function removeOrder(id){orders=orders.filter(o=>o.id!==id);renderOrders();calcExpenses();}
+function updateOrderValue(id,val){const o=orders.find(x=>x.id===id);o.value=parseMoney(val);calcExpenses();}
+function togglePayer(orderId,playerId){
+  const o=orders.find(x=>x.id===orderId);
+  o.payerId=(o.payerId===playerId)?'':playerId;
+  renderOrders(); calcExpenses();
+}
+function toggleEater(orderId,playerId){
+  const o=orders.find(x=>x.id===orderId);
+  if(o.eaterIds.includes(playerId)){o.eaterIds=o.eaterIds.filter(id=>id!==playerId);}
+  else{o.eaterIds.push(playerId);}
+  renderOrders(); calcExpenses();
+}
+function renderOrders(){
+  const list=document.getElementById('orderList');
+  if(!list)return;
+  list.innerHTML='';
+  if(orders.length===0){list.innerHTML='<div style="text-align:center;color:var(--text-muted);font-size:13px;padding:12px 0;">Nenhum pedido ainda</div>';return;}
+  orders.forEach((o,idx)=>{
+    const div=document.createElement('div');
+    div.className='order-card';
+    let payerChips=players.map(p=>`<span class="order-payer-chip ${o.payerId===p.id?'selected':''}" onclick="togglePayer('${o.id}','${p.id}')">${p.name}</span>`).join('');
+    let eaterChips=players.map(p=>`<span class="order-player-chip ${o.eaterIds.includes(p.id)?'selected':''}" onclick="toggleEater('${o.id}','${p.id}')">${p.name}</span>`).join('');
+    const perHead=o.eaterIds.length>0?(o.value/o.eaterIds.length):0;
+    div.innerHTML=`<div class="order-card-top">
+        <span class="order-card-label">Pedido ${idx+1}</span>
+        <div style="display:flex;align-items:center;gap:8px;"><span class="order-card-val">${fmt(o.value)}</span><button class="btn-remove-sm" onclick="removeOrder('${o.id}')">✕</button></div>
+      </div>
+      <div class="field-group" style="margin-bottom:12px;">
+        <div class="field-label">Valor Total do Pedido (R$)</div>
+        <input class="field-input" type="number" placeholder="0,00" min="0" step="0.01" value="${o.value>0?o.value.toFixed(2):''}" oninput="updateOrderValue('${o.id}',this.value)">
+      </div>
+      <div class="order-who">
+        <div class="order-who-label" style="color:var(--green)">Quem pagou</div>
+        <div class="order-players">${payerChips}</div>
+      </div>
+      <div class="order-who" style="margin-top:10px;">
+        <div class="order-who-label">Quem comeu ${perHead>0?'· <span style="color:var(--gold)">'+fmt(perHead)+' por pessoa</span>':''}</div>
+        <div class="order-players">${eaterChips}</div>
+      </div>`;
+    list.appendChild(div);
+  });
+}
+function renderRentPayers(){
+  const rentVal=parseMoney(document.getElementById('rentVal')?.value);
+  const sec=document.getElementById('rentPayerSection');
+  const chips=document.getElementById('rentPayerChips');
+  if(!sec||!chips)return;
+  if(rentVal<=0||players.length===0){sec.style.display='none';return;}
+  sec.style.display='block'; chips.innerHTML='';
+  players.forEach(p=>{
+    const span=document.createElement('span');
+    span.className='order-payer-chip'+(rentPayerId===p.id?' selected':'');
+    span.textContent=p.name;
+    span.onclick=()=>{rentPayerId=(rentPayerId===p.id)?'':p.id;renderRentPayers();calcExpenses();};
+    chips.appendChild(span);
+  });
+}
+function renderDealerPayers(){
+  const dealerQty=parseInt(document.getElementById('dealerQty')?.value)||0;
+  const dealerVal=parseMoney(document.getElementById('dealerVal')?.value);
+  const dealerTotal=dealerQty*dealerVal;
+  const sec=document.getElementById('dealerPayerSection');
+  const chips=document.getElementById('dealerPayerChips');
+  if(!sec||!chips)return;
+  if(dealerTotal<=0||players.length===0){sec.style.display='none';return;}
+  sec.style.display='block'; chips.innerHTML='';
+  players.forEach(p=>{
+    const span=document.createElement('span');
+    span.className='order-payer-chip'+(dealerPayerId===p.id?' selected':'');
+    span.textContent=p.name;
+    span.onclick=()=>{dealerPayerId=(dealerPayerId===p.id)?'':p.id;renderDealerPayers();calcExpenses();};
+    chips.appendChild(span);
+  });
+}
+function calcExpenses(){
+  const dealerQty=parseInt(document.getElementById('dealerQty')?.value)||0;
+  const dealerVal=parseMoney(document.getElementById('dealerVal')?.value);
+  const rentVal=parseMoney(document.getElementById('rentVal')?.value);
+  const dealerTotal=dealerQty*dealerVal;
+  const dtEl=document.getElementById('dealerTotal');
+  if(dtEl)dtEl.textContent=fmt(dealerTotal);
+  const foodNet={};
+  players.forEach(p=>foodNet[p.id]=0);
+  orders.forEach(o=>{
+    if(o.value===0)return;
+    const eaters=o.eaterIds.length>0?o.eaterIds:[];
+    if(eaters.length===0)return;
+    const share=o.value/eaters.length;
+    if(o.payerId&&foodNet[o.payerId]!==undefined)foodNet[o.payerId]+=o.value;
+    eaters.forEach(eid=>{if(foodNet[eid]!==undefined)foodNet[eid]-=share;});
+  });
+  const rentNet={};
+  players.forEach(p=>rentNet[p.id]=0);
+  if(rentVal>0&&players.length>0){
+    const shareRent=rentVal/players.length;
+    if(rentPayerId&&rentNet[rentPayerId]!==undefined)rentNet[rentPayerId]+=rentVal;
+    players.forEach(p=>rentNet[p.id]-=shareRent);
   }
-
-  // Column definitions: { label, key, align, color }
-  const cols = [
-    { label:'#',            w:52,  align:'center' },
-    { label:'Jogador',      w:165, align:'left'   },
-    { label:'Buy-In',       w:90,  align:'right',  color:'#e6b94a' },
-    { label:'Rebuy',        w:90,  align:'right',  color:'#4caf7d' },
-    { label:'Add-On',       w:90,  align:'right',  color:'#5c9ee0' },
-    { label:'Jon Snow',     w:90,  align:'right',  color:'#a07de0' },
-    { label:'Investido',    w:100, align:'right',  color:'rgba(240,240,240,0.7)' },
-    { label:'Prêmio',       w:100, align:'right',  color:'#e6b94a' },
-    { label:'Gastos',       w:100, align:'right',  color:'rgba(240,240,240,0.7)' },
-    { label:'Lucro/Prej.',  w:110, align:'right',  color:'rgba(240,240,240,0.7)' },
+  const dealerNet={};
+  players.forEach(p=>dealerNet[p.id]=0);
+  if(dealerTotal>0&&players.length>0){
+    const shareDealer=dealerTotal/players.length;
+    if(dealerPayerId&&dealerNet[dealerPayerId]!==undefined)dealerNet[dealerPayerId]+=dealerTotal;
+    players.forEach(p=>dealerNet[p.id]-=shareDealer);
+  }
+  const totalFood=orders.reduce((a,o)=>a+o.value,0);
+  const grandTotal=dealerTotal+rentVal+totalFood;
+  const gtEl=document.getElementById('expGrandTotal');
+  if(gtEl)gtEl.textContent=fmt(grandTotal);
+  const summCard=document.getElementById('expSummaryCard');
+  const summList=document.getElementById('expSummaryList');
+  if(!summCard||!summList)return;
+  summCard.style.display=grandTotal>0?'block':'none';
+  summList.innerHTML='';
+  players.forEach(p=>{
+    const net=(foodNet[p.id]||0)+(rentNet[p.id]||0)+(dealerNet[p.id]||0);
+    if(Math.abs(net)<0.01)return;
+    const isCredit=net>0;
+    const row=document.createElement('div');
+    row.className='exp-player-row';
+    row.innerHTML=`<span class="exp-player-name">${p.name}</span>
+      <div style="text-align:right;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:${isCredit?'var(--green)':'var(--red)'}">${isCredit?'+':''}${fmt(net)}</div>
+        <div style="font-size:10px;color:var(--text-muted)">${isCredit?'a receber':'a pagar'}</div>
+      </div>`;
+    summList.appendChild(row);
+  });
+  if(summList.children.length===0&&grandTotal>0)summList.innerHTML='<div style="padding:12px;font-size:12px;color:var(--text-muted);text-align:center;">Selecione quem pagou para ver o resumo</div>';
+}
+function getExpNet(pid){
+  let net=0;
+  orders.forEach(o=>{
+    if(o.value===0||o.eaterIds.length===0)return;
+    const share=o.value/o.eaterIds.length;
+    if(o.payerId===pid)net+=o.value;
+    if(o.eaterIds.includes(pid))net-=share;
+  });
+  const rentVal=parseMoney(document.getElementById('rentVal')?.value);
+  if(rentVal>0&&players.length>0){if(rentPayerId===pid)net+=rentVal;net-=rentVal/players.length;}
+  const dealerQty=parseInt(document.getElementById('dealerQty')?.value)||0;
+  const dealerVal=parseMoney(document.getElementById('dealerVal')?.value);
+  const dealerTotal=dealerQty*dealerVal;
+  if(dealerTotal>0&&players.length>0){if(dealerPayerId===pid)net+=dealerTotal;net-=dealerTotal/players.length;}
+  return net;
+}
+function renderResultTab(){
+  const cont=document.getElementById('resultTabContent');
+  if(players.length===0||prizeData.every(d=>!d.playerId)){
+    cont.innerHTML='<div class="result-tab-empty"><div class="result-tab-empty-icon">🏆</div>Calcule o resultado na aba Mesa para ver a tabela aqui</div>';
+    return;
+  }
+  const pot=totalPot();
+  const medals=Array.from({length:30},(_,i)=>i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1)+'º');
+  const winnerIds=prizeData.filter(d=>d.playerId).map(d=>d.playerId);
+  const nonWinners=players.filter(p=>!winnerIds.includes(p.id));
+  let winnerRows='';
+  prizeData.forEach((d,i)=>{
+    if(!d.playerId)return;
+    const p=players.find(x=>x.id===d.playerId);
+    const prize=d.amount, spent=playerTotal(p), expNet=getExpNet(p.id), pnl=prize+expNet-spent;
+    const pnlColor=pnl>0?'var(--green)':pnl<0?'var(--red)':'var(--text-muted)';
+    const expColor=expNet>0?'var(--green)':expNet<0?'var(--red)':'var(--text-muted)';
+    winnerRows+=`<tr class="rt-winner"><td>${medals[i]}</td><td>${p.name}</td><td style="color:var(--gold)">${fmtClean(p.buyin)}</td><td style="color:var(--green)">${fmtClean(p.rebuy)}</td><td style="color:var(--blue)">${fmtClean(p.addon)}</td><td style="color:var(--purple)">${fmtClean(p.jonsnow)}</td><td style="font-weight:800">${fmtClean(spent)}</td><td style="color:var(--gold);font-weight:800">${fmtClean(prize)}</td><td style="color:${expColor};font-weight:700">${expNet>=0?'+':''}${fmtClean(expNet)}</td><td style="color:${pnlColor};font-weight:800">${pnl>=0?'+':''}${fmtClean(pnl)}</td></tr>`;
+  });
+  let loserRows='';
+  if(nonWinners.length>0){
+    loserRows+=`<tr class="rt-sep"><td colspan="10">SEM PREMIAÇÃO</td></tr>`;
+    nonWinners.forEach(p=>{
+      const spent=playerTotal(p), expNet=getExpNet(p.id), pnl=expNet-spent;
+      const pnlColor=pnl>0?'var(--green)':pnl<0?'var(--red)':'var(--text-muted)';
+      const expColor=expNet>0?'var(--green)':expNet<0?'var(--red)':'var(--text-muted)';
+      loserRows+=`<tr class="rt-loser"><td>—</td><td>${p.name}</td><td style="color:var(--gold)">${fmtClean(p.buyin)}</td><td style="color:var(--green)">${fmtClean(p.rebuy)}</td><td style="color:var(--blue)">${fmtClean(p.addon)}</td><td style="color:var(--purple)">${fmtClean(p.jonsnow)}</td><td style="font-weight:800">${fmtClean(spent)}</td><td>—</td><td style="color:${expColor};font-weight:700">${expNet>=0?'+':''}${fmtClean(expNet)}</td><td style="color:${pnlColor};font-weight:800">${pnl>=0?'+':''}${fmtClean(pnl)}</td></tr>`;
+    });
+  }
+  const totInvested=players.reduce((a,p)=>a+playerTotal(p),0);
+  const totPrize=prizeData.reduce((a,d)=>a+d.amount,0);
+  cont.innerHTML=`<div class="rt-card"><div class="rt-header"><div class="rt-title">🏆 Resultado Final</div><div class="rt-meta">${sessionDate||'—'} · ${players.length} jogadores · Pote: ${fmt(pot)}</div></div>
+    <div style="overflow-x:auto"><table class="rt-table"><thead><tr><th>#</th><th>Jogador</th><th>Buy-In</th><th>Rebuy</th><th>Add-On</th><th>Jon Snow</th><th>Investido</th><th>Prêmio</th><th>Gastos</th><th>Lucro/Prej.</th></tr></thead>
+    <tbody>${winnerRows}${loserRows}
+    <tr class="rt-footer"><td colspan="2">TOTAL</td><td>${fmtClean(players.reduce((a,p)=>a+p.buyin,0))}</td><td>${fmtClean(players.reduce((a,p)=>a+p.rebuy,0))}</td><td>${fmtClean(players.reduce((a,p)=>a+p.addon,0))}</td><td>${fmtClean(players.reduce((a,p)=>a+p.jonsnow,0))}</td><td>${fmtClean(totInvested)}</td><td>${fmtClean(totPrize)}</td><td>—</td><td>—</td></tr>
+    </tbody></table></div></div>
+    <button class="rt-img-btn" onclick="exportImage()">📸 Gerar Imagem para Compartilhar</button>`;
+}
+function exportImage(){
+  const pot=totalPot();
+  const medals=Array.from({length:30},(_,i)=>i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1)+'º');
+  const winnerIds=prizeData.map(d=>d.playerId);
+  const nonWinners=players.filter(p=>!winnerIds.includes(p.id));
+  const allRows=[...prizeData.map((d,i)=>({p:players.find(x=>x.id===d.playerId),prize:d.amount,rank:medals[i]||(i+1)+'º',winner:true})),...nonWinners.map(p=>({p,prize:0,rank:'—',winner:false}))];
+  const SCALE=2,W=1100,PAD=32,HEADER=130,COL_H=28,ROW_H=52,FOOTER=44,SEP_H=28;
+  const hasSep=nonWinners.length>0;
+  const H=HEADER+COL_H+allRows.length*ROW_H+(hasSep?SEP_H:0)+FOOTER;
+  const canvas=document.createElement('canvas');
+  canvas.width=W*SCALE; canvas.height=H*SCALE;
+  const ctx=canvas.getContext('2d');
+  ctx.scale(SCALE,SCALE);
+  const win=window.open('','_blank');
+  function fillRect(x,y,w,h,color){ctx.fillStyle=color;ctx.fillRect(x,y,w,h);}
+  function text(str,x,y,font,color,align='left'){ctx.font=font;ctx.fillStyle=color;ctx.textAlign=align;ctx.fillText(str,x,y);ctx.textAlign='left';}
+  const cols=[
+    {label:'#',w:52,align:'center'},
+    {label:'Jogador',w:165,align:'left'},
+    {label:'Buy-In',w:90,align:'right',color:'#e6b94a'},
+    {label:'Rebuy',w:90,align:'right',color:'#4caf7d'},
+    {label:'Add-On',w:90,align:'right',color:'#5c9ee0'},
+    {label:'Jon Snow',w:90,align:'right',color:'#a07de0'},
+    {label:'Investido',w:100,align:'right',color:'rgba(240,240,240,0.7)'},
+    {label:'Prêmio',w:100,align:'right',color:'#e6b94a'},
+    {label:'Gastos',w:100,align:'right',color:'rgba(240,240,240,0.7)'},
+    {label:'Lucro/Prej.',w:110,align:'right',color:'rgba(240,240,240,0.7)'},
   ];
-  // compute x positions
-  let cx = PAD;
-  cols.forEach(c => { c.x = cx; cx += c.w; });
-
-  // ── BG ──
+  let cx=PAD; cols.forEach(c=>{c.x=cx;cx+=c.w;});
   fillRect(0,0,W,H,'#111111');
-
-  // ── Header ──
   fillRect(0,0,W,HEADER,'#1a1a1a');
   fillRect(0,HEADER,W,2,'#e6b94a');
-  text('HOME GAME · POKER', PAD, 46, 'bold 36px Arial', '#e6b94a');
-  text(sessionDate + '   |   ' + players.length + ' jogadores   |   Pote Total: ' + fmt(pot), PAD, 82, '20px Arial', 'rgba(240,240,240,0.5)');
-  text('🏆  RESULTADO FINAL', PAD, 114, 'bold 17px Arial', '#e6b94a');
-
-  // ── Column headers ──
-  let chy = HEADER + 2;
-  fillRect(0, chy, W, COL_H, '#1e1e1e');
-  cols.forEach(c => {
-    text(c.label, c.x + (c.align==='right' ? c.w : c.align==='center' ? c.w/2 : 0), chy + 19,
-      'bold 11px Arial', 'rgba(240,240,240,0.4)', c.align==='right'?'right':c.align==='center'?'center':'left');
-  });
-  fillRect(0, chy+COL_H-1, W, 1, 'rgba(255,255,255,0.07)');
-
-  let y = chy + COL_H;
-
-  // ── Data rows ──
-  let winnerIdx = 0;
-  allRows.forEach((row, ri) => {
-    const { p, prize, rank, winner } = row;
-    const expNetRow = getExpNet(p.id);
-
-    // separator before non-winners
-    if (!winner && ri > 0 && allRows[ri-1].winner) {
-      fillRect(0, y, W, SEP_H, '#1a1a1a');
-      text('SEM PREMIAÇÃO', W/2, y + SEP_H*0.68, 'bold 12px Arial', 'rgba(240,240,240,0.3)', 'center');
-      y += SEP_H;
+  text('HOME GAME · POKER',PAD,46,'bold 36px Arial','#e6b94a');
+  text(sessionDate+'   |   '+players.length+' jogadores   |   Pote Total: '+fmt(pot),PAD,82,'20px Arial','rgba(240,240,240,0.5)');
+  text('🏆  RESULTADO FINAL',PAD,114,'bold 17px Arial','#e6b94a');
+  let chy=HEADER+2;
+  fillRect(0,chy,W,COL_H,'#1e1e1e');
+  cols.forEach(c=>{text(c.label,c.x+(c.align==='right'?c.w:c.align==='center'?c.w/2:0),chy+19,'bold 11px Arial','rgba(240,240,240,0.4)',c.align==='right'?'right':c.align==='center'?'center':'left');});
+  fillRect(0,chy+COL_H-1,W,1,'rgba(255,255,255,0.07)');
+  let y=chy+COL_H;
+  allRows.forEach((row,ri)=>{
+    const{p,prize,rank,winner}=row;
+    if(!winner&&ri>0&&allRows[ri-1].winner){
+      fillRect(0,y,W,SEP_H,'#1a1a1a');
+      text('SEM PREMIAÇÃO',W/2,y+SEP_H*0.68,'bold 12px Arial','rgba(240,240,240,0.3)','center');
+      y+=SEP_H;
     }
-
-    ctx.globalAlpha = winner ? 1 : 0.38;
-
-    fillRect(0, y, W, ROW_H, winner ? 'rgba(230,185,74,0.05)' : 'transparent');
-    fillRect(0, y+ROW_H-1, W, 1, 'rgba(255,255,255,0.05)');
-
-    const spent  = playerTotal(p);
-    const pnl    = prize - spent;
-    const midY   = y + ROW_H/2 + 7;
-
-    // rank
-    text(rank, cols[0].x + cols[0].w/2, midY, 'bold 18px Arial', '#ffffff', 'center');
-    // name
-    text(p.name, cols[1].x, midY, 'bold 18px Arial', '#f0f0f0');
-    // buy-in
-    text(fmtClean(p.buyin),   cols[2].x+cols[2].w, midY, '15px Arial', cols[2].color||'#f0f0f0', 'right');
-    // rebuy
-    text(fmtClean(p.rebuy),   cols[3].x+cols[3].w, midY, '15px Arial', cols[3].color||'#f0f0f0', 'right');
-    // addon
-    text(fmtClean(p.addon),   cols[4].x+cols[4].w, midY, '15px Arial', cols[4].color||'#f0f0f0', 'right');
-    // jonsnow
-    text(fmtClean(p.jonsnow), cols[5].x+cols[5].w, midY, '15px Arial', cols[5].color||'#f0f0f0', 'right');
-    // total invested
-    text(fmtClean(spent),     cols[6].x+cols[6].w, midY, 'bold 15px Arial', '#f0f0f0', 'right');
-    // prize
-    text(prize>0 ? fmtClean(prize) : '—', cols[7].x+cols[7].w, midY, 'bold 16px Arial', prize>0?'#e6b94a':'rgba(240,240,240,0.25)', 'right');
-    // gastos
-    const expNet   = getExpNet(p.id);
-    const expColor = expNet>0?'#4caf7d':expNet<0?'#e05c5c':'rgba(240,240,240,0.4)';
-    text((expNet>=0?'+':'')+fmtClean(expNet), cols[8].x+cols[8].w, midY, '15px Arial', expColor, 'right');
-    // pnl = prize + expNet - spent
-    const pnlFinal = prize + expNet - spent;
-    const pnlColor = pnlFinal>0?'#4caf7d':pnlFinal<0?'#e05c5c':'rgba(240,240,240,0.4)';
-    text((pnlFinal>=0?'+':'')+fmtClean(pnlFinal), cols[9].x+cols[9].w, midY, 'bold 15px Arial', pnlColor, 'right');
-
-    ctx.globalAlpha = 1;
-    y += ROW_H;
-    if (winner) winnerIdx++;
+    ctx.globalAlpha=winner?1:0.38;
+    fillRect(0,y,W,ROW_H,winner?'rgba(230,185,74,0.05)':'transparent');
+    fillRect(0,y+ROW_H-1,W,1,'rgba(255,255,255,0.05)');
+    const spent=playerTotal(p),midY=y+ROW_H/2+7;
+    const expNet=getExpNet(p.id);
+    const pnlFinal=prize+expNet-spent;
+    const expColor=expNet>0?'#4caf7d':expNet<0?'#e05c5c':'rgba(240,240,240,0.4)';
+    const pnlColor=pnlFinal>0?'#4caf7d':pnlFinal<0?'#e05c5c':'rgba(240,240,240,0.4)';
+    text(rank,cols[0].x+cols[0].w/2,midY,'bold 18px Arial','#ffffff','center');
+    text(p.name,cols[1].x,midY,'bold 18px Arial','#f0f0f0');
+    text(fmtClean(p.buyin),cols[2].x+cols[2].w,midY,'15px Arial',cols[2].color||'#f0f0f0','right');
+    text(fmtClean(p.rebuy),cols[3].x+cols[3].w,midY,'15px Arial',cols[3].color||'#f0f0f0','right');
+    text(fmtClean(p.addon),cols[4].x+cols[4].w,midY,'15px Arial',cols[4].color||'#f0f0f0','right');
+    text(fmtClean(p.jonsnow),cols[5].x+cols[5].w,midY,'15px Arial',cols[5].color||'#f0f0f0','right');
+    text(fmtClean(spent),cols[6].x+cols[6].w,midY,'bold 15px Arial','#f0f0f0','right');
+    text(prize>0?fmtClean(prize):'—',cols[7].x+cols[7].w,midY,'bold 16px Arial',prize>0?'#e6b94a':'rgba(240,240,240,0.25)','right');
+    text((expNet>=0?'+':'')+fmtClean(expNet),cols[8].x+cols[8].w,midY,'15px Arial',expColor,'right');
+    text((pnlFinal>=0?'+':'')+fmtClean(pnlFinal),cols[9].x+cols[9].w,midY,'bold 15px Arial',pnlColor,'right');
+    ctx.globalAlpha=1;
+    y+=ROW_H;
   });
-
-  // ── Footer ──
-  fillRect(0, y, W, FOOTER, '#1a1a1a');
-  text('HOME GAME · POKER', W/2, y+28, '14px Arial', 'rgba(230,185,74,0.4)', 'center');
-
-  // ── Show ──
-  const dataUrl = canvas.toDataURL('image/png');
-  showImageWindow(win, dataUrl);
+  fillRect(0,y,W,FOOTER,'#1a1a1a');
+  text('HOME GAME · POKER',W/2,y+28,'14px Arial','rgba(230,185,74,0.4)','center');
+  const dataUrl=canvas.toDataURL('image/png');
+  showImageWindow(win,dataUrl);
 }
-
-function showImageWindow(win, dataUrl) {
-  if (!win) {
-    // fallback: mostra imagem dentro do próprio app
-    const overlay = document.createElement('div');
-    overlay.style.cssText = 'position:fixed;inset:0;background:#111;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;';
-    overlay.innerHTML = '<img src="' + dataUrl + '" style="max-width:100%;max-height:80vh;border-radius:12px;"><p style="color:rgba(255,255,255,0.5);font-size:14px;margin-top:16px;text-align:center;">📱 Pressione e segure a imagem para salvar no rolo de fotos</p><button onclick="this.parentElement.remove()" style="margin-top:20px;background:#e6b94a;color:#000;border:none;border-radius:8px;padding:12px 32px;font-size:15px;font-weight:800;cursor:pointer;">Fechar</button>';
+function showImageWindow(win,dataUrl){
+  if(!win){
+    const overlay=document.createElement('div');
+    overlay.style.cssText='position:fixed;inset:0;background:#111;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;';
+    overlay.innerHTML='<img src="'+dataUrl+'" style="max-width:100%;max-height:80vh;border-radius:12px;"><p style="color:rgba(255,255,255,0.5);font-size:14px;margin-top:16px;text-align:center;">📱 Pressione e segure a imagem para salvar no rolo de fotos</p><button onclick="this.parentElement.remove()" style="margin-top:20px;background:#e6b94a;color:#000;border:none;border-radius:8px;padding:12px 32px;font-size:15px;font-weight:800;cursor:pointer;">Fechar</button>';
     document.body.appendChild(overlay);
     return;
   }
-  win.document.write('<!DOCTYPE html><html><head><title>Resultado</title><meta name="viewport" content="width=device-width,initial-scale=1"><style>*{box-sizing:border-box;margin:0;padding:0;}body{background:#111;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;min-height:100vh;font-family:Arial,sans-serif;padding:20px;}img{max-width:100%;border-radius:12px;display:block;}p{color:rgba(255,255,255,0.5);font-size:14px;margin-top:16px;text-align:center;line-height:1.5;}</style></head><body><img src="' + dataUrl + '"><p>📱 Pressione e segure a imagem para salvar no rolo de fotos</p></body></html>');
-
-win.document.close();
-}
-
-// ── SAVE / HISTORY ──
-function saveSession() {
-const now  = new Date();
-const date = sessionDate || now.toLocaleDateString(‘pt-BR’, { day:‘2-digit’, month:‘2-digit’, year:‘numeric’ });
-const history = JSON.parse(localStorage.getItem(‘pgHistory’)||’[]’);
-history.unshift({ id: uid(), name: date, date, pot: totalPot(), players: players.length });
-localStorage.setItem(‘pgHistory’, JSON.stringify(history.slice(0, 20)));
-renderHistory();
-showToast(‘✅ Sessão salva!’);
-}
-
-function deleteHistoryItem(id) {
-const history = JSON.parse(localStorage.getItem(‘pgHistory’)||’[]’);
-const item    = history.find(h => h.id === id);
-showConfirm(`Apagar <strong>${item ? item.name : 'esta sessão'}</strong> do histórico?`, () => {
-localStorage.setItem(‘pgHistory’, JSON.stringify(history.filter(h => h.id !== id)));
-renderHistory();
-});
-}
-
-function clearHistory() {
-showConfirm(‘Apagar <strong>todo o histórico</strong>?’, () => {
-localStorage.removeItem(‘pgHistory’);
-renderHistory();
-});
-}
-
-function renderHistory() {
-const history = JSON.parse(localStorage.getItem(‘pgHistory’)||’[]’);
-const sec     = document.getElementById(‘historySection’);
-if (!history.length) { sec.style.display=‘none’; return; }
-sec.style.display = ‘block’;
-const hl = document.getElementById(‘historyList’);
-hl.innerHTML = ‘’;
-history.forEach(h => {
-if (!h.id) h.id = uid();
-const item = document.createElement(‘div’);
-item.className = ‘history-item’;
-item.innerHTML = ` <div style="flex:1"> <div class="history-name">${h.name}</div> <div class="history-meta">${h.date} · ${h.players} jogadores</div> </div> <div class="history-pot">${fmt(h.pot)}</div> <button class="btn-remove-hist" onclick="deleteHistoryItem('${h.id}')">✕</button>`;
-hl.appendChild(item);
-});
-}
-
-// ── CONFIRM ──
-function showConfirm(msg, onYes) {
-const overlay = document.createElement(‘div’);
-overlay.className = ‘confirm-overlay’;
-overlay.innerHTML = ` <div class="confirm-box"> <div class="confirm-msg">${msg}</div> <div class="confirm-btns"> <button class="confirm-yes" id="cYes">Sim</button> <button class="confirm-no" id="cNo">Não</button> </div> </div>`;
-document.body.appendChild(overlay);
-overlay.querySelector(’#cYes’).onclick = () => { overlay.remove(); onYes(); };
-overlay.querySelector(’#cNo’).onclick  = () => overlay.remove();
-overlay.onclick = e => { if (e.target === overlay) overlay.remove(); };
-}
-
-// ── TOAST ──
-function showToast(msg) {
-const t = document.getElementById(‘toast’);
-t.textContent = msg;
-t.classList.add(‘show’);
-setTimeout(() => t.classList.remove(‘show’), 2500);
-}
-
-// ── MAIN RENDER ──
-function render() {
-document.getElementById(‘livePot’).textContent = fmt(totalPot());
-
-const investSec = document.getElementById(‘investSection’);
-if (players.length === 0) {
-investSec.style.display = ‘none’;
-} else {
-investSec.style.display = ‘block’;
-const pRows = document.getElementById(‘playerRows’);
-pRows.innerHTML = ‘’;
-players.forEach(p => {
-const row = document.createElement(‘div’);
-row.className = ‘inv-row’;
-row.innerHTML = ` <div class="inv-cell player-name-cell" onclick="openPlayerModal('${p.id}')"> ${p.name}<span class="edit-hint">editar</span> </div> <div class="inv-cell center" style="color:var(--gold)" onclick="openPlayerModal('${p.id}')">${fmtClean(p.buyin)}</div> <div class="inv-cell center" style="color:var(--green)" onclick="openPlayerModal('${p.id}')">${fmtClean(p.rebuy)}</div> <div class="inv-cell center" style="color:var(--blue)" onclick="openPlayerModal('${p.id}')">${fmtClean(p.addon)}</div> <div class="inv-cell center" style="color:var(--purple)" onclick="openPlayerModal('${p.id}')">${fmtClean(p.jonsnow)}</div> <div class="inv-cell right" style="font-weight:800" onclick="openPlayerModal('${p.id}')">${fmtClean(playerTotal(p))}</div> <div class="inv-cell"> <button class="btn-remove-sm" onclick="removePlayer('${p.id}')">✕</button> </div>`;
-pRows.appendChild(row);
-});
-
-```
-const foot = document.getElementById('footerRow');
-foot.innerHTML = `
-  <div class="inv-cell" style="font-size:11px;">TOTAL</div>
-  <div class="inv-cell center">${fmtClean(players.reduce((a,p)=>a+p.buyin,0))}</div>
-  <div class="inv-cell center">${fmtClean(players.reduce((a,p)=>a+p.rebuy,0))}</div>
-  <div class="inv-cell center">${fmtClean(players.reduce((a,p)=>a+p.addon,0))}</div>
-  <div class="inv-cell center">${fmtClean(players.reduce((a,p)=>a+p.jonsnow,0))}</div>
-  <div class="inv-cell right">${fmtClean(totalPot())}</div>
-  <div class="inv-cell"></div>`;
-```
-
-}
-
-const priz = document.getElementById(‘prizesSection’);
-if (players.length >= 2) {
-priz.style.display = ‘block’;
-prizeCount = players.length;
-while (prizeData.length < prizeCount) prizeData.push({ playerId:’’, amount:0 });
-prizeData = prizeData.slice(0, prizeCount);
-renderPrizes();
-} else {
-priz.style.display = ‘none’;
-}
-
-document.getElementById(‘resultsSection’).style.display = ‘none’;
-}
-
-renderHistory();
-render();
-
-// ── TABS ──
-function switchTab(tab) {
-const mainEl   = document.querySelector(’.main’);
-const expEl    = document.getElementById(‘expTabPage’);
-const resultEl = document.getElementById(‘resultTabPage’);
-const btnMain  = document.getElementById(‘tabBtnMain’);
-const btnExp   = document.getElementById(‘tabBtnExp’);
-const btnRes   = document.getElementById(‘tabBtnResult’);
-
-mainEl.style.display   = ‘none’;
-expEl.style.display    = ‘none’;
-resultEl.style.display = ‘none’;
-btnMain.classList.remove(‘active’);
-btnExp.classList.remove(‘active’);
-btnRes.classList.remove(‘active’);
-
-if (tab === ‘main’) {
-mainEl.style.display = ‘block’;
-btnMain.classList.add(‘active’);
-} else if (tab === ‘exp’) {
-expEl.style.display = ‘block’;
-btnExp.classList.add(‘active’);
-renderOrders();
-renderDealerPayers();
-renderRentPayers();
-calcExpenses();
-} else {
-resultEl.style.display = ‘block’;
-btnRes.classList.add(‘active’);
-renderResultTab();
-}
-}
-
-// ── EXPENSES ──
-let orders = []; // [{ id, value, payerId, eaterIds }]
-
-function addOrder() {
-if (players.length === 0) { showToast(‘⚠ Adicione jogadores na aba Mesa primeiro’); return; }
-orders.push({ id: uid(), value: 0, payerId: ‘’, eaterIds: [] });
-renderOrders();
-}
-
-function removeOrder(id) {
-orders = orders.filter(o => o.id !== id);
-renderOrders();
-calcExpenses();
-}
-
-function updateOrderValue(id, val) {
-const o = orders.find(x => x.id === id);
-o.value = parseMoney(val);
-calcExpenses();
-}
-
-function togglePayer(orderId, playerId) {
-const o = orders.find(x => x.id === orderId);
-o.payerId = (o.payerId === playerId) ? ‘’ : playerId;
-renderOrders();
-calcExpenses();
-}
-
-function toggleEater(orderId, playerId) {
-const o = orders.find(x => x.id === orderId);
-if (o.eaterIds.includes(playerId)) {
-o.eaterIds = o.eaterIds.filter(id => id !== playerId);
-} else {
-o.eaterIds.push(playerId);
-}
-renderOrders();
-calcExpenses();
-}
-
-function renderOrders() {
-const list = document.getElementById(‘orderList’);
-if (!list) return;
-list.innerHTML = ‘’;
-
-if (orders.length === 0) {
-list.innerHTML = ‘<div style="text-align:center;color:var(--text-muted);font-size:13px;padding:12px 0;">Nenhum pedido ainda</div>’;
-return;
-}
-
-orders.forEach((o, idx) => {
-const div = document.createElement(‘div’);
-div.className = ‘order-card’;
-
-```
-// Payer chips
-let payerChips = players.map(p =>
-  `<span class="order-payer-chip ${o.payerId===p.id?'selected':''}"
-    onclick="togglePayer('${o.id}','${p.id}')">${p.name}</span>`
-).join('');
-
-// Eater chips
-let eaterChips = players.map(p =>
-  `<span class="order-player-chip ${o.eaterIds.includes(p.id)?'selected':''}"
-    onclick="toggleEater('${o.id}','${p.id}')">${p.name}</span>`
-).join('');
-
-const perHead = o.eaterIds.length > 0 ? (o.value / o.eaterIds.length) : 0;
-
-div.innerHTML = `
-  <div class="order-card-top">
-    <span class="order-card-label">Pedido ${idx+1}</span>
-    <div style="display:flex;align-items:center;gap:8px;">
-      <span class="order-card-val">${fmt(o.value)}</span>
-      <button class="btn-remove-sm" onclick="removeOrder('${o.id}')">✕</button>
-    </div>
-  </div>
-  <div class="field-group" style="margin-bottom:12px;">
-    <div class="field-label">Valor Total do Pedido (R$)</div>
-    <input class="field-input" type="number" placeholder="0,00" min="0" step="0.01"
-      value="${o.value > 0 ? o.value.toFixed(2) : ''}"
-      oninput="updateOrderValue('${o.id}', this.value)">
-  </div>
-  <div class="order-who">
-    <div class="order-who-label" style="color:var(--green)">Quem pagou</div>
-    <div class="order-players">${payerChips}</div>
-  </div>
-  <div class="order-who" style="margin-top:10px;">
-    <div class="order-who-label">Quem comeu ${perHead > 0 ? '· <span style="color:var(--gold)">'+fmt(perHead)+' por pessoa</span>' : ''}</div>
-    <div class="order-players">${eaterChips}</div>
-  </div>`;
-list.appendChild(div);
-```
-
-});
-}
-
-// rent payer state
-let rentPayerId   = ‘’;
-let dealerPayerId = ‘’;
-
-function renderRentPayers() {
-const rentVal = parseMoney(document.getElementById(‘rentVal’)?.value);
-const sec     = document.getElementById(‘rentPayerSection’);
-const chips   = document.getElementById(‘rentPayerChips’);
-if (!sec || !chips) return;
-if (rentVal <= 0 || players.length === 0) { sec.style.display=‘none’; return; }
-sec.style.display = ‘block’;
-chips.innerHTML = ‘’;
-players.forEach(p => {
-const span = document.createElement(‘span’);
-span.className = ‘order-payer-chip’ + (rentPayerId===p.id?’ selected’:’’);
-span.textContent = p.name;
-span.onclick = () => {
-rentPayerId = (rentPayerId === p.id) ? ‘’ : p.id;
-renderRentPayers();
-calcExpenses();
-};
-chips.appendChild(span);
-});
-}
-
-function renderDealerPayers() {
-const dealerQty   = parseInt(document.getElementById(‘dealerQty’)?.value) || 0;
-const dealerVal   = parseMoney(document.getElementById(‘dealerVal’)?.value);
-const dealerTotal = dealerQty * dealerVal;
-const sec         = document.getElementById(‘dealerPayerSection’);
-const chips       = document.getElementById(‘dealerPayerChips’);
-if (!sec || !chips) return;
-if (dealerTotal <= 0 || players.length === 0) { sec.style.display=‘none’; return; }
-sec.style.display = ‘block’;
-chips.innerHTML = ‘’;
-players.forEach(p => {
-const span = document.createElement(‘span’);
-span.className = ‘order-payer-chip’ + (dealerPayerId===p.id?’ selected’:’’);
-span.textContent = p.name;
-span.onclick = () => {
-dealerPayerId = (dealerPayerId === p.id) ? ‘’ : p.id;
-renderDealerPayers();
-calcExpenses();
-};
-chips.appendChild(span);
-});
-}
-
-function calcExpenses() {
-const dealerQty   = parseInt(document.getElementById(‘dealerQty’)?.value) || 0;
-const dealerVal   = parseMoney(document.getElementById(‘dealerVal’)?.value);
-const rentVal     = parseMoney(document.getElementById(‘rentVal’)?.value);
-const dealerTotal = dealerQty * dealerVal;
-
-const dtEl = document.getElementById(‘dealerTotal’);
-if (dtEl) dtEl.textContent = fmt(dealerTotal);
-
-// net balance per player for food
-// positive = player is owed money (paid for others)
-// negative = player owes money (ate but didn’t pay)
-const foodNet = {};
-players.forEach(p => foodNet[p.id] = 0);
-
-orders.forEach(o => {
-if (o.value === 0) return;
-const eaters = o.eaterIds.length > 0 ? o.eaterIds : [];
-if (eaters.length === 0) return;
-const share = o.value / eaters.length;
-// payer paid full amount → credit
-if (o.payerId && foodNet[o.payerId] !== undefined) {
-foodNet[o.payerId] += o.value;
-}
-// each eater owes their share → debit
-eaters.forEach(eid => {
-if (foodNet[eid] !== undefined) foodNet[eid] -= share;
-});
-});
-
-// net balance for rent
-const rentNet = {};
-players.forEach(p => rentNet[p.id] = 0);
-if (rentVal > 0 && players.length > 0) {
-const shareRent = rentVal / players.length;
-// payer gets credit for full amount
-if (rentPayerId && rentNet[rentPayerId] !== undefined) {
-rentNet[rentPayerId] += rentVal;
-}
-// everyone owes their share
-players.forEach(p => rentNet[p.id] -= shareRent);
-}
-
-// dealer: payer gets credit, everyone pays their share
-const dealerNet = {};
-players.forEach(p => dealerNet[p.id] = 0);
-if (dealerTotal > 0 && players.length > 0) {
-const shareDealer = dealerTotal / players.length;
-if (dealerPayerId && dealerNet[dealerPayerId] !== undefined) {
-dealerNet[dealerPayerId] += dealerTotal;
-}
-players.forEach(p => dealerNet[p.id] -= shareDealer);
-}
-
-const totalFood  = orders.reduce((a,o) => a+o.value, 0);
-const grandTotal = dealerTotal + rentVal + totalFood;
-
-const gtEl = document.getElementById(‘expGrandTotal’);
-if (gtEl) gtEl.textContent = fmt(grandTotal);
-
-// Summary
-const summCard = document.getElementById(‘expSummaryCard’);
-const summList = document.getElementById(‘expSummaryList’);
-if (!summCard || !summList) return;
-
-const hasAny = grandTotal > 0;
-summCard.style.display = hasAny ? ‘block’ : ‘none’;
-summList.innerHTML = ‘’;
-
-players.forEach(p => {
-const net = (foodNet[p.id]||0) + (rentNet[p.id]||0) + (dealerNet[p.id]||0);
-if (Math.abs(net) < 0.01) return;
-const isCredit = net > 0;
-const row = document.createElement(‘div’);
-row.className = ‘exp-player-row’;
-row.innerHTML = ` <span class="exp-player-name">${p.name}</span> <div style="text-align:right;"> <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:${isCredit?'var(--green)':'var(--red)'}"> ${isCredit?'+':''}${fmt(net)} </div> <div style="font-size:10px;color:var(--text-muted)">${isCredit?'a receber':'a pagar'}</div> </div>`;
-summList.appendChild(row);
-});
-
-if (summList.children.length === 0 && hasAny) {
-summList.innerHTML = ‘<div style="padding:12px;font-size:12px;color:var(--text-muted);text-align:center;">Selecione quem pagou para ver o resumo</div>’;
-}
-}
-
-function renderResultTab() {
-const cont = document.getElementById(‘resultTabContent’);
-
-if (players.length === 0 || prizeData.every(d => !d.playerId)) {
-cont.innerHTML = ‘<div class="result-tab-empty"><div class="result-tab-empty-icon">🏆</div>Calcule o resultado na aba Mesa para ver a tabela aqui</div>’;
-return;
-}
-
-const pot        = totalPot();
-const medals     = Array.from({length:30}, (_,i) => i===0?‘🥇’:i===1?‘🥈’:i===2?‘🥉’:(i+1)+‘º’);
-const winnerIds  = prizeData.filter(d=>d.playerId).map(d => d.playerId);
-const nonWinners = players.filter(p => !winnerIds.includes(p.id));
-
-// ── Calculate food net per player from expenses tab ──
-function getPlayerExpenseNet(pid) {
-let net = 0;
-// food
-orders.forEach(o => {
-if (o.value === 0) return;
-const eaters = o.eaterIds.length > 0 ? o.eaterIds : [];
-if (eaters.length === 0) return;
-const share = o.value / eaters.length;
-if (o.payerId === pid) net += o.value;
-if (eaters.includes(pid)) net -= share;
-});
-// rent
-const rentVal = parseMoney(document.getElementById(‘rentVal’)?.value);
-if (rentVal > 0 && players.length > 0) {
-if (rentPayerId === pid) net += rentVal;
-net -= rentVal / players.length;
-}
-// dealer: payer gets credit, everyone pays share
-const dealerQty   = parseInt(document.getElementById(‘dealerQty’)?.value) || 0;
-const dealerVal   = parseMoney(document.getElementById(‘dealerVal’)?.value);
-const dealerTotal = dealerQty * dealerVal;
-if (dealerTotal > 0 && players.length > 0) {
-if (dealerPayerId === pid) net += dealerTotal;
-net -= dealerTotal / players.length;
-}
-return net;
-}
-
-let winnerRows = ‘’;
-prizeData.forEach((d, i) => {
-if (!d.playerId) return;
-const p       = players.find(x => x.id === d.playerId);
-const prize   = d.amount;
-const spent   = playerTotal(p);
-const expNet  = getPlayerExpenseNet(p.id);
-const pnl     = prize + expNet - spent;
-const pnlColor = pnl > 0 ? ‘var(–green)’ : pnl < 0 ? ‘var(–red)’ : ‘var(–text-muted)’;
-const expColor = expNet > 0 ? ‘var(–green)’ : expNet < 0 ? ‘var(–red)’ : ‘var(–text-muted)’;
-winnerRows += `<tr class="rt-winner"> <td>${medals[i]}</td> <td>${p.name}</td> <td style="color:var(--gold)">${fmtClean(p.buyin)}</td> <td style="color:var(--green)">${fmtClean(p.rebuy)}</td> <td style="color:var(--blue)">${fmtClean(p.addon)}</td> <td style="color:var(--purple)">${fmtClean(p.jonsnow)}</td> <td style="font-weight:800">${fmtClean(spent)}</td> <td style="color:var(--gold);font-weight:800">${fmtClean(prize)}</td> <td style="color:${expColor};font-weight:700">${expNet>=0?'+':''}${fmtClean(expNet)}</td> <td style="color:${pnlColor};font-weight:800">${pnl>=0?'+':''}${fmtClean(pnl)}</td> </tr>`;
-});
-
-let loserRows = ‘’;
-if (nonWinners.length > 0) {
-loserRows += `<tr class="rt-sep"><td colspan="10">SEM PREMIAÇÃO</td></tr>`;
-nonWinners.forEach(p => {
-const spent   = playerTotal(p);
-const expNet  = getPlayerExpenseNet(p.id);
-const pnl     = 0 + expNet - spent;
-const pnlColor = pnl > 0 ? ‘var(–green)’ : pnl < 0 ? ‘var(–red)’ : ‘var(–text-muted)’;
-const expColor = expNet > 0 ? ‘var(–green)’ : expNet < 0 ? ‘var(–red)’ : ‘var(–text-muted)’;
-loserRows += `<tr class="rt-loser"> <td>—</td> <td>${p.name}</td> <td style="color:var(--gold)">${fmtClean(p.buyin)}</td> <td style="color:var(--green)">${fmtClean(p.rebuy)}</td> <td style="color:var(--blue)">${fmtClean(p.addon)}</td> <td style="color:var(--purple)">${fmtClean(p.jonsnow)}</td> <td style="font-weight:800">${fmtClean(spent)}</td> <td>—</td> <td style="color:${expColor};font-weight:700">${expNet>=0?'+':''}${fmtClean(expNet)}</td> <td style="color:${pnlColor};font-weight:800">${pnl>=0?'+':''}${fmtClean(pnl)}</td> </tr>`;
-});
-}
-
-// Footer totals
-const totInvested = players.reduce((a,p)=>a+playerTotal(p),0);
-const totPrize    = prizeData.reduce((a,d)=>a+d.amount,0);
-
-cont.innerHTML = `<div class="rt-card"> <div class="rt-header"> <div class="rt-title">🏆 Resultado Final</div> <div class="rt-meta">${sessionDate || '—'}  ·  ${players.length} jogadores  ·  Pote: ${fmt(pot)}</div> </div> <div style="overflow-x:auto"> <table class="rt-table"> <thead><tr> <th>#</th> <th>Jogador</th> <th>Buy-In</th> <th>Rebuy</th> <th>Add-On</th> <th>Jon Snow</th> <th>Investido</th> <th>Prêmio</th> <th>Gastos</th> <th>Lucro/Prej.</th> </tr></thead> <tbody> ${winnerRows} ${loserRows} <tr class="rt-footer"> <td colspan="2">TOTAL</td> <td>${fmtClean(players.reduce((a,p)=>a+p.buyin,0))}</td> <td>${fmtClean(players.reduce((a,p)=>a+p.rebuy,0))}</td> <td>${fmtClean(players.reduce((a,p)=>a+p.addon,0))}</td> <td>${fmtClean(players.reduce((a,p)=>a+p.jonsnow,0))}</td> <td>${fmtClean(totInvested)}</td> <td>${fmtClean(totPrize)}</td> <td>—</td> <td>—</td> </tr> </tbody> </table> </div> </div> <button class="rt-img-btn" onclick="exportImage()">📸 Gerar Imagem para Compartilhar</button>`;
+  win.document.write('<!DOCTYPE html><html><head><title>Resultado</title><meta name="viewport" content="width=device-width,initial-scale=1"><style>*{box-sizing:border-box;margin:0;padding:0;}body{background:#111;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;min-height:100vh;font-family:Arial,sans-serif;padding:20px;}img{max-width:100%;border-radius:12px;display:block;}p{color:rgba(255,255,255,0.5);font-size:14px;margin-top:16px;text-align:center;line-height:1.5;}</style></head><body><img src="'+dataUrl+'"><p>📱 Pressione e segure a imagem para salvar no rolo de fotos</p></body></html>');
+  win.document.close();
 }
 </script>
-
 </body>
 </html>
