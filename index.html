@@ -329,10 +329,31 @@ async function pushState(state){setSyncStatus('syncing');try{const res=await fet
 async function clearFirebase(){try{await fetch(DB,{method:'DELETE'});lastData='';setSyncStatus('online');}catch(e){setSyncStatus('offline');}}
 function saveState(){
 localChange=true;
-const state={players,prizeData,prizeCount,sessionDate,sessionBuyin,sessionReady,orders,rentPayerId,dealerPayerId,sessionStartTime,globalJonSnowCount,timerPaused,pausedElapsedMs,
-   dealerQty:parseInt(document.getElementById('dealerQty')?.value)||0,
-   dealerVal:parseMoney(document.getElementById('dealerVal')?.value),
-   rentVal:parseMoney(document.getElementById('rentVal')?.value)};
+const dealerQtyEl = document.getElementById('dealerQty');
+const dealerVa1El = document.getElementById('dealerVal');
+const rentValEl = document.getElementById('rentVal');
+const dQty = dealerQtyEl ? (parseInt(dealerQtyEl.value) || 0) : 0;
+const dVal = dealerValEl ? parseMoney(dealerValEl.value) : 0;
+const rVal = rentValEl ? parseMoney(rentValEl.value) : 0;
+const state={
+players,
+prizeData,
+prizeCount,
+sessionDate,
+sessionBuyIn,
+sessionReady,
+orders,
+rentPayersId,
+dealerPayersId,
+sessionStartTime,
+globalJonSnowCount,
+timerPaused,
+pausedElapsedMs,
+dealerQty: dQty,
+dealerVal: dVal,
+rentVal: dVal,
+rentVal: rVal
+};
 pushState(state).then(()=>setTimeout(()=>{localChange=false;},3000));
 localStorage.setItem('pgState',JSON.stringify(state));
 }
