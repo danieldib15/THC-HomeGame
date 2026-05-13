@@ -3,971 +3,644 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Home Game · Poker</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<title>THC - Home Game · Poker</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;500;600;700;800&display=… rel="stylesheet">
 <style>
-:root {
-  --bg: #0d0d0d; --surface: #161616; --surface2: #1e1e1e; --surface3: #272727;
-  --border: rgba(255,255,255,0.07); --gold: #e6b94a; --gold-dim: rgba(230,185,74,0.15);
-  --text: #f0f0f0; --text-muted: rgba(240,240,240,0.4); --text-soft: rgba(240,240,240,0.65);
-  --green: #4caf7d; --green-dim: rgba(76,175,125,0.12);
-  --red: #e05c5c; --red-dim: rgba(224,92,92,0.12);
-  --blue: #5c9ee0; --blue-dim: rgba(92,158,224,0.12);
-  --purple: #a07de0; --purple-dim: rgba(160,125,224,0.12);
-  --radius: 12px; --radius-sm: 8px;
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: var(--bg); font-family: 'Nunito', sans-serif; color: var(--text); min-height: 100vh; padding-bottom: 60px; }
-.sync-badge { display: flex; align-items: center; gap: 5px; font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
-.sync-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--text-muted); transition: background 0.3s; }
-.sync-dot.online { background: var(--green); box-shadow: 0 0 6px rgba(76,175,125,0.5); }
-.sync-dot.syncing { background: var(--gold); animation: pulse 0.8s infinite; }
-.sync-dot.offline { background: var(--red); }
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
-.sync-label { color: var(--text-muted); }
-.header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
-.logo { font-family: 'Bebas Neue', sans-serif; font-size: 26px; letter-spacing: 2px; color: var(--gold); line-height: 1; }
-.logo-sub { font-size: 10px; color: var(--text-muted); letter-spacing: 3px; text-transform: uppercase; }
-.header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
-.pot-live { text-align: right; }
-.pot-live-label { font-size: 10px; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; }
-.pot-live-value { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--gold); letter-spacing: 1px; line-height: 1; }
-.btn-reset { background: none; border: 1px solid rgba(224,92,92,0.3); color: rgba(224,92,92,0.6); border-radius: 6px; padding: 3px 10px; font-family: 'Nunito', sans-serif; font-size: 10px; font-weight: 700; cursor: pointer; letter-spacing: 1px; }
-.main { max-width: 680px; margin: 0 auto; padding: 20px 16px 80px; }
-.section-title { font-size: 10px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; margin-top: 28px; display: flex; align-items: center; gap: 8px; }
-.section-title:first-child { margin-top: 0; }
-.section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-.setup-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
-.setup-row { display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap; }
-.field-group { display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 120px; }
-.field-label { font-size: 10px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); }
-.field-input { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 13px; color: var(--text); font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 600; outline: none; transition: border-color 0.2s; width: 100%; }
-.field-input:focus { border-color: var(--gold); }
-.field-input::placeholder { color: var(--text-muted); font-weight: 400; }
-.session-info-bar { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-.session-info-left { display: flex; align-items: center; gap: 10px; }
-.session-info-date { font-size: 15px; font-weight: 700; }
-.session-info-buyin { background: var(--gold-dim); border: 1px solid rgba(230,185,74,0.2); border-radius: 20px; padding: 3px 10px; font-size: 12px; font-weight: 700; color: var(--gold); }
-.btn-edit-session { background: none; border: 1px solid var(--border); color: var(--text-muted); border-radius: 6px; padding: 5px 12px; font-family: 'Nunito', sans-serif; font-size: 11px; font-weight: 700; cursor: pointer; }
-.add-form { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
-.add-form-row { display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap; }
-.btn-add { background: var(--gold); color: #0d0d0d; border: none; border-radius: var(--radius-sm); padding: 10px 22px; font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; cursor: pointer; white-space: nowrap; height: 42px; align-self: flex-end; transition: opacity 0.15s; }
-.btn-add:hover { opacity: 0.85; }
-.inv-table { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
-.inv-header, .inv-row, .inv-footer { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1.1fr 32px; }
-.inv-header { background: var(--surface2); border-bottom: 1px solid var(--border); }
-.inv-row { border-bottom: 1px solid var(--border); cursor: pointer; transition: background 0.15s; }
-.inv-row:last-child { border-bottom: none; }
-.inv-row:hover { background: rgba(230,185,74,0.04); }
-.inv-footer { background: var(--surface2); border-top: 1px solid rgba(230,185,74,0.2); }
-.inv-cell { padding: 10px 8px; font-size: 12px; display: flex; align-items: center; }
-.inv-cell.center { justify-content: center; }
-.inv-cell.right { justify-content: flex-end; }
-.inv-header .inv-cell { font-size: 9px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); }
-.inv-footer .inv-cell { font-weight: 800; color: var(--gold); font-size: 12px; }
-.player-name-cell { font-weight: 800; font-size: 13px; display: flex; align-items: center; gap: 5px; }
-.edit-hint { font-size: 9px; color: var(--text-muted); font-weight: 400; background: var(--surface2); border-radius: 4px; padding: 2px 5px; }
-.btn-remove-sm { background: none; border: none; color: rgba(224,92,92,0.35); font-size: 14px; cursor: pointer; padding: 4px; display: flex; align-items: center; justify-content: center; }
-.btn-remove-sm:hover { color: var(--red); }
-@media(max-width:480px) {
-  .inv-header, .inv-row, .inv-footer { grid-template-columns: 1.6fr 1fr 1fr 1fr 1fr 1fr 28px; }
-  .inv-cell { padding: 9px 5px; font-size: 11px; }
-  .edit-hint { display: none; }
-}
-.prizes-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; }
-.prize-rows { display: flex; flex-direction: column; gap: 10px; }
-.prize-row-item { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; }
-.prize-row-top { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-.prize-rank { font-family: 'Bebas Neue', sans-serif; font-size: 17px; min-width: 65px; }
-.prize-player-select { flex: 1; min-width: 120px; background: var(--surface3); border: 1px solid var(--border); border-radius: 6px; padding: 7px 10px; color: var(--text); font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 600; outline: none; cursor: pointer; }
-.prize-amount-group { display: flex; align-items: center; gap: 6px; }
-.prize-amount-label { font-size: 11px; color: var(--text-muted); }
-.prize-amount-input { background: var(--surface3); border: 1px solid var(--border); border-radius: 6px; padding: 7px 10px; color: var(--text); font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700; outline: none; width: 110px; }
-.prize-hint { font-size: 11px; color: var(--text-muted); margin-top: 7px; padding-left: 75px; }
-.prize-hint strong { color: var(--gold); }
-.prizes-footer { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
-.prizes-remain { font-size: 13px; color: var(--text-soft); }
-.prizes-remain strong { color: var(--gold); font-size: 16px; }
-.prizes-remain.over strong { color: var(--red); }
-.btn-calc { background: var(--gold); color: #0d0d0d; border: none; border-radius: var(--radius-sm); padding: 11px 26px; font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; cursor: pointer; }
-.results-card { background: var(--surface); border: 1px solid rgba(230,185,74,0.2); border-radius: var(--radius); overflow: hidden; }
-.results-header { background: linear-gradient(135deg, rgba(230,185,74,0.1), rgba(230,185,74,0.03)); padding: 16px 20px; border-bottom: 1px solid rgba(230,185,74,0.12); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
-.results-title { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--gold); letter-spacing: 2px; }
-.results-pot { font-size: 13px; color: var(--text-soft); }
-.results-pot strong { color: var(--gold); }
-.result-item { display: flex; align-items: center; gap: 14px; padding: 13px 20px; border-bottom: 1px solid var(--border); }
-.result-item.winner { background: rgba(230,185,74,0.03); }
-.result-item.loser { opacity: 0.45; }
-.result-medal { font-size: 22px; width: 30px; text-align: center; flex-shrink: 0; }
-.result-info { flex: 1; }
-.result-name { font-size: 16px; font-weight: 800; }
-.result-spent { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
-.result-right { text-align: right; }
-.result-prize { font-family: 'Bebas Neue', sans-serif; font-size: 24px; color: var(--gold); }
-.result-pnl { font-size: 12px; font-weight: 700; margin-top: 1px; }
-.pnl-pos { color: var(--green); } .pnl-neg { color: var(--red); } .pnl-zero { color: var(--text-muted); }
-.result-actions { display: flex; gap: 10px; padding: 14px 16px; flex-wrap: wrap; }
-.btn-save { flex: 1; min-width: 140px; background: var(--surface2); border: 1px solid var(--border); color: var(--text-soft); border-radius: var(--radius-sm); padding: 11px; font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; }
-.btn-screenshot { flex: 1; min-width: 140px; background: var(--green-dim); border: 1px solid rgba(76,175,125,0.25); color: var(--green); border-radius: var(--radius-sm); padding: 11px; font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; }
-.history-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
-.history-item { display: flex; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--border); font-size: 13px; gap: 10px; }
-.history-name { font-weight: 700; }
-.history-meta { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
-.history-pot { font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: var(--gold); flex-shrink: 0; }
-.history-footer { padding: 10px 16px; border-top: 1px solid var(--border); background: var(--surface2); text-align: center; }
-.btn-clear { background: none; border: none; color: rgba(224,92,92,0.45); font-family: 'Nunito', sans-serif; font-size: 12px; cursor: pointer; }
-.btn-remove-hist { background: none; border: 1px solid rgba(224,92,92,0.2); color: var(--red); border-radius: 6px; padding: 4px 9px; font-size: 14px; cursor: pointer; flex-shrink: 0; }
-.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.75); display: flex; align-items: flex-end; justify-content: center; z-index: 200; }
-@media(min-width:500px) { .modal-overlay { align-items: center; } }
-.modal-box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius) var(--radius) 0 0; width: 100%; max-width: 480px; padding: 24px 20px 32px; }
-@media(min-width:500px) { .modal-box { border-radius: var(--radius); } }
-.modal-player-name { font-family: 'Bebas Neue', sans-serif; font-size: 26px; color: var(--gold); letter-spacing: 2px; margin-bottom: 4px; }
-.modal-player-total { font-size: 12px; color: var(--text-muted); margin-bottom: 20px; }
-.modal-player-total strong { color: var(--text-soft); }
-.modal-fields { display: flex; flex-direction: column; gap: 14px; }
-.modal-field-row { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; display: flex; align-items: center; gap: 12px; }
-.modal-field-left { flex: 1; }
-.modal-field-type { font-size: 9px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 2px; }
-.modal-field-value { font-family: 'Bebas Neue', sans-serif; font-size: 22px; }
-.modal-field-note { font-size: 10px; color: var(--text-muted); margin-top: 1px; }
-.modal-field-right { display: flex; gap: 6px; align-items: center; }
-.modal-input { background: var(--surface3); border: 1px solid var(--border); border-radius: 6px; padding: 8px 10px; color: var(--text); font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 600; outline: none; width: 88px; text-align: center; }
-.modal-input::placeholder { color: var(--text-muted); font-size: 11px; }
-.modal-btn-action { border: none; border-radius: 6px; padding: 8px 12px; font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; cursor: pointer; line-height: 1; }
-.modal-close { display: block; width: 100%; margin-top: 20px; background: var(--surface2); border: 1px solid var(--border); color: var(--text-soft); border-radius: var(--radius-sm); padding: 12px; font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; }
-.confirm-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.75); display: flex; align-items: center; justify-content: center; z-index: 300; }
-.confirm-box { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; max-width: 300px; width: 90%; text-align: center; }
-.confirm-msg { font-size: 15px; font-weight: 600; line-height: 1.5; margin-bottom: 20px; }
-.confirm-msg strong { color: var(--gold); }
-.confirm-btns { display: flex; gap: 10px; justify-content: center; }
-.confirm-yes { background: var(--red-dim); border: 1px solid rgba(224,92,92,0.35); color: var(--red); border-radius: var(--radius-sm); padding: 10px 24px; font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; cursor: pointer; }
-.confirm-no { background: var(--surface3); border: 1px solid var(--border); color: var(--text-soft); border-radius: var(--radius-sm); padding: 10px 24px; font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; cursor: pointer; }
-.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--surface3); border: 1px solid var(--border); border-radius: 30px; padding: 10px 22px; font-size: 13px; font-weight: 600; color: var(--text); transition: transform 0.3s; z-index: 999; white-space: nowrap; }
-.toast.show { transform: translateX(-50%) translateY(0); }
-.exp-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; margin-bottom: 16px; }
-.exp-card-title { font-size: 10px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
-.exp-card-title::after { content:''; flex:1; height:1px; background:var(--border); }
-.exp-total-box { background: var(--surface2); border: 1px solid rgba(230,185,74,0.2); border-radius: var(--radius-sm); padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; margin-top: 14px; }
-.exp-total-label { font-size: 11px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); }
-.exp-total-value { font-family: 'Bebas Neue', sans-serif; font-size: 24px; color: var(--gold); }
-.order-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
-.order-card { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px; }
-.order-card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; gap: 8px; flex-wrap: wrap; }
-.order-card-label { font-size: 13px; font-weight: 800; color: var(--gold); }
-.order-card-val { font-family: 'Bebas Neue', sans-serif; font-size: 18px; color: var(--gold); }
-.order-who { margin-top: 8px; }
-.order-who-label { font-size: 10px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; }
-.order-players { display: flex; flex-wrap: wrap; gap: 6px; }
-.order-player-chip { background: var(--surface3); border: 1px solid var(--border); border-radius: 20px; padding: 4px 12px; font-size: 12px; font-weight: 700; color: var(--text-muted); cursor: pointer; user-select: none; transition: all 0.15s; }
-.order-player-chip.selected { background: rgba(230,185,74,0.15); border-color: var(--gold); color: var(--gold); }
-.order-payer-chip { background: var(--surface3); border: 1px solid var(--border); border-radius: 20px; padding: 4px 12px; font-size: 12px; font-weight: 700; color: var(--text-muted); cursor: pointer; user-select: none; transition: all 0.15s; }
-.order-payer-chip.selected { background: rgba(76,175,125,0.15); border-color: var(--green); color: var(--green); }
-.btn-add-order { background: var(--surface2); border: 1px solid rgba(230,185,74,0.25); color: var(--gold); border-radius: var(--radius-sm); padding: 10px; font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; width: 100%; }
-.exp-player-row { display: flex; align-items: center; justify-content: space-between; padding: 9px 12px; border-bottom: 1px solid var(--border); font-size: 13px; }
-.exp-player-row:last-child { border-bottom: none; }
-.exp-player-name { font-weight: 700; }
-.tab-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #161616; border-top: 1px solid rgba(255,255,255,0.08); display: flex; z-index: 150; padding-bottom: env(safe-area-inset-bottom); }
-.tab-btn { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px 0 8px; background: none; border: none; cursor: pointer; gap: 4px; }
-.tab-btn .tab-icon { font-size: 22px; line-height: 1; }
-.tab-btn .tab-label { font-family: 'Nunito', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: rgba(240,240,240,0.35); }
-.tab-btn.active .tab-label { color: var(--gold); }
-.result-tab-page { max-width: 680px; margin: 0 auto; padding: 20px 16px 100px; display: none; }
-.result-tab-empty { text-align: center; padding: 60px 20px; color: var(--text-muted); font-size: 14px; }
-.result-tab-empty-icon { font-size: 40px; margin-bottom: 12px; }
-.rt-card { background: var(--surface); border: 1px solid rgba(230,185,74,0.2); border-radius: var(--radius); overflow: hidden; margin-bottom: 16px; }
-.rt-header { background: linear-gradient(135deg, rgba(230,185,74,0.1), rgba(230,185,74,0.03)); padding: 16px 20px; border-bottom: 1px solid rgba(230,185,74,0.12); }
-.rt-title { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--gold); letter-spacing: 2px; }
-.rt-meta { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
-.rt-table { width: 100%; border-collapse: collapse; }
-.rt-table th { font-size: 9px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); padding: 8px 10px; background: var(--surface2); text-align: right; white-space: nowrap; }
-.rt-table th:first-child { text-align: left; width: 28px; }
-.rt-table th:nth-child(2) { text-align: left; }
-.rt-table td { padding: 10px; font-size: 12px; border-bottom: 1px solid var(--border); text-align: right; white-space: nowrap; }
-.rt-table td:first-child { text-align: center; font-family: 'Bebas Neue', sans-serif; font-size: 16px; }
-.rt-table td:nth-child(2) { text-align: left; font-weight: 800; font-size: 13px; }
-.rt-table tr.rt-winner { background: rgba(230,185,74,0.03); }
-.rt-table tr.rt-loser { opacity: 0.4; }
-.rt-table tr.rt-sep td { background: var(--surface2); color: var(--text-muted); font-size: 9px; letter-spacing: 3px; text-align: center; padding: 5px; }
-.rt-table tr.rt-footer td { background: var(--surface2); font-weight: 800; color: var(--gold); border-top: 1px solid rgba(230,185,74,0.2); }
-.rt-img-btn { display: block; width: 100%; background: var(--green-dim); border: 1px solid rgba(76,175,125,0.25); color: var(--green); border-radius: var(--radius-sm); padding: 13px; font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; text-align: center; }
+:root{--bg:#0d0d0d;--surface:#161616;--surface2:#1e1e1e;--surface3:#272727;--border:rgba(255,255,255,0.07);--gold:#e6b94a;--gold-dim:rgba(230,185,74,0.15);--text:#f0f0f0;--text-muted:rgba(240,240,240,0.4);--text-soft:rgba(240,240,240,0.65);--green:#4caf7d;--green-dim:rgba(76,175,125,0.12);--red:#e05c5c;--red-dim:rgba(224,92,92,0.12);--blue:#5c9ee0;--blue-dim:rgba(92,158,224,0.12);--purple:#a07de0;--purple-dim:rgba(160,125,224,0.12);--radius:12px;--radius-sm:8px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);font-family:'Nunito',sans-serif;color:var(--text);min-height:100vh;padding-bottom:60px}
+.header{background:var(--surface);border-bottom:1px solid var(--border);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px;color:var(--gold);line-height:1}
+.logo-sub{font-size:10px;color:var(--text-muted);letter-spacing:3px;text-transform:uppercase}
+.sync-badge{display:flex;align-items:center;gap:5px;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.sync-dot{width:7px;height:7px;border-radius:50%;background:var(--text-muted);transition:background 0.3s}
+.sync-dot.online{background:var(--green);box-shadow:0 0 6px rgba(76,175,125,0.5)}
+.sync-dot.syncing{background:var(--gold);animation:pulse 0.8s infinite}
+.sync-dot.offline{background:var(--red)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.sync-label{color:var(--text-muted)}
+.header-right{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+.pot-live{text-align:right}
+.pot-live-label{font-size:10px;color:var(--text-muted);letter-spacing:2px;text-transform:uppercase}
+.pot-live-value{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--gold);letter-spacing:1px;line-height:1}
+.btn-reset{background:none;border:1px solid rgba(224,92,92,0.3);color:rgba(224,92,92,0.6);border-radius:6px;padding:3px 10px;font-family:'Nunito',sans-serif;font-size:10px;font-weight:700;cursor:pointer;letter-spacing:1px}
+.main{max-width:680px;margin:0 auto;padding:20px 16px 80px}
+.section-title{font-size:10px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px;margin-top:28px;display:flex;align-items:center;gap:8px}
+.section-title:first-child{margin-top:0}
+.section-title::after{content:'';flex:1;height:1px;background:var(--border)}
+.setup-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px}
+.setup-row{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap}
+.field-group{display:flex;flex-direction:column;gap:5px;flex:1;min-width:120px}
+.field-label{font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted)}
+.field-input{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 13px;color:var(--text);font-family:'Nunito',sans-serif;font-size:14px;font-weight:600;outline:none;transition:border-color 0.2s;width:100%}
+.field-input:focus{border-color:var(--gold)}
+.field-input::placeholder{color:var(--text-muted);font-weight:400}
+.session-info-bar{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.session-info-left{display:flex;align-items:center;gap:10px}
+.session-info-date{font-size:15px;font-weight:700}
+.session-info-buyin{background:var(--gold-dim);border:1px solid rgba(230,185,74,0.2);border-radius:20px;padding:3px 10px;font-size:12px;font-weight:700;color:var(--gold)}
+.btn-edit-session{background:none;border:1px solid var(--border);color:var(--text-muted);border-radius:6px;padding:5px 12px;font-family:'Nunito',sans-serif;font-size:11px;font-weight:700;cursor:pointer}
+.add-form{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px}
+.add-form-row{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap}
+.btn-add{background:var(--gold);color:#0d0d0d;border:none;border-radius:var(--radius-sm);padding:10px 22px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:pointer;white-space:nowrap;height:42px;align-self:flex-end;transition:opacity 0.15s}
+.btn-add:hover{opacity:0.85}
+.inv-table{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.inv-header,.inv-row,.inv-footer{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr 1.1fr 32px}
+.inv-header{background:var(--surface2);border-bottom:1px solid var(--border)}
+.inv-row{border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.15s}
+.inv-row:last-child{border-bottom:none}
+.inv-row:hover{background:rgba(230,185,74,0.04)}
+.inv-footer{background:var(--surface2);border-top:1px solid rgba(230,185,74,0.2)}
+.inv-cell{padding:10px 8px;font-size:12px;display:flex;align-items:center}
+.inv-cell.center{justify-content:center}
+.inv-cell.right{justify-content:flex-end}
+.inv-header .inv-cell{font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted)}
+.inv-footer .inv-cell{font-weight:800;color:var(--gold);font-size:12px}
+.player-name-cell{font-weight:800;font-size:13px;display:flex;align-items:center;gap:5px}
+.edit-hint{font-size:9px;color:var(--text-muted);font-weight:400;background:var(--surface2);border-radius:4px;padding:2px 5px}
+.btn-remove-sm{background:none;border:none;color:rgba(224,92,92,0.35);font-size:14px;cursor:pointer;padding:4px;display:flex;align-items:center;justify-content:center}
+.btn-remove-sm:hover{color:var(--red)}
+@media(max-width:480px){.inv-header,.inv-row,.inv-footer{grid-template-columns:1.6fr 1fr 1fr 1fr 1fr 1fr 28px}.inv-cell{padding:9px 5px;font-size:11px}.edit-hint{display:none}}
+.prizes-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
+.prize-rows{display:flex;flex-direction:column;gap:10px}
+.prize-row-item{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px}
+.prize-row-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.prize-rank{font-family:'Bebas Neue',sans-serif;font-size:17px;min-width:65px}
+.prize-player-select{flex:1;min-width:120px;background:var(--surface3);border:1px solid var(--border);border-radius:6px;padding:7px 10px;color:var(--text);font-family:'Nunito',sans-serif;font-size:13px;font-weight:600;outline:none;cursor:pointer}
+.prize-amount-group{display:flex;align-items:center;gap:6px}
+.prize-amount-label{font-size:11px;color:var(--text-muted)}
+.prize-amount-input{background:var(--surface3);border:1px solid var(--border);border-radius:6px;padding:7px 10px;color:var(--text);font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;outline:none;width:110px}
+.prize-hint{font-size:11px;color:var(--text-muted);margin-top:7px;padding-left:75px}
+.prize-hint strong{color:var(--gold)}
+.prizes-footer{margin-top:16px;padding-top:14px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.prizes-remain{font-size:13px;color:var(--text-soft)}
+.prizes-remain strong{color:var(--gold);font-size:16px}
+.prizes-remain.over strong{color:var(--red)}
+.btn-calc{background:var(--gold);color:#0d0d0d;border:none;border-radius:var(--radius-sm);padding:11px 26px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:pointer}
+.results-card{background:var(--surface);border:1px solid rgba(230,185,74,0.2);border-radius:var(--radius);overflow:hidden}
+.results-header{background:linear-gradient(135deg,rgba(230,185,74,0.1),rgba(230,185,74,0.03));padding:16px 20px;border-bottom:1px solid rgba(230,185,74,0.12);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.results-title{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--gold);letter-spacing:2px}
+.results-pot{font-size:13px;color:var(--text-soft)}
+.results-pot strong{color:var(--gold)}
+.result-item{display:flex;align-items:center;gap:14px;padding:13px 20px;border-bottom:1px solid var(--border)}
+.result-item.winner{background:rgba(230,185,74,0.03)}
+.result-item.loser{opacity:0.45}
+.result-medal{font-size:22px;width:30px;text-align:center;flex-shrink:0}
+.result-info{flex:1}
+.result-name{font-size:16px;font-weight:800}
+.result-spent{font-size:11px;color:var(--text-muted);margin-top:2px}
+.result-right{text-align:right}
+.result-prize{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--gold)}
+.result-pnl{font-size:12px;font-weight:700;margin-top:1px}
+.pnl-pos{color:var(--green)}.pnl-neg{color:var(--red)}.pnl-zero{color:var(--text-muted)}
+.result-actions{display:flex;gap:10px;padding:14px 16px;flex-wrap:wrap}
+.btn-save{flex:1;min-width:140px;background:var(--surface2);border:1px solid var(--border);color:var(--text-soft);border-radius:var(--radius-sm);padding:11px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;cursor:pointer}
+.btn-save:hover{border-color:var(--gold);color:var(--gold)}
+.btn-screenshot{flex:1;min-width:140px;background:var(--green-dim);border:1px solid rgba(76,175,125,0.25);color:var(--green);border-radius:var(--radius-sm);padding:11px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;cursor:pointer}
+.history-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.history-item{display:flex;align-items:center;padding:12px 16px;border-bottom:1px solid var(--border);font-size:13px;gap:10px}
+.history-name{font-weight:700}
+.history-meta{font-size:11px;color:var(--text-muted);margin-top:2px}
+.history-pot{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--gold);flex-shrink:0}
+.history-footer{padding:10px 16px;border-top:1px solid var(--border);background:var(--surface2);text-align:center}
+.btn-clear{background:none;border:none;color:rgba(224,92,92,0.45);font-family:'Nunito',sans-serif;font-size:12px;cursor:pointer}
+.btn-remove-hist{background:none;border:1px solid rgba(224,92,92,0.2);color:var(--red);border-radius:6px;padding:4px 9px;font-size:14px;cursor:pointer;flex-shrink:0}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);display:flex;align-items:flex-end;justify-content:center;z-index:200}
+@media(min-width:500px){.modal-overlay{align-items:center}}
+.modal-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius) var(--radius) 0 0;width:100%;max-width:480px;padding:24px 20px 32px}
+@media(min-width:500px){.modal-box{border-radius:var(--radius)}}
+.modal-player-name{font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--gold);letter-spacing:2px;margin-bottom:4px}
+.modal-player-total{font-size:12px;color:var(--text-muted);margin-bottom:20px}
+.modal-player-total strong{color:var(--text-soft)}
+.modal-fields{display:flex;flex-direction:column;gap:14px}
+.modal-field-row{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;display:flex;align-items:center;gap:12px}
+.modal-field-left{flex:1}
+.modal-field-type{font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:2px}
+.modal-field-value{font-family:'Bebas Neue',sans-serif;font-size:22px}
+.modal-field-note{font-size:10px;color:var(--text-muted);margin-top:1px}
+.modal-field-right{display:flex;gap:6px;align-items:center}
+.modal-input{background:var(--surface3);border:1px solid var(--border);border-radius:6px;padding:8px 10px;color:var(--text);font-family:'Nunito',sans-serif;font-size:13px;font-weight:600;outline:none;width:88px;text-align:center}
+.modal-input::placeholder{color:var(--text-muted);font-size:11px}
+.modal-btn-action{border:none;border-radius:6px;padding:8px 12px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:pointer;line-height:1}
+.modal-close{display:block;width:100%;margin-top:20px;background:var(--surface2);border:1px solid var(--border);color:var(--text-soft);border-radius:var(--radius-sm);padding:12px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;cursor:pointer}
+.modal-close:hover{border-color:var(--gold);color:var(--gold)}
+.confirm-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);display:flex;align-items:center;justify-content:center;z-index:300}
+.confirm-box{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:24px;max-width:300px;width:90%;text-align:center}
+.confirm-msg{font-size:15px;font-weight:600;line-height:1.5;margin-bottom:20px}
+.confirm-msg strong{color:var(--gold)}
+.confirm-btns{display:flex;gap:10px;justify-content:center}
+.confirm-yes{background:var(--red-dim);border:1px solid rgba(224,92,92,0.35);color:var(--red);border-radius:var(--radius-sm);padding:10px 24px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:pointer}
+.confirm-no{background:var(--surface3);border:1px solid var(--border);color:var(--text-soft);border-radius:var(--radius-sm);padding:10px 24px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:pointer}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--surface3);border:1px solid var(--border);border-radius:30px;padding:10px 22px;font-size:13px;font-weight:600;color:var(--text);transition:transform 0.3s;z-index:999;white-space:nowrap}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.exp-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:16px}
+.exp-card-title{font-size:10px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--text-muted);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.exp-card-title::after{content:'';flex:1;height:1px;background:var(--border)}
+.exp-total-box{background:var(--surface2);border:1px solid rgba(230,185,74,0.2);border-radius:var(--radius-sm);padding:12px 16px;display:flex;justify-content:space-between;align-items:center;margin-top:14px}
+.exp-total-label{font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted)}
+.exp-total-value{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--gold)}
+.order-list{display:flex;flex-direction:column;gap:10px;margin-bottom:14px}
+.order-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:13px}
+.order-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;gap:8px;flex-wrap:wrap}
+.order-card-label{font-size:13px;font-weight:800;color:var(--gold)}
+.order-card-val{font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--gold)}
+.order-who{margin-top:8px}
+.order-who-label{font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px}
+.order-players{display:flex;flex-wrap:wrap;gap:6px}
+.order-player-chip{background:var(--surface3);border:1px solid var(--border);border-radius:20px;padding:4px 12px;font-size:12px;font-weight:700;color:var(--text-muted);cursor:pointer;user-select:none;transition:all 0.15s}
+.order-player-chip.selected{background:rgba(230,185,74,0.15);border-color:var(--gold);color:var(--gold)}
+.order-payer-chip{background:var(--surface3);border:1px solid var(--border);border-radius:20px;padding:4px 12px;font-size:12px;font-weight:700;color:var(--text-muted);cursor:pointer;user-select:none;transition:all 0.15s}
+.order-payer-chip.selected{background:rgba(76,175,125,0.15);border-color:var(--green);color:var(--green)}
+.btn-add-order{background:var(--surface2);border:1px solid rgba(230,185,74,0.25);color:var(--gold);border-radius:var(--radius-sm);padding:10px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;cursor:pointer;width:100%}
+.exp-player-row{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border-bottom:1px solid var(--border);font-size:13px}
+.exp-player-row:last-child{border-bottom:none}
+.exp-player-name{font-weight:700}
+.tab-bar{position:fixed;bottom:0;left:0;right:0;background:#161616;border-top:1px solid rgba(255,255,255,0.08);display:flex;z-index:150;padding-bottom:env(safe-area-inset-bottom)}
+.tab-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 0 8px;background:none;border:none;cursor:pointer;gap:4px}
+.tab-btn .tab-icon{font-size:20px;line-height:1}
+.tab-btn .tab-label{font-family:'Nunito',sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(240,240,240,0.35)}
+.tab-btn.active .tab-label{color:var(--gold)}
+.tab-page{max-width:680px;margin:0 auto;padding:20px 16px 100px;display:none}
+.empty-state{text-align:center;padding:60px 20px;color:var(--text-muted);font-size:14px}
+.empty-icon{font-size:40px;margin-bottom:12px}
+.rt-card{background:var(--surface);border:1px solid rgba(230,185,74,0.2);border-radius:var(--radius);overflow:hidden;margin-bottom:16px}
+.rt-header{background:linear-gradient(135deg,rgba(230,185,74,0.1),rgba(230,185,74,0.03));padding:16px 20px;border-bottom:1px solid rgba(230,185,74,0.12)}
+.rt-title{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--gold);letter-spacing:2px}
+.rt-meta{font-size:12px;color:var(--text-muted);margin-top:3px}
+.rt-table{width:100%;border-collapse:collapse}
+.rt-table th{font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);padding:8px 10px;background:var(--surface2);text-align:right;white-space:nowrap}
+.rt-table th:first-child{text-align:left;width:28px}
+.rt-table th:nth-child(2){text-align:left}
+.rt-table td{padding:10px;font-size:12px;border-bottom:1px solid var(--border);text-align:right;white-space:nowrap}
+.rt-table td:first-child{text-align:center;font-family:'Bebas Neue',sans-serif;font-size:16px}
+.rt-table td:nth-child(2){text-align:left;font-weight:800;font-size:13px}
+.rt-table tr.rt-winner{background:rgba(230,185,74,0.03)}
+.rt-table tr.rt-loser{opacity:0.4}
+.rt-table tr.rt-sep td{background:var(--surface2);color:var(--text-muted);font-size:9px;letter-spacing:3px;text-align:center;padding:5px}
+.rt-table tr.rt-footer td{background:var(--surface2);font-weight:800;color:var(--gold);border-top:1px solid rgba(230,185,74,0.2)}
+.cash-pnl-pos{color:var(--green);font-weight:800}
+.cash-pnl-neg{color:var(--red);font-weight:800}
+.cash-pnl-zero{color:var(--text-muted);font-weight:800}
+.rt-img-btn{display:block;width:100%;background:var(--green-dim);border:1px solid rgba(76,175,125,0.25);color:var(--green);border-radius:var(--radius-sm);padding:13px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;cursor:pointer;text-align:center}
+.stats-timer-box{background:var(--surface);border:1px solid rgba(230,185,74,0.2);border-radius:var(--radius);padding:20px;text-align:center;margin-bottom:16px}
+.stats-timer-label{font-size:10px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px}
+.stats-timer{font-family:'Bebas Neue',sans-serif;font-size:56px;color:var(--gold);letter-spacing:4px;line-height:1}
+.stats-timer-sub{font-size:11px;color:var(--text-muted);margin-top:6px}
+.stats-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden}
+.stats-card-header{padding:12px 16px;background:var(--surface2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.stats-card-title{font-size:10px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--text-muted)}
+.stats-player-block{padding:14px 16px;border-bottom:1px solid var(--border)}
+.stats-player-block:last-child{border-bottom:none}
+.stats-player-name{font-size:15px;font-weight:800;margin-bottom:10px}
+.stats-row{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px;gap:10px}
+.stats-label{font-size:11px;color:var(--text-muted);font-weight:600;flex-shrink:0;min-width:90px}
+.stats-val{font-size:12px;font-weight:700;text-align:right}
+.stats-chips{display:flex;flex-wrap:wrap;gap:5px;justify-content:flex-end}
+.stats-chip{font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px}
+.chip-rebuy{background:rgba(76,175,125,0.12);color:var(--green);border:1px solid rgba(76,175,125,0.2)}
+.chip-jonsnow{background:rgba(160,125,224,0.08);color:var(--purple);border:1px solid rgba(160,125,224,0.15)}
+.chip-jonsnow-mine{background:rgba(160,125,224,0.25);color:var(--purple);border:1px solid rgba(160,125,224,0.4);font-weight:900}
+.stats-no-data{padding:20px;text-align:center;color:var(--text-muted);font-size:13px}
 </style>
 </head>
 <body>
 <div class="header">
-  <div><div class="logo">HOME GAME</div><div class="logo-sub">♠ ♥ ♦ ♣ Poker</div></div>
-  <div class="header-right">
-    <div class="sync-badge"><div class="sync-dot" id="syncDot"></div><span class="sync-label" id="syncLabel">conectando...</span></div>
-    <div class="pot-live"><div class="pot-live-label">Pote Total</div><div class="pot-live-value" id="livePot">R$ 0,00</div></div>
-    <button class="btn-reset" onclick="resetSession()">↺ Nova Sessão</button>
-  </div>
+<div><div class="logo">THC - HOME GAME</div><div class="logo-sub">♠ ♥ ♦ ♣ Poker</div></div>
+<div class="header-right">
+<div class="sync-badge"><div class="sync-dot" id="syncDot"></div><span class="sync-label" id="syncLabel">conectando...</span></div>
+<div class="pot-live"><div class="pot-live-label">Pote Total</div><div class="pot-live-value" id="livePot">R$ 0,00</div></div>
+<button class="btn-reset" onclick="resetSession()">↺ Nova Sessão</button>
+</div>
 </div>
 <div class="main">
-  <div id="setupSection">
-    <div class="section-title">Configurar Sessão</div>
-    <div class="setup-card">
-      <div class="setup-row">
-        <div class="field-group">
-          <div class="field-label">Data da Sessão</div>
-          <input class="field-input" type="text" id="setupDate" placeholder="ex: 02/05/2025" onkeydown="if(event.key==='Enter') document.getElementById('setupBuyin').focus()" />
-        </div>
-        <div class="field-group" style="max-width:160px;">
-          <div class="field-label">Valor do Buy-In (R$)</div>
-          <input class="field-input" type="number" id="setupBuyin" placeholder="0,00" min="0" step="0.01" onkeydown="if(event.key==='Enter') confirmSetup()" />
-        </div>
-        <button class="btn-add" onclick="confirmSetup()">Confirmar →</button>
-      </div>
-    </div>
-  </div>
-  <div id="sessionInfoBar" style="display:none">
-    <div class="section-title">Sessão</div>
-    <div class="session-info-bar">
-      <div class="session-info-left">
-        <span>📅</span>
-        <span class="session-info-date" id="infoDate"></span>
-        <span class="session-info-buyin" id="infoBuyin"></span>
-      </div>
-      <button class="btn-edit-session" onclick="editSetup()">✏ Editar</button>
-    </div>
-  </div>
-  <div id="addPlayerSection" style="display:none">
-    <div class="section-title">Adicionar Jogador</div>
-    <div class="add-form">
-      <div class="add-form-row">
-        <div class="field-group">
-          <div class="field-label">Nome</div>
-          <input class="field-input" type="text" id="newName" placeholder="Nome do jogador" onkeydown="if(event.key==='Enter') addPlayer()" />
-        </div>
-        <button class="btn-add" onclick="addPlayer()">+ Adicionar</button>
-      </div>
-    </div>
-  </div>
-  <div id="investSection" style="display:none">
-    <div class="section-title">Investimentos · toque no jogador para editar</div>
-    <div class="inv-table">
-      <div class="inv-header">
-        <div class="inv-cell">Jogador</div>
-        <div class="inv-cell center" style="color:var(--gold)">Buy-In</div>
-        <div class="inv-cell center" style="color:var(--green)">Rebuy</div>
-        <div class="inv-cell center" style="color:var(--blue)">Add-On</div>
-        <div class="inv-cell center" style="color:var(--purple)">J.Snow</div>
-        <div class="inv-cell right">Total</div>
-        <div class="inv-cell"></div>
-      </div>
-      <div id="playerRows"></div>
-      <div class="inv-footer" id="footerRow"></div>
-    </div>
-  </div>
-  <div id="prizesSection" style="display:none">
-    <div class="section-title">Distribuição de Prêmios</div>
-    <div class="prizes-card">
-      <div class="prize-rows" id="prizeRows"></div>
-      <div class="prizes-footer">
-        <div class="prizes-remain" id="prizesRemain">Saldo restante: <strong>R$ 0,00</strong></div>
-        <button class="btn-calc" onclick="calcResults()">Ver Resultado →</button>
-      </div>
-    </div>
-  </div>
-  <div id="resultsSection" style="display:none">
-    <div class="section-title">Resultado Final</div>
-    <div class="results-card">
-      <div class="results-header">
-        <div class="results-title">🏆 Premiação</div>
-        <div class="results-pot">Pote: <strong id="resultPotDisplay"></strong></div>
-      </div>
-      <div id="resultsList"></div>
-      <div class="result-actions">
-        <button class="btn-screenshot" onclick="exportImage()">📸 Copiar como Imagem</button>
-        <button class="btn-save" onclick="saveSession()">💾 Salvar no Histórico</button>
-      </div>
-    </div>
-  </div>
-  <div id="historySection" style="display:none">
-    <div class="section-title">Histórico de Sessões</div>
-    <div class="history-card">
-      <div id="historyList"></div>
-      <div class="history-footer"><button class="btn-clear" onclick="clearHistory()">Limpar histórico</button></div>
-    </div>
-  </div>
+<div id="setupSection">
+<div class="section-title">Configurar Sessão</div>
+<div class="setup-card"><div class="setup-row">
+<div class="field-group"><div class="field-label">Data da Sessão</div><input class="field-input" type="text" id="setupDate" placeholder="ex: 02/05/2025" onkeydown="if(event.key==='Enter')document.getElementById('setupBuyin').focus()"/></div>
+<div class="field-group" style="max-width:160px;"><div class="field-label">Valor do Buy-In (R$)</div><input class="field-input" type="number" id="setupBuyin" placeholder="0,00" min="0" step="0.01" onkeydown="if(event.key==='Enter')confirmSetup()"/></div>
+<button class="btn-add" onclick="confirmSetup()">Confirmar →</button>
+</div></div>
+</div>
+<div id="sessionInfoBar" style="display:none">
+<div class="section-title">Sessão</div>
+<div class="session-info-bar">
+<div class="session-info-left"><span>📅</span><span class="session-info-date" id="infoDate"></span><span class="session-info-buyin" id="infoBuyin"></span></div>
+<button class="btn-edit-session" onclick="editSetup()">✏ Editar</button>
+</div>
+</div>
+<div id="addPlayerSection" style="display:none">
+<div class="section-title">Adicionar Jogador</div>
+<div class="add-form"><div class="add-form-row"><div class="field-group"><div class="field-label">Nome</div><input class="field-input" type="text" id="newName" placeholder="Nome do jogador" onkeydown="if(event.key==='Enter')addPlayer()"/></div><button class="btn-add" onclick="addPlayer()">+ Adicionar</button></div></div>
+</div>
+<div id="investSection" style="display:none">
+<div class="section-title">Investimentos · toque no jogador para editar</div>
+<div class="inv-table">
+<div class="inv-header"><div class="inv-cell">Jogador</div><div class="inv-cell center" style="color:var(--gold)">Buy-In</div><div class="inv-cell center" style="color:var(--green)">Rebuy</div><div class="inv-cell center" style="color:var(--blue)">Add-On</div><div class="inv-cell center" style="color:var(--purple)">J.Snow</div><div class="inv-cell right">Total</div><div class="inv-cell"></div></div>
+<div id="playerRows"></div>
+<div class="inv-footer" id="footerRow"></div>
+</div>
+</div>
+<div id="prizesSection" style="display:none">
+<div class="section-title">Distribuição de Prêmios</div>
+<div class="prizes-card"><div class="prize-rows" id="prizeRows"></div><div class="prizes-footer"><div class="prizes-remain" id="prizesRemain">Saldo restante: <strong>R$ 0,00</strong></div><button class="btn-calc" onclick="calcResults()">Ver Resultado →</button></div></div>
+</div>
+<div id="resultsSection" style="display:none">
+<div class="section-title">Resultado Final</div>
+<div class="results-card">
+<div class="results-header"><div class="results-title">🏆 Premiação</div><div class="results-pot">Pote: <strong id="resultPotDisplay"></strong></div></div>
+<div id="resultsList"></div>
+<div class="result-actions"><button class="btn-screenshot" onclick="exportImage()">📸 Copiar como Imagem</button><button class="btn-save" onclick="saveSession()">💾 Salvar no Histórico</button></div>
+</div>
+</div>
+<div id="historySection" style="display:none">
+<div class="section-title">Histórico de Sessões</div>
+<div class="history-card"><div id="historyList"></div><div class="history-footer"><button class="btn-clear" onclick="clearHistory()">Limpar histórico</button></div></div>
+</div>
 </div>
 <div class="tab-bar">
-  <button class="tab-btn active" id="tabBtnMain" onclick="switchTab('main')">
-    <span class="tab-icon">🃏</span><span class="tab-label">Mesa</span>
-  </button>
-  <button class="tab-btn" id="tabBtnExp" onclick="switchTab('exp')">
-    <span class="tab-icon">💸</span><span class="tab-label">Gastos</span>
-  </button>
-  <button class="tab-btn" id="tabBtnResult" onclick="switchTab('result')">
-    <span class="tab-icon">🏆</span><span class="tab-label">Resultado</span>
-  </button>
+<button class="tab-btn active" id="tabBtnMain" onclick="switchTab('main')"><span class="tab-icon">🃏</span><span class="tab-label">Mesa</span></button>
+<button class="tab-btn" id="tabBtnExp" onclick="switchTab('exp')"><span class="tab-icon">💸</span><span class="tab-label">Gastos</span></button>
+<button class="tab-btn" id="tabBtnStats" onclick="switchTab('stats')"><span class="tab-icon">📊</span><span class="tab-label">Stats</span></button>
+<button class="tab-btn" id="tabBtnCash" onclick="switchTab('cash')"><span class="tab-icon">💰</span><span class="tab-label">Cash</span></button>
+<button class="tab-btn" id="tabBtnResult" onclick="switchTab('result')"><span class="tab-icon">🏆</span><span class="tab-label">Resultado</span></button>
 </div>
-<div class="result-tab-page" id="expTabPage" style="display:none">
-  <div style="max-width:680px;margin:0 auto;padding:20px 16px 100px;">
-    <div class="exp-card">
-      <div class="exp-card-title">Dealers</div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;">
-        <div class="field-group" style="max-width:130px;">
-          <div class="field-label">Nº de Dealers</div>
-          <input class="field-input" type="number" id="dealerQty" placeholder="0" min="0" step="1" oninput="this.value=Math.floor(Math.abs(this.value)||0);saveAndSync();renderDealerPayers()" />
-        </div>
-        <div class="field-group" style="max-width:160px;">
-          <div class="field-label">Valor por Dealer (R$)</div>
-          <input class="field-input" type="number" id="dealerVal" placeholder="0,00" min="0" step="0.01" oninput="saveAndSync();renderDealerPayers()" />
-        </div>
-      </div>
-      <div id="dealerPayerSection" style="display:none;margin-top:10px;">
-        <div class="order-who-label" style="color:var(--green);font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Quem pagou</div>
-        <div class="order-players" id="dealerPayerChips"></div>
-      </div>
-      <div class="exp-total-box" style="margin-top:14px;">
-        <span class="exp-total-label">Total Dealers</span>
-        <span class="exp-total-value" id="dealerTotal">R$ 0,00</span>
-      </div>
-    </div>
-    <div class="exp-card">
-      <div class="exp-card-title">Aluguel / Espaço / Serviço</div>
-      <div class="field-group" style="max-width:180px;">
-        <div class="field-label">Valor (R$)</div>
-        <input class="field-input" type="number" id="rentVal" placeholder="0,00" min="0" step="0.01" oninput="saveAndSync();renderRentPayers()" />
-      </div>
-      <div id="rentPayerSection" style="display:none;margin-top:10px;">
-        <div class="order-who-label" style="color:var(--green);font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Quem pagou</div>
-        <div class="order-players" id="rentPayerChips"></div>
-      </div>
-    </div>
-    <div class="exp-card">
-      <div class="exp-card-title">Comida & Pedidos</div>
-      <div class="order-list" id="orderList"></div>
-      <button class="btn-add-order" onclick="addOrder()">+ Novo Pedido</button>
-    </div>
-    <div class="exp-card" id="expSummaryCard" style="display:none">
-      <div class="exp-card-title">Resumo por Jogador</div>
-      <div id="expSummaryList" style="background:var(--surface2);border-radius:var(--radius-sm);overflow:hidden;"></div>
-      <div class="exp-total-box" style="margin-top:10px;">
-        <span class="exp-total-label">Total Gasto na Noite</span>
-        <span class="exp-total-value" id="expGrandTotal">R$ 0,00</span>
-      </div>
-    </div>
-  </div>
+<div class="tab-page" id="expTabPage">
+<div class="exp-card"><div class="exp-card-title">Dealers</div><div style="display:flex;gap:10px;flex-wrap:wrap;"><div class="field-group" style="max-width:130px;"><div class="field-label">Nº de Dealers</div><input class="field-input" type="number" id="dealerQty" placeholder="0" min="0" step="1" oninput="this.value=Math.floor(Math.abs(this.value)||0);saveState();renderDealerPayers()"/></div><div class="field-group" style="max-width:160px;"><div class="field-label">Valor por Dealer (R$)</div><input class="field-input" type="number" id="dealerVal" placeholder="0,00" min="0" step="0.01" oninput="saveState();renderDealerPayers()"/></div></div><div id="dealerPayerSection" style="display:none;margin-top:10px;"><div class="order-who-label" style="color:var(--green);font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Quem pagou</div><div class="order-players" id="dealerPayerChips"></div></div><div class="exp-total-box" style="margin-top:14px;"><span class="exp-total-label">Total Dealers</span><span class="exp-total-value" id="dealerTotal">R$ 0,00</span></div></div>
+<div class="exp-card"><div class="exp-card-title">Aluguel / Espaço / Serviço</div><div class="field-group" style="max-width:180px;"><div class="field-label">Valor (R$)</div><input class="field-input" type="number" id="rentVal" placeholder="0,00" min="0" step="0.01" oninput="saveState();renderRentPayers()"/></div><div id="rentPayerSection" style="display:none;margin-top:10px;"><div class="order-who-label" style="color:var(--green);font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Quem pagou</div><div class="order-players" id="rentPayerChips"></div></div></div>
+<div class="exp-card"><div class="exp-card-title">Comida & Pedidos</div><div class="order-list" id="orderList"></div><button class="btn-add-order" onclick="addOrder()">+ Novo Pedido</button></div>
+<div class="exp-card" id="expSummaryCard" style="display:none"><div class="exp-card-title">Resumo por Jogador</div><div id="expSummaryList" style="background:var(--surface2);border-radius:var(--radius-sm);overflow:hidden;"></div><div class="exp-total-box" style="margin-top:10px;"><span class="exp-total-label">Total Gasto na Noite</span><span class="exp-total-value" id="expGrandTotal">R$ 0,00</span></div></div>
 </div>
-<div class="result-tab-page" id="resultTabPage">
-  <div id="resultTabContent">
-    <div class="result-tab-empty">
-      <div class="result-tab-empty-icon">🏆</div>
-      Calcule o resultado na aba Mesa para ver a tabela aqui
-    </div>
-  </div>
+<div class="tab-page" id="statsTabPage"><div id="statsContent"><div class="empty-state"><div class="empty-icon">📊</div>Inicie uma sessão para ver as estatísticas</div></div></div>
+<div class="tab-page" id="cashTabPage">
+<div style="max-width:680px;margin:0 auto;">
+<div class="section-title" style="margin-top:0">Custo do Dealer</div>
+<div class="exp-card" style="margin-bottom:16px;">
+<div style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;">
+<div class="field-group" style="max-width:200px;"><div class="field-label">Valor Total do Dealer (R$)</div><input class="field-input" type="number" id="cashDealerVal" placeholder="0,00" min="0" step="0.01" oninput="saveCashState();renderCashTable()"/></div>
 </div>
+<div id="cashDealerInfo" style="margin-top:10px;font-size:12px;color:var(--text-muted);"></div>
+</div>
+<div class="section-title">Adicionar Jogador</div>
+<div class="add-form"><div class="add-form-row"><div class="field-group"><div class="field-label">Nome</div><input class="field-input" type="text" id="cashNewName" placeholder="Nome do jogador" onkeydown="if(event.key==='Enter')addCashPlayer()"/></div><button class="btn-add" onclick="addCashPlayer()">+ Adicionar</button></div></div>
+<div id="cashTableSection" style="display:none;margin-top:20px;">
+<div class="section-title">Mesa Cash · toque no jogador para editar</div>
+<div class="inv-table">
+<div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr 32px;background:var(--surface2);border-bottom:1px solid var(--border);">
+<div class="inv-cell">Jogador</div>
+<div class="inv-cell center" style="color:var(--red)">Pago</div>
+<div class="inv-cell center" style="color:var(--blue)">Dealer</div>
+<div class="inv-cell center" style="color:var(--green)">Ganho</div>
+<div class="inv-cell center">P&L</div>
+<div class="inv-cell"></div>
+</div>
+<div id="cashPlayerRows"></div>
+<div id="cashFooterRow" style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr 32px;background:var(--surface2);border-top:1px solid rgba(230,185,74,0.2);"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="tab-page" id="resultTabPage"><div id="resultTabContent"><div class="empty-state"><div class="empty-icon">🏆</div>Calcule o resultado na aba Mesa para ver a tabela aqui</div></div></div>
 <div class="toast" id="toast"></div>
 <script>
-const DB = 'https://thc-homegame-default-rtdb.firebaseio.com/session.json';
-let players=[], prizeData=[], prizeCount=3;
-let sessionDate='', sessionBuyin=0, sessionReady=false;
-let orders=[], rentPayerId='', dealerPayerId='';
-let lastData='', localChange=false, pollInterval=null;
-
+let players=[],prizeData=[],prizeCount=3,sessionDate='',sessionBuyin=0,sessionReady=false,orders=[],rentPayerId='',dealerPayerId='',sessionStartTime=null,timerInterval=null,globalJonSnowCount=0,timerPaused=false,pausedElapsedMs=0;
 const uid=()=>Math.random().toString(36).slice(2,8);
 const fmt=v=>'R$ '+v.toFixed(2).replace('.',',').replace(/\B(?=(\d{3})+(?!\d))/g,'.');
 const fmtClean=v=>v.toFixed(2).replace('.',',').replace(/\B(?=(\d{3})+(?!\d))/g,'.');
 const parseMoney=s=>{const v=parseFloat(String(s).replace(',','.'));return isNaN(v)||v<0?0:v;};
 function playerTotal(p){return p.buyin+p.rebuy+p.addon+p.jonsnow;}
 function totalPot(){return players.reduce((a,p)=>a+playerTotal(p),0);}
-
-function setSyncStatus(status){
-  const dot=document.getElementById('syncDot'), label=document.getElementById('syncLabel');
-  dot.className='sync-dot '+status;
-  label.textContent=status==='online'?'ao vivo':status==='syncing'?'salvando...':'sem conexão';
+function elapsedMs(){if(timerPaused)return pausedElapsedMs;return sessionStartTime?Date.now()-sessionStartTime:0;}
+function fmtElapsed(ms){const s=Math.floor(ms/1000),m=Math.floor(s/60),h=Math.floor(m/60);return(h>0?String(h).padStart(2,'0')+':':'')+String(m%60).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
+function fmtMinutes(ms){return Math.round(ms/60000)+'min';}
+function startTimer(){if(timerInterval)clearInterval(timerInterval);timerInterval=setInterval(()=>{const el=document.getElementById('liveTimer');if(el)el.textContent=fmtElapsed(elapsedMs());const btn=document.getElementById('pauseBtn');if(btn)btn.textContent=timerPaused?'▶ Retomar':'⏸ Pausar';},1000);}
+function toggleTimer(){
+if(!sessionReady)return;
+if(timerPaused){sessionStartTime=Date.now()-pausedElapsedMs;timerPaused=false;startTimer();showToast('▶ Cronômetro retomado');}
+else{pausedElapsedMs=elapsedMs();timerPaused=true;if(timerInterval){clearInterval(timerInterval);timerInterval=null;}showToast('⏸ Cronômetro pausado');const el=document.getElementById('liveTimer');if(el)el.textContent=fmtElapsed(pausedElapsedMs);const btn=document.getElementById('pauseBtn');if(btn)btn.textContent='▶ Retomar';}
+saveState();
 }
-
+// ── FIREBASE REST SYNC ──
+const DB='https://thc-homegame-default-rtdb.firebaseio.com/session.json';
+let lastData='',localChange=false,pollInterval=null;
+function setSyncStatus(status){const dot=document.getElementById('syncDot'),label=document.getElementById('syncLabel');if(!dot||!label)return;dot.className='sync-dot '+status;label.textContent=status==='online'?'ao vivo':status==='syncing'?'salvando...':'sem conexão';}
 function startPolling(){fetchState();pollInterval=setInterval(fetchState,3000);}
-
-async function fetchState(){
-  try{
-    const res=await fetch(DB+'?nocache='+Date.now());
-    if(!res.ok){setSyncStatus('offline');return;}
-    const data=await res.json();
-    setSyncStatus('online');
-    if(!data)return;
-    const str=JSON.stringify(data);
-    if(str===lastData||localChange)return;
-    lastData=str;
-    applyState(data);
-  }catch(e){setSyncStatus('offline');}
+async function fetchState(){try{const res=await fetch(DB+'?nocache='+Date.now());if(!res.ok){setSyncStatus('offline');return;}const data=await res.json();setSyncStatus('online');if(!data)return;const str=JSON.stringify(data);if(str===lastData||localChange)return;lastData=str;applyState(data);}catch(e){setSyncStatus('offline');}}
+async function pushState(state){setSyncStatus('syncing');try{const res=await fetch(DB,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(state)});if(res.ok){lastData=JSON.stringify(state);setSyncStatus('online');}else setSyncStatus('offline');}catch(e){setSyncStatus('offline');}}
+async function clearFirebase(){try{await fetch(DB,{method:'DELETE'});lastData='';setSyncStatus('online');}catch(e){setSyncStatus('offline');}}
+function saveState(){
+localChange=true;
+const state={players,prizeData,prizeCount,sessionDate,sessionBuyin,sessionReady,orders,rentPayerId,dealerPayerId,sessionStartTime,globalJonSnowCount,timerPaused,pausedElapsedMs,
+   dealerQty:parseInt(document.getElementById('dealerQty')?.value)||0,
+   dealerVal:parseMoney(document.getElementById('dealerVal')?.value),
+   rentVal:parseMoney(document.getElementById('rentVal')?.value)};
+pushState(state).then(()=>setTimeout(()=>{localChange=false;},3000));
+localStorage.setItem('pgState',JSON.stringify(state));
 }
-
-async function pushState(state){
-  setSyncStatus('syncing');
-  try{
-    const res=await fetch(DB,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(state)});
-    if(res.ok){lastData=JSON.stringify(state);setSyncStatus('online');}
-    else setSyncStatus('offline');
-  }catch(e){setSyncStatus('offline');}
-}
-
-async function clearState(){
-  try{await fetch(DB,{method:'DELETE'});lastData='';setSyncStatus('online');}
-  catch(e){setSyncStatus('offline');}
-}
-
-function saveAndSync(){
-  localChange=true;
-  const state={players,prizeData,prizeCount,sessionDate,sessionBuyin,sessionReady,orders,rentPayerId,dealerPayerId,
-    dealerQty:parseInt(document.getElementById('dealerQty')?.value)||0,
-    dealerVal:parseMoney(document.getElementById('dealerVal')?.value),
-    rentVal:parseMoney(document.getElementById('rentVal')?.value)};
-  pushState(state).then(()=>setTimeout(()=>{localChange=false;},3000));
-}
-
 function applyState(s){
-  players=s.players||[]; prizeData=s.prizeData||[]; prizeCount=s.prizeCount||3;
-  sessionDate=s.sessionDate||''; sessionBuyin=s.sessionBuyin||0; sessionReady=s.sessionReady||false;
-  orders=s.orders||[]; rentPayerId=s.rentPayerId||''; dealerPayerId=s.dealerPayerId||'';
-  const dq=document.getElementById('dealerQty'), dv=document.getElementById('dealerVal'), rv=document.getElementById('rentVal');
-  if(dq&&s.dealerQty!=null)dq.value=s.dealerQty||'';
-  if(dv&&s.dealerVal!=null)dv.value=s.dealerVal>0?s.dealerVal.toFixed(2):'';
-  if(rv&&s.rentVal!=null)rv.value=s.rentVal>0?s.rentVal.toFixed(2):'';
-  if(sessionReady){
-    document.getElementById('setupSection').style.display='none';
-    document.getElementById('sessionInfoBar').style.display='block';
-    document.getElementById('addPlayerSection').style.display='block';
-    document.getElementById('infoDate').textContent=sessionDate;
-    document.getElementById('infoBuyin').textContent='Buy-In: '+fmt(sessionBuyin);
-  }else{
-    document.getElementById('setupSection').style.display='block';
-    document.getElementById('sessionInfoBar').style.display='none';
-    document.getElementById('addPlayerSection').style.display='none';
-  }
-  render(); renderDealerPayers(); renderRentPayers(); calcExpenses();
+players=s.players||[];prizeData=s.prizeData||[];prizeCount=s.prizeCount||3;
+sessionDate=s.sessionDate||'';sessionBuyin=s.sessionBuyin||0;sessionReady=s.sessionReady||false;
+orders=s.orders||[];rentPayerId=s.rentPayerId||'';dealerPayerId=s.dealerPayerId||'';
+sessionStartTime=s.sessionStartTime||null;globalJonSnowCount=s.globalJonSnowCount||0;
+timerPaused=s.timerPaused||false;pausedElapsedMs=s.pausedElapsedMs||0;
+players.forEach(p=>{if(!p.rebuys)p.rebuys=[];if(!p.jonSnows)p.jonSnows=[];});
+const dq=document.getElementById('dealerQty'),dv=document.getElementById('dealerVal'),rv=document.getElementById('rentVal');
+if(dq&&s.dealerQty!=null)dq.value=s.dealerQty||'';
+if(dv&&s.dealerVal!=null)dv.value=s.dealerVal>0?s.dealerVal.toFixed(2):'';
+if(rv&&s.rentVal!=null)rv.value=s.rentVal>0?s.rentVal.toFixed(2):'';
+if(sessionReady){
+   document.getElementById('setupSection').style.display='none';
+   document.getElementById('sessionInfoBar').style.display='block';
+   document.getElementById('addPlayerSection').style.display='block';
+   document.getElementById('infoDate').textContent=sessionDate;
+   document.getElementById('infoBuyin').textContent='Buy-In: '+fmt(sessionBuyin);
+   if(sessionStartTime&&!timerPaused)startTimer();
+}else{
+   document.getElementById('setupSection').style.display='block';
+   document.getElementById('sessionInfoBar').style.display='none';
+   document.getElementById('addPlayerSection').style.display='none';
 }
+render();renderDealerPayers();renderRentPayers();calcExpenses();
+}
+function loadState(){try{const raw=localStorage.getItem('pgState');if(!raw)return;applyState(JSON.parse(raw));}catch(e){console.log('load error',e);}}
 function confirmSetup(){
-  const date=document.getElementById('setupDate').value.trim();
-  const buyin=parseMoney(document.getElementById('setupBuyin').value);
-  if(!date){showToast('⚠ Insira a data da sessão');return;}
-  if(buyin<=0){showToast('⚠ Insira o valor do Buy-In');return;}
-  sessionDate=date;sessionBuyin=buyin;sessionReady=true;
-  document.getElementById('setupSection').style.display='none';
-  document.getElementById('sessionInfoBar').style.display='block';
-  document.getElementById('addPlayerSection').style.display='block';
-  document.getElementById('infoDate').textContent=sessionDate;
-  document.getElementById('infoBuyin').textContent='Buy-In: '+fmt(sessionBuyin);
-  document.getElementById('newName').focus();
-  saveAndSync();
+const date=document.getElementById('setupDate').value.trim();
+const buyin=parseMoney(document.getElementById('setupBuyin').value);
+if(!date){showToast('⚠ Insira a data da sessão');return;}
+if(buyin<=0){showToast('⚠ Insira o valor do Buy-In');return;}
+sessionDate=date;sessionBuyin=buyin;sessionReady=true;sessionStartTime=Date.now();globalJonSnowCount=0;timerPaused=false;pausedElapsedMs=0;
+document.getElementById('setupSection').style.display='none';
+document.getElementById('sessionInfoBar').style.display='block';
+document.getElementById('addPlayerSection').style.display='block';
+document.getElementById('infoDate').textContent=sessionDate;
+document.getElementById('infoBuyin').textContent='Buy-In: '+fmt(sessionBuyin);
+document.getElementById('newName').focus();
+startTimer();saveState();
 }
-function editSetup(){
-  document.getElementById('setupSection').style.display='block';
-  document.getElementById('sessionInfoBar').style.display='none';
-  document.getElementById('setupDate').value=sessionDate;
-  document.getElementById('setupBuyin').value=sessionBuyin;
-  sessionReady=false; saveAndSync();
-}
+function editSetup(){document.getElementById('setupSection').style.display='block';document.getElementById('sessionInfoBar').style.display='none';document.getElementById('setupDate').value=sessionDate;document.getElementById('setupBuyin').value=sessionBuyin;sessionReady=false;saveState();}
 function resetSession(){
-  showConfirm('Limpar <strong>toda a sessão</strong> para todos?',()=>{
-    players=[];prizeData=[];prizeCount=3;sessionDate='';sessionBuyin=0;sessionReady=false;
-    orders=[];rentPayerId='';dealerPayerId='';
-    document.getElementById('setupSection').style.display='block';
-    document.getElementById('sessionInfoBar').style.display='none';
-    document.getElementById('addPlayerSection').style.display='none';
-    document.getElementById('setupDate').value='';
-    document.getElementById('setupBuyin').value='';
-    const dq=document.getElementById('dealerQty');if(dq)dq.value='';
-    const dv=document.getElementById('dealerVal');if(dv)dv.value='';
-    const rv=document.getElementById('rentVal');if(rv)rv.value='';
-    clearState();render();showToast('✅ Sessão resetada!');
-  });
+showConfirm('Limpar <strong>toda a sessão atual</strong>?',()=>{
+   if(timerInterval){clearInterval(timerInterval);timerInterval=null;}
+   players=[];prizeData=[];prizeCount=3;sessionDate='';sessionBuyin=0;sessionReady=false;
+   orders=[];rentPayerId='';dealerPayerId='';sessionStartTime=null;globalJonSnowCount=0;timerPaused=false;pausedElapsedMs=0;
+   document.getElementById('setupSection').style.display='block';
+   document.getElementById('sessionInfoBar').style.display='none';
+   document.getElementById('addPlayerSection').style.display='none';
+   document.getElementById('setupDate').value='';document.getElementById('setupBuyin').value='';
+   const dq=document.getElementById('dealerQty');if(dq)dq.value='';
+   const dv=document.getElementById('dealerVal');if(dv)dv.value='';
+   const rv=document.getElementById('rentVal');if(rv)rv.value='';
+   localStorage.removeItem('pgState');localStorage.removeItem('pgCash');
+   cashPlayers=[];const cdv=document.getElementById('cashDealerVal');if(cdv)cdv.value='';
+   clearFirebase();render();renderCashTable();showToast('✅ Sessão resetada!');
+});
 }
 function addPlayer(){
-  if(!sessionReady){showToast('⚠ Configure a sessão primeiro');return;}
-  const name=document.getElementById('newName').value.trim();
-  if(!name){showToast('⚠ Insira o nome do jogador');return;}
-  players.push({id:uid(),name,buyin:sessionBuyin,rebuy:0,addon:0,jonsnow:0});
-  document.getElementById('newName').value='';
-  document.getElementById('newName').focus();
-  render();saveAndSync();
+if(!sessionReady){showToast('⚠ Configure a sessão primeiro');return;}
+const name=document.getElementById('newName').value.trim();
+if(!name){showToast('⚠ Insira o nome do jogador');return;}
+players.push({id:uid(),name,buyin:sessionBuyin,rebuy:0,addon:0,jonsnow:0,rebuys:[],jonSnows:[]});
+document.getElementById('newName').value='';document.getElementById('newName').focus();
+render();saveState();
 }
-function removePlayer(id){
-  const p=players.find(x=>x.id===id);
-  showConfirm(`Remover <strong>${p.name}</strong>?`,()=>{players=players.filter(x=>x.id!==id);render();saveAndSync();});
-}
+function removePlayer(id){const p=players.find(x=>x.id===id);showConfirm(`Remover <strong>${p.name}</strong>?`,()=>{players=players.filter(x=>x.id!==id);render();saveState();});}
 function openPlayerModal(id){
-  const p=players.find(x=>x.id===id);
-  const overlay=document.createElement('div');overlay.className='modal-overlay';overlay.id='playerModal';
-  overlay.innerHTML=`<div class="modal-box">
-    <div class="modal-player-name">${p.name}</div>
-    <div class="modal-player-total">Total: <strong id="modalTotal">${fmt(playerTotal(p))}</strong></div>
-    <div class="modal-fields">
-      <div class="modal-field-row">
-        <div class="modal-field-left">
-          <div class="modal-field-type" style="color:var(--green)">Rebuy</div>
-          <div class="modal-field-value" style="color:var(--green)" id="modalRebuy">${fmt(p.rebuy)}</div>
-          <div class="modal-field-note">acumula · negativo para corrigir</div>
-        </div>
-        <div class="modal-field-right">
-          <input class="modal-input" type="number" id="inpRebuy" placeholder="ex:-10" step="0.01" style="color:var(--green)" onkeydown="if(event.key==='Enter')applyRebuy('${id}')">
-          <button class="modal-btn-action" style="background:var(--green-dim);color:var(--green);border:1px solid rgba(76,175,125,0.2)" onclick="applyRebuy('${id}')">+</button>
-        </div>
-      </div>
-      <div class="modal-field-row">
-        <div class="modal-field-left">
-          <div class="modal-field-type" style="color:var(--blue)">Add-On</div>
-          <div class="modal-field-value" style="color:var(--blue)" id="modalAddon">${fmt(p.addon)}</div>
-          <div class="modal-field-note">valor fixo</div>
-        </div>
-        <div class="modal-field-right">
-          <input class="modal-input" type="number" id="inpAddon" placeholder="valor" step="0.01" min="0" style="color:var(--blue)" onkeydown="if(event.key==='Enter')applyAddon('${id}')">
-          <button class="modal-btn-action" style="background:var(--blue-dim);color:var(--blue);border:1px solid rgba(92,158,224,0.2)" onclick="applyAddon('${id}')">✓</button>
-        </div>
-      </div>
-      <div class="modal-field-row">
-        <div class="modal-field-left">
-          <div class="modal-field-type" style="color:var(--purple)">Jon Snow</div>
-          <div class="modal-field-value" style="color:var(--purple)" id="modalJonsnow">${fmt(p.jonsnow)}</div>
-          <div class="modal-field-note">acumula · negativo para corrigir</div>
-        </div>
-        <div class="modal-field-right">
-          <input class="modal-input" type="number" id="inpJonsnow" placeholder="ex:-10" step="0.01" style="color:var(--purple)" onkeydown="if(event.key==='Enter')applyJonSnow('${id}')">
-          <button class="modal-btn-action" style="background:var(--purple-dim);color:var(--purple);border:1px solid rgba(160,125,224,0.2)" onclick="applyJonSnow('${id}')">+</button>
-        </div>
-      </div>
-    </div>
-    <button class="modal-close" onclick="closePlayerModal()">Fechar</button>
-  </div>`;
-  document.body.appendChild(overlay);
-  overlay.onclick=e=>{if(e.target===overlay)closePlayerModal();};
+const p=players.find(x=>x.id===id);
+let lastJsVal=0;players.forEach(pp=>{(pp.jonSnows||[]).forEach(js=>{if(js.globalIndex>lastJsVal)lastJsVal=js.amount;});});
+const lastJsNote=lastJsVal>0?fmtClean(lastJsVal):'0,00';
+const overlay=document.createElement('div');overlay.className='modal-overlay';overlay.id='playerModal';
+overlay.innerHTML=`<div class="modal-box">
+<div class="modal-player-name">${p.name}</div>
+<div class="modal-player-total">Total: <strong id="modalTotal">${fmt(playerTotal(p))}</strong></div>
+<div class="modal-fields">
+<div class="modal-field-row"><div class="modal-field-left"><div class="modal-field-type" style="color:var(--green)">Rebuy</div><div class="modal-field-value" style="color:var(--green)" id="modalRebuy">${fmt(p.rebuy)}</div><div class="modal-field-note">acumula · negativo para corrigir</div></div><div class="modal-field-right"><input class="modal-input" type="number" id="inpRebuy" placeholder="ex:-10" step="0.01" style="color:var(--green)" onkeydown="if(event.key==='Enter')applyRebuy('${id}')"><button class="modal-btn-action" style="background:var(--green-dim);color:var(--green);border:1px solid rgba(76,175,125,0.2)" onclick="applyRebuy('${id}')">+</button></div></div>
+<div class="modal-field-row"><div class="modal-field-left"><div class="modal-field-type" style="color:var(--blue)">Add-On</div><div class="modal-field-value" style="color:var(--blue)" id="modalAddon">${fmt(p.addon)}</div><div class="modal-field-note">valor fixo</div></div><div class="modal-field-right"><input class="modal-input" type="number" id="inpAddon" placeholder="valor" step="0.01" min="0" style="color:var(--blue)" onkeydown="if(event.key==='Enter')applyAddon('${id}')"><button class="modal-btn-action" style="background:var(--blue-dim);color:var(--blue);border:1px solid rgba(92,158,224,0.2)" onclick="applyAddon('${id}')">✓</button></div></div>
+<div class="modal-field-row"><div class="modal-field-left"><div class="modal-field-type" style="color:var(--purple)">Jon Snow</div><div class="modal-field-value" style="color:var(--purple)" id="modalJonsnow">${fmt(p.jonsnow)}</div><div class="modal-field-note" id="modalJsNote">último: ${fmt(p.jonSnows&&p.jonSnows.length>0?p.jonSnows[p.jonSnows.length-1].amount:0)} · negativo para corrigir</div></div><div class="modal-field-right"><input class="modal-input" type="number" id="inpJonsnow" placeholder="${lastJsNote}" step="0.01" style="color:var(--purple)" onkeydown="if(event.key==='Enter')applyJonSnow('${id}')"><button class="modal-btn-action" style="background:var(--purple-dim);color:var(--purple);border:1px solid rgba(160,125,224,0.2)" onclick="applyJonSnow('${id}')">+</button></div></div>
+</div>
+<button class="modal-close" onclick="closePlayerModal()">Fechar</button>
+</div>`;
+document.body.appendChild(overlay);overlay.onclick=e=>{if(e.target===overlay)closePlayerModal();};
 }
 function closePlayerModal(){const m=document.getElementById('playerModal');if(m)m.remove();}
-function refreshModal(id){
-  const p=players.find(x=>x.id===id);
-  const g=id=>document.getElementById(id);
-  if(!g('playerModal'))return;
-  g('modalTotal').textContent=fmt(playerTotal(p));
-  g('modalRebuy').textContent=fmt(p.rebuy);
-  g('modalAddon').textContent=fmt(p.addon);
-  g('modalJonsnow').textContent=fmt(p.jonsnow);
-  render();saveAndSync();
-}
-function applyRebuy(id){
-  const raw=parseFloat(document.getElementById('inpRebuy').value);
-  if(isNaN(raw)||raw===0){showToast('⚠ Valor inválido');return;}
-  const p=players.find(x=>x.id===id);
-  const next=p.rebuy+raw;
-  if(next<0){showToast('⚠ Rebuy não pode ficar negativo');return;}
-  p.rebuy=next;document.getElementById('inpRebuy').value='';refreshModal(id);
-}
-function applyAddon(id){
-  const val=parseMoney(document.getElementById('inpAddon').value);
-  if(val<=0){showToast('⚠ Valor inválido');return;}
-  players.find(x=>x.id===id).addon=val;document.getElementById('inpAddon').value='';refreshModal(id);
-}
-function applyJonSnow(id){
-  const raw=parseFloat(document.getElementById('inpJonsnow').value);
-  if(isNaN(raw)||raw===0){showToast('⚠ Valor inválido');return;}
-  const p=players.find(x=>x.id===id);
-  const next=p.jonsnow+raw;
-  if(next<0){showToast('⚠ Jon Snow não pode ficar negativo');return;}
-  p.jonsnow=next;document.getElementById('inpJonsnow').value='';refreshModal(id);
-}
-function updatePrizePlayer(i,val){prizeData[i].playerId=val;renderPrizesRemain();saveAndSync();}
-function updatePrizeAmount(i,val){prizeData[i].amount=parseMoney(val);renderPrizesRemain();saveAndSync();}
+function refreshModal(id){const p=players.find(x=>x.id===id);const g=i=>document.getElementById(i);if(!g('playerModal'))return;g('modalTotal').textContent=fmt(playerTotal(p));g('modalRebuy').textContent=fmt(p.rebuy);g('modalAddon').textContent=fmt(p.addon);g('modalJonsnow').textContent=fmt(p.jonsnow);render();saveState();}
+function applyRebuy(id){const raw=parseFloat(document.getElementById('inpRebuy').value);if(isNaN(raw)||raw===0){showToast('⚠ Valor inválido');return;}const p=players.find(x=>x.id===id);const next=p.rebuy+raw;if(next<0){showToast('⚠ Rebuy não pode ficar negativo');return;}if(raw>0){if(!p.rebuys)p.rebuys=[];p.rebuys.push({amount:raw,elapsedMs:elapsedMs()});}p.rebuy=next;document.getElementById('inpRebuy').value='';refreshModal(id);}
+function applyAddon(id){const val=parseMoney(document.getElementById('inpAddon').value);if(val<=0){showToast('⚠ Valor inválido');return;}players.find(x=>x.id===id).addon=val;document.getElementById('inpAddon').value='';refreshModal(id);}
+function applyJonSnow(id){const raw=parseFloat(document.getElementById('inpJonsnow').value);if(isNaN(raw)||raw===0){showToast('⚠ Valor inválido');return;}const p=players.find(x=>x.id===id);const next=p.jonsnow+raw;if(next<0){showToast('⚠ Jon Snow não pode ficar negativo');return;}if(raw>0){if(!p.jonSnows)p.jonSnows=[];globalJonSnowCount++;p.jonSnows.push({amount:raw,elapsedMs:elapsedMs(),globalIndex:globalJonSnowCount});}p.jonsnow=next;document.getElementById('inpJonsnow').value='';refreshModal(id);}
+function updatePrizePlayer(i,val){prizeData[i].playerId=val;renderPrizesRemain();saveState();}
+function updatePrizeAmount(i,val){prizeData[i].amount=parseMoney(val);renderPrizesRemain();saveState();}
 function allocatedTotal(){return prizeData.reduce((a,b)=>a+b.amount,0);}
-function renderPrizesRemain(){
-  const remain=totalPot()-allocatedTotal();
-  const el=document.getElementById('prizesRemain'),over=remain<-0.005;
-  el.className='prizes-remain'+(over?' over':'');
-  el.innerHTML=over?`Excedido em: <strong>${fmt(Math.abs(remain))}</strong>`:`Saldo restante: <strong>${fmt(Math.max(0,remain))}</strong>`;
-  updateHints();
-}
+function renderPrizesRemain(){const remain=totalPot()-allocatedTotal();const el=document.getElementById('prizesRemain'),over=remain<-0.005;el.className='prizes-remain'+(over?' over':'');el.innerHTML=over?`Excedido em: <strong>${fmt(Math.abs(remain))}</strong>`:`Saldo restante: <strong>${fmt(Math.max(0,remain))}</strong>`;updateHints();}
 function updateHints(){
-  const pot=totalPot(),allocated=allocatedTotal(),remaining=Math.max(0,pot-allocated);
-  const pcts=[50,30,20];
-  document.querySelectorAll('.prize-hint').forEach((h,i)=>{
-    if(i>=3||pot<=0){h.innerHTML='';return;}
-    h.innerHTML=`Sugestão: <strong>${fmt(remaining*pcts[i]/100)}</strong> (${pcts[i]}% do saldo)`;
-  });
+const pot=totalPot(),pcts=[50,30,20];
+let fromFourthOnward=0;for(let j=3;j<prizeData.length;j++)fromFourthOnward+=prizeData[j]?.amount||0;
+const base=Math.max(0,pot-fromFourthOnward);
+document.querySelectorAll('.prize-hint').forEach((h,i)=>{if(i>=3||pot<=0){h.innerHTML='';return;}h.innerHTML=`Sugestão: <strong>${fmt(base*pcts[i]/100)}</strong> (${pcts[i]}% do pote - 4º+)`;});
 }
 function renderPrizes(){
-  const colors=['#e6b94a','#c0c0c0','#cd7f32','#88aacc','#a07de0','#4caf7d','#e05c5c','#e0aa5c'];
-  const labels=Array.from({length:20},(_,i)=>`${i+1}º Lugar`);
-  const prRows=document.getElementById('prizeRows');prRows.innerHTML='';
-  for(let i=0;i<prizeCount;i++){
-    const d=prizeData[i]||{playerId:'',amount:0},color=colors[i]||'#aaa';
-    const div=document.createElement('div');div.className='prize-row-item';
-    let opts=`<option value="">— Selecionar jogador —</option>`;
-    players.forEach(p=>{opts+=`<option value="${p.id}" ${d.playerId===p.id?'selected':''}>${p.name}</option>`;});
-    div.innerHTML=`<div class="prize-row-top">
-      <span class="prize-rank" style="color:${color}">${labels[i]}</span>
-      <select class="prize-player-select" onchange="updatePrizePlayer(${i},this.value)">${opts}</select>
-      <div class="prize-amount-group">
-        <span class="prize-amount-label">R$</span>
-        <input class="prize-amount-input" type="number" min="0" step="0.01" value="${d.amount>0?d.amount.toFixed(2):''}" placeholder="0,00" oninput="updatePrizeAmount(${i},this.value)" style="border-color:${color}33">
-      </div>
-    </div><div class="prize-hint" id="hint${i}"></div>`;
-    prRows.appendChild(div);
-  }
-  renderPrizesRemain();
+const colors=['#e6b94a','#c0c0c0','#cd7f32','#88aacc','#a07de0','#4caf7d','#e05c5c','#e0aa5c'];
+const labels=Array.from({length:20},(_,i)=>`${i+1}º Lugar`);
+const prRows=document.getElementById('prizeRows');prRows.innerHTML='';
+for(let i=0;i<prizeCount;i++){
+   const d=prizeData[i]||{playerId:'',amount:0},color=colors[i]||'#aaa';
+   const div=document.createElement('div');div.className='prize-row-item';
+   let opts=`<option value="">— Selecionar jogador —</option>`;
+   players.forEach(p=>{opts+=`<option value="${p.id}" ${d.playerId===p.id?'selected':''}>${p.name}</option>`;});
+   div.innerHTML=`<div class="prize-row-top"><span class="prize-rank" style="color:${color}">${labels[i]}</span><select class="prize-player-select" onchange="updatePrizePlayer(${i},this.value)">${opts}</select><div class="prize-amount-group"><span class="prize-amount-label">R$</span><input class="prize-amount-input" type="number" min="0" step="0.01" value="${d.amount>0?d.amount.toFixed(2):''}" placeholder="0,00" oninput="updatePrizeAmount(${i},this.value)" style="border-color:${color}33"></div></div><div class="prize-hint" id="hint${i}"></div>`;
+   prRows.appendChild(div);
+}
+renderPrizesRemain();
 }
 function calcResults(){
-  const pot=totalPot(),alloc=allocatedTotal();
-  if(alloc>pot+0.01){showToast('⚠ Valor excede o pote!');return;}
-  for(let i=0;i<prizeCount;i++){if(!prizeData[i].playerId){showToast(`⚠ Selecione o ${i+1}º colocado`);return;}}
-  const ids=prizeData.map(d=>d.playerId);
-  if(new Set(ids).size!==ids.length){showToast('⚠ Jogador duplicado');return;}
-  const medals=['🥇','🥈','🥉','④','⑤','⑥','⑦','⑧'];
-  const winnerIds=prizeData.map(d=>d.playerId);
-  const rl=document.getElementById('resultsList');rl.innerHTML='';
-  prizeData.forEach((d,i)=>{
-    const p=players.find(x=>x.id===d.playerId),prize=d.amount,spent=playerTotal(p),pnl=prize-spent;
-    const item=document.createElement('div');item.className='result-item winner';
-    item.innerHTML=`<div class="result-medal">${medals[i]||'▪'}</div>
-      <div class="result-info"><div class="result-name">${p.name}</div><div class="result-spent">Investido: ${fmt(spent)}</div></div>
-      <div class="result-right"><div class="result-prize">${fmt(prize)}</div><div class="result-pnl ${pnl>0?'pnl-pos':pnl<0?'pnl-neg':'pnl-zero'}">${pnl>=0?'+':''}${fmt(pnl)}</div></div>`;
-    rl.appendChild(item);
-  });
-  const nonWinners=players.filter(p=>!winnerIds.includes(p.id));
-  if(nonWinners.length>0){
-    const sep=document.createElement('div');
-    sep.style.cssText='font-size:9px;letter-spacing:3px;text-align:center;padding:7px;color:rgba(240,240,240,0.3);background:var(--surface2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);';
-    sep.textContent='SEM PREMIAÇÃO';rl.appendChild(sep);
-    nonWinners.forEach(p=>{
-      const spent=playerTotal(p);
-      const item=document.createElement('div');item.className='result-item loser';
-      item.innerHTML=`<div class="result-medal" style="font-size:16px;color:var(--text-muted)">—</div>
-        <div class="result-info"><div class="result-name">${p.name}</div><div class="result-spent">Investido: ${fmt(spent)}</div></div>
-        <div class="result-right"><div class="result-prize" style="font-size:16px;color:var(--text-muted)">—</div><div class="result-pnl pnl-neg">-${fmt(spent)}</div></div>`;
-      rl.appendChild(item);
-    });
-  }
-  document.getElementById('resultPotDisplay').textContent=fmt(pot);
-  document.getElementById('resultsSection').style.display='block';
-  document.getElementById('resultsSection').scrollIntoView({behavior:'smooth',block:'start'});
+const pot=totalPot(),alloc=allocatedTotal();
+if(alloc>pot+0.01){showToast('⚠ Valor excede o pote!');return;}
+for(let i=0;i<prizeCount;i++){if(!prizeData[i].playerId){showToast(`⚠ Selecione o ${i+1}º colocado`);return;}}
+const ids=prizeData.map(d=>d.playerId);if(new Set(ids).size!==ids.length){showToast('⚠ Jogador duplicado');return;}
+const medals=['🥇','🥈','🥉','④','⑤','⑥','⑦','⑧'];const winnerIds=prizeData.map(d=>d.playerId);
+const rl=document.getElementById('resultsList');rl.innerHTML='';
+prizeData.forEach((d,i)=>{const p=players.find(x=>x.id===d.playerId),prize=d.amount,spent=playerTotal(p),pnl=prize-spent;const item=document.createElement('div');item.className='result-item winner';item.innerHTML=`<div class="result-medal">${medals[i]||'▪'}</div><div class="result-info"><div class="result-name">${p.name}</div><div class="result-spent">Investido: ${fmt(spent)}</div></div><div class="result-right"><div class="result-prize">${fmt(prize)}</div><div class="result-pnl ${pnl>0?'pnl-pos':pnl<0?'pnl-neg':'pnl-zero'}">${pnl>=0?'+':''}${fmt(pnl)}</div></div>`;rl.appendChild(item);});
+const nonWinners=players.filter(p=>!winnerIds.includes(p.id));
+if(nonWinners.length>0){const sep=document.createElement('div');sep.style.cssText='font-size:9px;letter-spacing:3px;text-align:center;padding:7px;color:rgba(240,240,240,0.3);background:var(--surface2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);';sep.textContent='SEM PREMIAÇÃO';rl.appendChild(sep);nonWinners.forEach(p=>{const spent=playerTotal(p);const item=document.createElement('div');item.className='result-item loser';item.innerHTML=`<div class="result-medal" style="font-size:16px;color:var(--text-muted)">—</div><div class="result-info"><div class="result-name">${p.name}</div><div class="result-spent">Investido: ${fmt(spent)}</div></div><div class="result-right"><div class="result-prize" style="font-size:16px;color:var(--text-muted)">—</div><div class="result-pnl pnl-neg">-${fmt(spent)}</div></div>`;rl.appendChild(item);});}
+document.getElementById('resultPotDisplay').textContent=fmt(pot);document.getElementById('resultsSection').style.display='block';document.getElementById('resultsSection').scrollIntoView({behavior:'smooth',block:'start'});
 }
-function saveSession(){
-  const date=sessionDate||new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'});
-  const history=JSON.parse(localStorage.getItem('pgHistory')||'[]');
-  history.unshift({id:uid(),name:date,date,pot:totalPot(),players:players.length});
-  localStorage.setItem('pgHistory',JSON.stringify(history.slice(0,20)));
-  renderHistory();showToast('✅ Sessão salva!');
-}
-function deleteHistoryItem(id){
-  const history=JSON.parse(localStorage.getItem('pgHistory')||'[]');
-  const item=history.find(h=>h.id===id);
-  showConfirm(`Apagar <strong>${item?item.name:'esta sessão'}</strong>?`,()=>{
-    localStorage.setItem('pgHistory',JSON.stringify(history.filter(h=>h.id!==id)));renderHistory();
-  });
-}
+function saveSession(){const date=sessionDate||new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'});const history=JSON.parse(localStorage.getItem('pgHistory')||'[]');history.unshift({id:uid(),name:date,date,pot:totalPot(),players:players.length});localStorage.setItem('pgHistory',JSON.stringify(history.slice(0,20)));renderHistory();showToast('✅ Sessão salva!');}
+function deleteHistoryItem(id){const history=JSON.parse(localStorage.getItem('pgHistory')||'[]');const item=history.find(h=>h.id===id);showConfirm(`Apagar <strong>${item?item.name:'esta sessão'}</strong>?`,()=>{localStorage.setItem('pgHistory',JSON.stringify(history.filter(h=>h.id!==id)));renderHistory();});}
 function clearHistory(){showConfirm('Apagar <strong>todo o histórico</strong>?',()=>{localStorage.removeItem('pgHistory');renderHistory();});}
-function renderHistory(){
-  const history=JSON.parse(localStorage.getItem('pgHistory')||'[]');
-  const sec=document.getElementById('historySection');
-  if(!history.length){sec.style.display='none';return;}
-  sec.style.display='block';
-  const hl=document.getElementById('historyList');hl.innerHTML='';
-  history.forEach(h=>{
-    if(!h.id)h.id=uid();
-    const item=document.createElement('div');item.className='history-item';
-    item.innerHTML=`<div style="flex:1"><div class="history-name">${h.name}</div><div class="history-meta">${h.date} · ${h.players} jogadores</div></div>
-      <div class="history-pot">${fmt(h.pot)}</div>
-      <button class="btn-remove-hist" onclick="deleteHistoryItem('${h.id}')">✕</button>`;
-    hl.appendChild(item);
-  });
-}
-function addOrder(){
-  if(players.length===0){showToast('⚠ Adicione jogadores primeiro');return;}
-  orders.push({id:uid(),value:0,payerId:'',eaterIds:[]});
-  renderOrders();saveAndSync();
-}
-function removeOrder(id){orders=orders.filter(o=>o.id!==id);renderOrders();calcExpenses();saveAndSync();}
-function updateOrderValue(id,val){const o=orders.find(x=>x.id===id);o.value=parseMoney(val);calcExpenses();saveAndSync();}
-
-function togglePayer(orderId, playerId) {
-  const o = orders.find(x => x.id === orderId);
-  if (!o) return;
-  o.payerId = (o.payerId === playerId) ? '' : playerId;
-  saveState();
-  calcExpenses();
-  renderOrders();
-}
-
-function toggleEater(orderId, playerId) {
-  const o = orders.find(x => x.id === orderId);
-  if (!o) return;
-  if (o.eaterIds.includes(playerId)) o.eaterIds = o.eaterIds.filter(id => id !== playerId);
-  else o.eaterIds.push(playerId);
-  saveState();
-  calcExpenses();
-  renderOrders();
-}
-
-function renderOrders(){
-  const list=document.getElementById('orderList');if(!list)return;
-  list.innerHTML='';
-  if(orders.length===0){list.innerHTML='<div style="text-align:center;color:var(--text-muted);font-size:13px;padding:12px 0;">Nenhum pedido ainda</div>';return;}
-  
-  let html = '';
-  orders.forEach((o,idx)=>{
-    let payerChips=players.map(p=>`<span class="order-payer-chip ${o.payerId===p.id?'selected':''}" onclick="togglePayer('${o.id}','${p.id}')">${p.name}</span>`).join('');
-    let eaterChips=players.map(p=>`<span class="order-player-chip ${o.eaterIds.includes(p.id)?'selected':''}" onclick="toggleEater('${o.id}','${p.id}')">${p.name}</span>`).join('');
-    const perHead=o.eaterIds.length>0?(o.value/o.eaterIds.length):0;
-    
-    html += `<div class="order-card">
-        <div class="order-card-top">
-            <span class="order-card-label">Pedido ${idx+1}</span>
-            <div style="display:flex;align-items:center;gap:8px;">
-                <span class="order-card-val">${fmt(o.value)}</span>
-                <button class="btn-remove-sm" onclick="removeOrder('${o.id}')">✕</button>
-            </div>
-        </div>
-        <div class="field-group" style="margin-bottom:12px;">
-            <div class="field-label">Valor Total (R$)</div>
-            <input class="field-input" type="number" placeholder="0,00" min="0" step="0.01" value="${o.value>0?o.value.toFixed(2):''}" onchange="updateOrderValue('${o.id}',this.value)">
-        </div>
-        <div class="order-who">
-            <div class="order-who-label" style="color:var(--green)">Quem pagou</div>
-            <div class="order-players">${payerChips}</div>
-        </div>
-        <div class="order-who" style="margin-top:10px;">
-            <div class="order-who-label">Quem comeu ${perHead>0?'· <span style="color:var(--gold)">'+fmt(perHead)+'/pessoa</span>':''}</div>
-            <div class="order-players">${eaterChips}</div>
-        </div>
-    </div>`;
-  });
-  list.innerHTML = html;
-}
-
-function renderRentPayers(){
-  const rentVal=parseMoney(document.getElementById('rentVal')?.value);
-  const sec=document.getElementById('rentPayerSection'),chips=document.getElementById('rentPayerChips');
-  if(!sec||!chips)return;
-  if(rentVal<=0||players.length===0){sec.style.display='none';return;}
-  sec.style.display='block';chips.innerHTML='';
-  players.forEach(p=>{
-    const span=document.createElement('span');
-    span.className='order-payer-chip'+(rentPayerId===p.id?' selected':'');
-    span.textContent=p.name;
-    span.onclick=()=>{rentPayerId=(rentPayerId===p.id)?'':p.id;renderRentPayers();calcExpenses();saveAndSync();};
-    chips.appendChild(span);
-  });
-}
-function renderDealerPayers(){
-  const dq=parseInt(document.getElementById('dealerQty')?.value)||0;
-  const dv=parseMoney(document.getElementById('dealerVal')?.value);
-  const total=dq*dv;
-  const sec=document.getElementById('dealerPayerSection'),chips=document.getElementById('dealerPayerChips');
-  if(!sec||!chips)return;
-  if(total<=0||players.length===0){sec.style.display='none';return;}
-  sec.style.display='block';chips.innerHTML='';
-  players.forEach(p=>{
-    const span=document.createElement('span');
-    span.className='order-payer-chip'+(dealerPayerId===p.id?' selected':'');
-    span.textContent=p.name;
-    span.onclick=()=>{dealerPayerId=(dealerPayerId===p.id)?'':p.id;renderDealerPayers();calcExpenses();saveAndSync();};
-    chips.appendChild(span);
-  });
-}
+function renderHistory(){const history=JSON.parse(localStorage.getItem('pgHistory')||'[]');const sec=document.getElementById('historySection');if(!history.length){sec.style.display='none';return;}sec.style.display='block';const hl=document.getElementById('historyList');hl.innerHTML='';history.forEach(h=>{if(!h.id)h.id=uid();const item=document.createElement('div');item.className='history-item';item.innerHTML=`<div style="flex:1"><div class="history-name">${h.name}</div><div class="history-meta">${h.date} · ${h.players} jogadores</div></div><div class="history-pot">${fmt(h.pot)}</div><button class="btn-remove-hist" onclick="deleteHistoryItem('${h.id}')">✕</button>`;hl.appendChild(item);});}
+function addOrder(){if(players.length===0){showToast('⚠ Adicione jogadores primeiro');return;}orders.push({id:uid(),value:0,payerId:'',eaterIds:[]});renderOrders();saveState();}
+function removeOrder(id){orders=orders.filter(o=>o.id!==id);renderOrders();calcExpenses();saveState();}
+function updateOrderValue(id,val){const o=orders.find(x=>x.id===id);o.value=parseMoney(val);calcExpenses();saveState();}
+function togglePayer(orderId,playerId){const o=orders.find(x=>x.id===orderId);if(!o)return;o.payerId=(o.payerId===playerId)?'':playerId;saveState();calcExpenses();renderOrders();}
+function toggleEater(orderId,playerId){const o=orders.find(x=>x.id===orderId);if(!o)return;if(o.eaterIds.includes(playerId))o.eaterIds=o.eaterIds.filter(id=>id!==playerId);else o.eaterIds.push(playerId);saveState();calcExpenses();renderOrders();}
+function renderOrders(){const list=document.getElementById('orderList');if(!list)return;list.innerHTML='';if(orders.length===0){list.innerHTML='<div style="text-align:center;color:var(--text-muted);font-size:13px;padding:12px 0;">Nenhum pedido ainda</div>';return;}orders.forEach((o,idx)=>{const div=document.createElement('div');div.className='order-card';let payerChips=players.map(p=>`<span class="order-payer-chip ${o.payerId===p.id?'selected':''}" onclick="togglePayer('${o.id}','${p.id}')">${p.name}</span>`).join('');let eaterChips=players.map(p=>`<span class="order-player-chip ${o.eaterIds.includes(p.id)?'selected':''}" onclick="toggleEater('${o.id}','${p.id}')">${p.name}</span>`).join('');const perHead=o.eaterIds.length>0?(o.value/o.eaterIds.length):0;div.innerHTML=`<div class="order-card-top"><span class="order-card-label">Pedido ${idx+1}</span><div style="display:flex;align-items:center;gap:8px;"><span class="order-card-val">${fmt(o.value)}</span><button class="btn-remove-sm" onclick="removeOrder('${o.id}')">✕</button></div></div><div class="field-group" style="margin-bottom:12px;"><div class="field-label">Valor Total (R$)</div><input class="field-input" type="number" placeholder="0,00" min="0" step="0.01" value="${o.value>0?o.value.toFixed(2):''}" oninput="updateOrderValue('${o.id}',this.value)"></div><div class="order-who"><div class="order-who-label" style="color:var(--green)">Quem pagou</div><div class="order-players">${payerChips}</div></div><div class="order-who" style="margin-top:10px;"><div class="order-who-label">Quem comeu ${perHead>0?'· <span style="color:var(--gold)">'+fmt(perHead)+'/pessoa</span>':''}</div><div class="order-players">${eaterChips}</div></div>`;list.appendChild(div);});}
+function renderRentPayers(){const rv=parseMoney(document.getElementById('rentVal')?.value);const sec=document.getElementById('rentPayerSection'),chips=document.getElementById('rentPayerChips');if(!sec||!chips)return;if(rv<=0||players.length===0){sec.style.display='none';return;}sec.style.display='block';chips.innerHTML='';players.forEach(p=>{const span=document.createElement('span');span.className='order-payer-chip'+(rentPayerId===p.id?' selected':'');span.textContent=p.name;span.onclick=()=>{rentPayerId=(rentPayerId===p.id)?'':p.id;renderRentPayers();calcExpenses();saveState();};chips.appendChild(span);});}
+function renderDealerPayers(){const dq=parseInt(document.getElementById('dealerQty')?.value)||0,dv=parseMoney(document.getElementById('dealerVal')?.value),total=dq*dv;const sec=document.getElementById('dealerPayerSection'),chips=document.getElementById('dealerPayerChips');if(!sec||!chips)return;if(total<=0||players.length===0){sec.style.display='none';return;}sec.style.display='block';chips.innerHTML='';players.forEach(p=>{const span=document.createElement('span');span.className='order-payer-chip'+(dealerPayerId===p.id?' selected':'');span.textContent=p.name;span.onclick=()=>{dealerPayerId=(dealerPayerId===p.id)?'':p.id;renderDealerPayers();calcExpenses();saveState();};chips.appendChild(span);});}
 function calcExpenses(){
-  const dq=parseInt(document.getElementById('dealerQty')?.value)||0;
-  const dv=parseMoney(document.getElementById('dealerVal')?.value);
-  const rv=parseMoney(document.getElementById('rentVal')?.value);
-  const dealerTotal=dq*dv;
-  const dtEl=document.getElementById('dealerTotal');if(dtEl)dtEl.textContent=fmt(dealerTotal);
-  const foodNet={},rentNet={},dealerNet={};
-  players.forEach(p=>{foodNet[p.id]=0;rentNet[p.id]=0;dealerNet[p.id]=0;});
-  orders.forEach(o=>{
-    if(o.value===0||o.eaterIds.length===0)return;
-    const share=o.value/o.eaterIds.length;
-    if(o.payerId&&foodNet[o.payerId]!==undefined)foodNet[o.payerId]+=o.value;
-    o.eaterIds.forEach(eid=>{if(foodNet[eid]!==undefined)foodNet[eid]-=share;});
-  });
-  if(rv>0&&players.length>0){
-    const share=rv/players.length;
-    if(rentPayerId&&rentNet[rentPayerId]!==undefined)rentNet[rentPayerId]+=rv;
-    players.forEach(p=>rentNet[p.id]-=share);
-  }
-  if(dealerTotal>0&&players.length>0){
-    const share=dealerTotal/players.length;
-    if(dealerPayerId&&dealerNet[dealerPayerId]!==undefined)dealerNet[dealerPayerId]+=dealerTotal;
-    players.forEach(p=>dealerNet[p.id]-=share);
-  }
-  const grandTotal=dealerTotal+rv+orders.reduce((a,o)=>a+o.value,0);
-  const gtEl=document.getElementById('expGrandTotal');if(gtEl)gtEl.textContent=fmt(grandTotal);
-  const summCard=document.getElementById('expSummaryCard'),summList=document.getElementById('expSummaryList');
-  if(!summCard||!summList)return;
-  summCard.style.display=grandTotal>0?'block':'none';summList.innerHTML='';
-  players.forEach(p=>{
-    const net=(foodNet[p.id]||0)+(rentNet[p.id]||0)+(dealerNet[p.id]||0);
-    if(Math.abs(net)<0.01)return;
-    const isCredit=net>0;
-    const row=document.createElement('div');row.className='exp-player-row';
-    row.innerHTML=`<span class="exp-player-name">${p.name}</span>
-      <div style="text-align:right;">
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:${isCredit?'var(--green)':'var(--red)'}">${isCredit?'+':''}${fmt(net)}</div>
-        <div style="font-size:10px;color:var(--text-muted)">${isCredit?'a receber':'a pagar'}</div>
-      </div>`;
-    summList.appendChild(row);
-  });
-  if(summList.children.length===0&&grandTotal>0)summList.innerHTML='<div style="padding:12px;font-size:12px;color:var(--text-muted);text-align:center;">Selecione quem pagou para ver o resumo</div>';
+const dq=parseInt(document.getElementById('dealerQty')?.value)||0,dv=parseMoney(document.getElementById('dealerVal')?.value),rv=parseMoney(document.getElementById('rentVal')?.value),dealerTotal=dq*dv;
+const dtEl=document.getElementById('dealerTotal');if(dtEl)dtEl.textContent=fmt(dealerTotal);
+const foodNet={},rentNet={},dealerNet={};players.forEach(p=>{foodNet[p.id]=0;rentNet[p.id]=0;dealerNet[p.id]=0;});
+orders.forEach(o=>{if(o.value===0||o.eaterIds.length===0)return;const share=o.value/o.eaterIds.length;if(o.payerId&&foodNet[o.payerId]!==undefined)foodNet[o.payerId]+=o.value;o.eaterIds.forEach(eid=>{if(foodNet[eid]!==undefined)foodNet[eid]-=share;});});
+if(rv>0&&players.length>0){const share=rv/players.length;if(rentPayerId&&rentNet[rentPayerId]!==undefined)rentNet[rentPayerId]+=rv;players.forEach(p=>rentNet[p.id]-=share);}
+if(dealerTotal>0&&players.length>0){const share=dealerTotal/players.length;if(dealerPayerId&&dealerNet[dealerPayerId]!==undefined)dealerNet[dealerPayerId]+=dealerTotal;players.forEach(p=>dealerNet[p.id]-=share);}
+const grandTotal=dealerTotal+rv+orders.reduce((a,o)=>a+o.value,0);
+const gtEl=document.getElementById('expGrandTotal');if(gtEl)gtEl.textContent=fmt(grandTotal);
+const summCard=document.getElementById('expSummaryCard'),summList=document.getElementById('expSummaryList');if(!summCard||!summList)return;
+summCard.style.display=grandTotal>0?'block':'none';summList.innerHTML='';
+players.forEach(p=>{const net=(foodNet[p.id]||0)+(rentNet[p.id]||0)+(dealerNet[p.id]||0);if(Math.abs(net)<0.01)return;const isCredit=net>0;const row=document.createElement('div');row.className='exp-player-row';row.innerHTML=`<span class="exp-player-name">${p.name}</span><div style="text-align:right;"><div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:${isCredit?'var(--green)':'var(--red)'}">${isCredit?'+':''}${fmt(net)}</div><div style="font-size:10px;color:var(--text-muted)">${isCredit?'a receber':'a pagar'}</div></div>`;summList.appendChild(row);});
+if(summList.children.length===0&&grandTotal>0)summList.innerHTML='<div style="padding:12px;font-size:12px;color:var(--text-muted);text-align:center;">Selecione quem pagou para ver o resumo</div>';
 }
-function getExpNet(pid){
-  let net=0;
-  orders.forEach(o=>{
-    if(o.value===0||o.eaterIds.length===0)return;
-    const share=o.value/o.eaterIds.length;
-    if(o.payerId===pid)net+=o.value;
-    if(o.eaterIds.includes(pid))net-=share;
-  });
-  const rv=parseMoney(document.getElementById('rentVal')?.value);
-  if(rv>0&&players.length>0){if(rentPayerId===pid)net+=rv;net-=rv/players.length;}
-  const dq=parseInt(document.getElementById('dealerQty')?.value)||0;
-  const dv=parseMoney(document.getElementById('dealerVal')?.value);
-  const dt=dq*dv;
-  if(dt>0&&players.length>0){if(dealerPayerId===pid)net+=dt;net-=dt/players.length;}
-  return net;
+function getExpNet(pid){let net=0;orders.forEach(o=>{if(o.value===0||o.eaterIds.length===0)return;const share=o.value/o.eaterIds.length;if(o.payerId===pid)net+=o.value;if(o.eaterIds.includes(pid))net-=share;});const rv=parseMoney(document.getElementById('rentVal')?.value);if(rv>0&&players.length>0){if(rentPayerId===pid)net+=rv;net-=rv/players.length;}const dq=parseInt(document.getElementById('dealerQty')?.value)||0,dv=parseMoney(document.getElementById('dealerVal')?.value),dt=dq*dv;if(dt>0&&players.length>0){if(dealerPayerId===pid)net+=dt;net-=dt/players.length;}return net;}
+function renderStats(){
+const cont=document.getElementById('statsContent');
+if(!sessionReady||players.length===0){cont.innerHTML='<div class="empty-state"><div class="empty-icon">📊</div>Inicie uma sessão para ver as estatísticas</div>';return;}
+const totalMs=elapsedMs();
+let allJonSnows=[];players.forEach(p=>{(p.jonSnows||[]).forEach(js=>{allJonSnows.push({...js,playerName:p.name,playerId:p.id});});});
+allJonSnows.sort((a,b)=>a.globalIndex-b.globalIndex);
+let html=`<div class="stats-timer-box"><div class="stats-timer-label">⏱ Tempo de Jogo</div><div class="stats-timer" id="liveTimer">${fmtElapsed(totalMs)}</div><div class="stats-timer-sub">iniciou às ${new Date(sessionStartTime).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}</div><button id="pauseBtn" onclick="toggleTimer()" style="margin-top:14px;background:var(--surface2);border:1px solid var(--border);color:var(--text-soft);border-radius:var(--radius-sm);padding:10px 28px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;cursor:pointer;">${timerPaused?'▶ Retomar':'⏸ Pausar'}</button></div>`;
+html+=`<div class="stats-card"><div class="stats-card-header"><span class="stats-card-title">🌨 Jon Snow da Noite</span><span style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--purple)">${allJonSnows.length} no total</span></div>`;
+if(allJonSnows.length===0){html+=`<div class="stats-no-data">Nenhum Jon Snow ainda</div>`;}
+else{allJonSnows.forEach(js=>{html+=`<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid var(--border);"><div><span style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--purple)">${js.globalIndex}º Jon Snow</span><span style="font-size:12px;color:var(--text-muted);margin-left:8px;">por ${js.playerName}</span></div><div style="text-align:right;"><div style="font-size:13px;font-weight:700;color:var(--gold)">${fmt(js.amount)}</div><div style="font-size:10px;color:var(--text-muted)">+${fmtElapsed(js.elapsedMs)}</div></div></div>`;});}
+html+=`</div>`;
+html+=`<div class="stats-card"><div class="stats-card-header"><span class="stats-card-title">👤 Estatísticas por Jogador</span></div>`;
+players.forEach(p=>{
+   const rebuys=p.rebuys||[],jonSnows=p.jonSnows||[];
+   let rebuyAvgText='nenhum';
+   if(rebuys.length===1){rebuyAvgText=fmtElapsed(rebuys[0].elapsedMs)+' (1 rebuy)';}
+   else if(rebuys.length>1){const intervals=[];for(let i=1;i<rebuys.length;i++)intervals.push(rebuys[i].elapsedMs-rebuys[i-1].elapsedMs);const avgMs=intervals.reduce((a,b)=>a+b,0)/intervals.length;rebuyAvgText=`a cada ~${fmtMinutes(avgMs)} (${rebuys.length} rebuys)`;}
+   const rebuyChips=rebuys.map((r,i)=>`<span class="stats-chip chip-rebuy">${i+1}º +${fmtElapsed(r.elapsedMs)}</span>`).join('');
+   const jsChips=allJonSnows.map(js=>{const mine=js.playerId===p.id;return`<span class="stats-chip ${mine?'chip-jonsnow-mine':'chip-jonsnow'}">${js.globalIndex}º${mine?' ✓':''}</span>`;}).join('');
+   const myJsCount=jonSnows.length,myJsTotal=jonSnows.reduce((a,b)=>a+b.amount,0);
+   html+=`<div class="stats-player-block"><div class="stats-player-name">${p.name}</div>
+<div class="stats-row"><span class="stats-label">🟢 Rebuys</span><span class="stats-val">${rebuyAvgText}</span></div>`;
+   if(rebuys.length>0)html+=`<div class="stats-row"><span class="stats-label"></span><div class="stats-chips">${rebuyChips}</div></div>`;
+   html+=`<div class="stats-row" style="margin-top:6px;"><span class="stats-label">🟣 Jon Snow</span><span class="stats-val">${myJsCount>0?myJsCount+' vez(es) · '+fmt(myJsTotal):'nenhum'}</span></div>`;
+   if(allJonSnows.length>0)html+=`<div class="stats-row"><span class="stats-label"></span><div class="stats-chips">${jsChips}</div></div>`;
+   html+=`</div>`;
+});
+html+=`</div>`;
+cont.innerHTML=html;
+startTimer();
 }
 function switchTab(tab){
-  const mainEl=document.querySelector('.main'),expEl=document.getElementById('expTabPage'),resultEl=document.getElementById('resultTabPage');
-  const btnMain=document.getElementById('tabBtnMain'),btnExp=document.getElementById('tabBtnExp'),btnRes=document.getElementById('tabBtnResult');
-  mainEl.style.display='none';expEl.style.display='none';resultEl.style.display='none';
-  btnMain.classList.remove('active');btnExp.classList.remove('active');btnRes.classList.remove('active');
-  if(tab==='main'){mainEl.style.display='block';btnMain.classList.add('active');}
-  else if(tab==='exp'){expEl.style.display='block';btnExp.classList.add('active');renderOrders();renderDealerPayers();renderRentPayers();calcExpenses();}
-  else{resultEl.style.display='block';btnRes.classList.add('active');renderResultTab();}
+const mainEl=document.querySelector('.main');
+['expTabPage','statsTabPage','cashTabPage','resultTabPage'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
+mainEl.style.display='none';
+['tabBtnMain','tabBtnExp','tabBtnStats','tabBtnCash','tabBtnResult'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.remove('active');});
+if(tab==='main'){mainEl.style.display='block';document.getElementById('tabBtnMain').classList.add('active');}
+else if(tab==='exp'){document.getElementById('expTabPage').style.display='block';document.getElementById('tabBtnExp').classList.add('active');renderOrders();renderDealerPayers();renderRentPayers();calcExpenses();}
+else if(tab==='stats'){document.getElementById('statsTabPage').style.display='block';document.getElementById('tabBtnStats').classList.add('active');renderStats();}
+else if(tab==='cash'){document.getElementById('cashTabPage').style.display='block';document.getElementById('tabBtnCash').classList.add('active');renderCashTable();}
+else{document.getElementById('resultTabPage').style.display='block';document.getElementById('tabBtnResult').classList.add('active');renderResultTab();}
 }
 function renderResultTab(){
-  const cont=document.getElementById('resultTabContent');
-  if(players.length===0||prizeData.every(d=>!d.playerId)){
-    cont.innerHTML='<div class="result-tab-empty"><div class="result-tab-empty-icon">🏆</div>Calcule o resultado na aba Mesa para ver a tabela aqui</div>';return;
-  }
-  const pot=totalPot(),medals=Array.from({length:30},(_,i)=>i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1)+'º');
-  const winnerIds=prizeData.filter(d=>d.playerId).map(d=>d.playerId);
-  const nonWinners=players.filter(p=>!winnerIds.includes(p.id));
-  let winnerRows='';
-  prizeData.forEach((d,i)=>{
-    if(!d.playerId)return;
-    const p=players.find(x=>x.id===d.playerId),prize=d.amount,spent=playerTotal(p),expNet=getExpNet(p.id),pnl=prize+expNet-spent;
-    const pc=pnl>0?'var(--green)':pnl<0?'var(--red)':'var(--text-muted)';
-    const ec=expNet>0?'var(--green)':expNet<0?'var(--red)':'var(--text-muted)';
-    winnerRows+=`<tr class="rt-winner"><td>${medals[i]}</td><td>${p.name}</td><td style="color:var(--gold)">${fmtClean(p.buyin)}</td><td style="color:var(--green)">${fmtClean(p.rebuy)}</td><td style="color:var(--blue)">${fmtClean(p.addon)}</td><td style="color:var(--purple)">${fmtClean(p.jonsnow)}</td><td style="font-weight:800">${fmtClean(spent)}</td><td style="color:var(--gold);font-weight:800">${fmtClean(prize)}</td><td style="color:${ec};font-weight:700">${expNet>=0?'+':''}${fmtClean(expNet)}</td><td style="color:${pc};font-weight:800">${pnl>=0?'+':''}${fmtClean(pnl)}</td></tr>`;
-  });
-  let loserRows='';
-  if(nonWinners.length>0){
-    loserRows+=`<tr class="rt-sep"><td colspan="10">SEM PREMIAÇÃO</td></tr>`;
-    nonWinners.forEach(p=>{
-      const spent=playerTotal(p),expNet=getExpNet(p.id),pnl=expNet-spent;
-      const pc=pnl>0?'var(--green)':pnl<0?'var(--red)':'var(--text-muted)';
-      const ec=expNet>0?'var(--green)':expNet<0?'var(--red)':'var(--text-muted)';
-      loserRows+=`<tr class="rt-loser"><td>—</td><td>${p.name}</td><td style="color:var(--gold)">${fmtClean(p.buyin)}</td><td style="color:var(--green)">${fmtClean(p.rebuy)}</td><td style="color:var(--blue)">${fmtClean(p.addon)}</td><td style="color:var(--purple)">${fmtClean(p.jonsnow)}</td><td style="font-weight:800">${fmtClean(spent)}</td><td>—</td><td style="color:${ec};font-weight:700">${expNet>=0?'+':''}${fmtClean(expNet)}</td><td style="color:${pc};font-weight:800">${pnl>=0?'+':''}${fmtClean(pnl)}</td></tr>`;
-    });
-  }
-  const totInvested=players.reduce((a,p)=>a+playerTotal(p),0),totPrize=prizeData.reduce((a,d)=>a+d.amount,0);
-  cont.innerHTML=`<div class="rt-card"><div class="rt-header"><div class="rt-title">🏆 Resultado Final</div><div class="rt-meta">${sessionDate||'—'} · ${players.length} jogadores · Pote: ${fmt(pot)}</div></div>
-    <div style="overflow-x:auto"><table class="rt-table"><thead><tr><th>#</th><th>Jogador</th><th>Buy-In</th><th>Rebuy</th><th>Add-On</th><th>Jon Snow</th><th>Investido</th><th>Prêmio</th><th>Gastos</th><th>Lucro/Prej.</th></tr></thead>
-    <tbody>${winnerRows}${loserRows}
-    <tr class="rt-footer"><td colspan="2">TOTAL</td><td>${fmtClean(players.reduce((a,p)=>a+p.buyin,0))}</td><td>${fmtClean(players.reduce((a,p)=>a+p.rebuy,0))}</td><td>${fmtClean(players.reduce((a,p)=>a+p.addon,0))}</td><td>${fmtClean(players.reduce((a,p)=>a+p.jonsnow,0))}</td><td>${fmtClean(totInvested)}</td><td>${fmtClean(totPrize)}</td><td>—</td><td>—</td></tr>
-    </tbody></table></div></div>
-    <button class="rt-img-btn" onclick="exportImage()">📸 Gerar Imagem para Compartilhar</button>`;
+const cont=document.getElementById('resultTabContent');
+if(players.length===0||prizeData.every(d=>!d.playerId)){cont.innerHTML='<div class="empty-state"><div class="empty-icon">🏆</div>Calcule o resultado na aba Mesa para ver a tabela aqui</div>';return;}
+const pot=totalPot(),medals=Array.from({length:30},(_,i)=>i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1)+'º');
+const winnerIds=prizeData.filter(d=>d.playerId).map(d=>d.playerId),nonWinners=players.filter(p=>!winnerIds.includes(p.id));
+let winnerRows='';
+prizeData.forEach((d,i)=>{if(!d.playerId)return;const p=players.find(x=>x.id===d.playerId),prize=d.amount,spent=playerTotal(p),expNet=getExpNet(p.id),pnl=prize+expNet-spent;const pc=pnl>0?'var(--green)':pnl<0?'var(--red)':'var(--text-muted)',ec=expNet>0?'var(--green)':expNet<0?'var(--red)':'var(--text-muted)';winnerRows+=`<tr class="rt-winner"><td>${medals[i]}</td><td>${p.name}</td><td style="color:var(--gold)">${fmtClean(p.buyin)}</td><td style="color:var(--green)">${fmtClean(p.rebuy)}</td><td style="color:var(--blue)">${fmtClean(p.addon)}</td><td style="color:var(--purple)">${fmtClean(p.jonsnow)}</td><td style="font-weight:800">${fmtClean(spent)}</td><td style="color:var(--gold);font-weight:800">${fmtClean(prize)}</td><td style="color:${ec};font-weight:700">${expNet>=0?'+':''}${fmtClean(expNet)}</td><td style="color:${pc};font-weight:800">${pnl>=0?'+':''}${fmtClean(pnl)}</td></tr>`;});
+let loserRows='';
+if(nonWinners.length>0){loserRows+=`<tr class="rt-sep"><td colspan="10">SEM PREMIAÇÃO</td></tr>`;nonWinners.forEach(p=>{const spent=playerTotal(p),expNet=getExpNet(p.id),pnl=expNet-spent;const pc=pnl>0?'var(--green)':pnl<0?'var(--red)':'var(--text-muted)',ec=expNet>0?'var(--green)':expNet<0?'var(--red)':'var(--text-muted)';loserRows+=`<tr class="rt-loser"><td>—</td><td>${p.name}</td><td style="color:var(--gold)">${fmtClean(p.buyin)}</td><td style="color:var(--green)">${fmtClean(p.rebuy)}</td><td style="color:var(--blue)">${fmtClean(p.addon)}</td><td style="color:var(--purple)">${fmtClean(p.jonsnow)}</td><td style="font-weight:800">${fmtClean(spent)}</td><td>—</td><td style="color:${ec};font-weight:700">${expNet>=0?'+':''}${fmtClean(expNet)}</td><td style="color:${pc};font-weight:800">${pnl>=0?'+':''}${fmtClean(pnl)}</td></tr>`;});}
+const totInvested=players.reduce((a,p)=>a+playerTotal(p),0),totPrize=prizeData.reduce((a,d)=>a+d.amount,0);
+cont.innerHTML=`<div class="rt-card"><div class="rt-header"><div class="rt-title">🏆 Resultado Final</div><div class="rt-meta">${sessionDate||'—'} · ${players.length} jogadores · Pote: ${fmt(pot)}</div></div><div style="overflow-x:auto"><table class="rt-table"><thead><tr><th>#</th><th>Jogador</th><th>Buy-In</th><th>Rebuy</th><th>Add-On</th><th>Jon Snow</th><th>Investido</th><th>Prêmio</th><th>Gastos</th><th>Lucro/Prej.</th></tr></thead><tbody>${winnerRows}${loserRows}<tr class="rt-footer"><td colspan="2">TOTAL</td><td>${fmtClean(players.reduce((a,p)=>a+p.buyin,0))}</td><td>${fmtClean(players.reduce((a,p)=>a+p.rebuy,0))}</td><td>${fmtClean(players.reduce((a,p)=>a+p.addon,0))}</td><td>${fmtClean(players.reduce((a,p)=>a+p.jonsnow,0))}</td><td>${fmtClean(totInvested)}</td><td>${fmtClean(totPrize)}</td><td>—</td><td>—</td></tr></tbody></table></div></div><button class="rt-img-btn" onclick="exportImage()">📸 Gerar Imagem para Compartilhar</button>`;
 }
 function exportImage(){
-  const pot=totalPot(),medals=Array.from({length:30},(_,i)=>i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1)+'º');
-  const winnerIds=prizeData.map(d=>d.playerId),nonWinners=players.filter(p=>!winnerIds.includes(p.id));
-  const allRows=[...prizeData.map((d,i)=>({p:players.find(x=>x.id===d.playerId),prize:d.amount,rank:medals[i],winner:true})),...nonWinners.map(p=>({p,prize:0,rank:'—',winner:false}))];
-  const SCALE=2,W=1100,PAD=32,HEADER=130,COL_H=28,ROW_H=52,FOOTER=44,SEP_H=28;
-  const hasSep=nonWinners.length>0,H=HEADER+COL_H+allRows.length*ROW_H+(hasSep?SEP_H:0)+FOOTER;
-  const canvas=document.createElement('canvas');canvas.width=W*SCALE;canvas.height=H*SCALE;
-  const ctx=canvas.getContext('2d');ctx.scale(SCALE,SCALE);
-  const win=window.open('','_blank');
-  const fr=(x,y,w,h,c)=>{ctx.fillStyle=c;ctx.fillRect(x,y,w,h);};
-  const tx=(s,x,y,f,c,a='left')=>{ctx.font=f;ctx.fillStyle=c;ctx.textAlign=a;ctx.fillText(s,x,y);ctx.textAlign='left';};
-  const cols=[{label:'#',w:52,align:'center'},{label:'Jogador',w:165,align:'left'},{label:'Buy-In',w:90,align:'right',color:'#e6b94a'},{label:'Rebuy',w:90,align:'right',color:'#4caf7d'},{label:'Add-On',w:90,align:'right',color:'#5c9ee0'},{label:'Jon Snow',w:90,align:'right',color:'#a07de0'},{label:'Investido',w:100,align:'right',color:'rgba(240,240,240,0.7)'},{label:'Prêmio',w:100,align:'right',color:'#e6b94a'},{label:'Gastos',w:100,align:'right',color:'rgba(240,240,240,0.7)'},{label:'Lucro/Prej.',w:110,align:'right',color:'rgba(240,240,240,0.7)'}];
-  let cx=PAD;cols.forEach(c=>{c.x=cx;cx+=c.w;});
-  fr(0,0,W,H,'#111');fr(0,0,W,HEADER,'#1a1a1a');fr(0,HEADER,W,2,'#e6b94a');
-  tx('HOME GAME · POKER',PAD,46,'bold 36px Arial','#e6b94a');
-  tx(sessionDate+'   |   '+players.length+' jogadores   |   Pote: '+fmt(pot),PAD,82,'20px Arial','rgba(240,240,240,0.5)');
-  tx('🏆  RESULTADO FINAL',PAD,114,'bold 17px Arial','#e6b94a');
-  let chy=HEADER+2;fr(0,chy,W,COL_H,'#1e1e1e');
-  cols.forEach(c=>tx(c.label,c.x+(c.align==='right'?c.w:c.align==='center'?c.w/2:0),chy+19,'bold 11px Arial','rgba(240,240,240,0.4)',c.align==='right'?'right':c.align==='center'?'center':'left'));
-  fr(0,chy+COL_H-1,W,1,'rgba(255,255,255,0.07)');
-  let y=chy+COL_H;
-  allRows.forEach((row,ri)=>{
-    const{p,prize,rank,winner}=row;
-    if(!winner&&ri>0&&allRows[ri-1].winner){fr(0,y,W,SEP_H,'#1a1a1a');tx('SEM PREMIAÇÃO',W/2,y+SEP_H*0.68,'bold 12px Arial','rgba(240,240,240,0.3)','center');y+=SEP_H;}
-    ctx.globalAlpha=winner?1:0.38;
-    fr(0,y,W,ROW_H,winner?'rgba(230,185,74,0.05)':'transparent');fr(0,y+ROW_H-1,W,1,'rgba(255,255,255,0.05)');
-    const spent=playerTotal(p),midY=y+ROW_H/2+7,expNet=getExpNet(p.id),pnlFinal=prize+expNet-spent;
-    const ec=expNet>0?'#4caf7d':expNet<0?'#e05c5c':'rgba(240,240,240,0.4)';
-    const pc=pnlFinal>0?'#4caf7d':pnlFinal<0?'#e05c5c':'rgba(240,240,240,0.4)';
-    tx(rank,cols[0].x+cols[0].w/2,midY,'bold 18px Arial','#fff','center');
-    tx(p.name,cols[1].x,midY,'bold 18px Arial','#f0f0f0');
-    tx(fmtClean(p.buyin),cols[2].x+cols[2].w,midY,'15px Arial',cols[2].color,'right');
-    tx(fmtClean(p.rebuy),cols[3].x+cols[3].w,midY,'15px Arial',cols[3].color,'right');
-    tx(fmtClean(p.addon),cols[4].x+cols[4].w,midY,'15px Arial',cols[4].color,'right');
-    tx(fmtClean(p.jonsnow),cols[5].x+cols[5].w,midY,'15px Arial',cols[5].color,'right');
-    tx(fmtClean(spent),cols[6].x+cols[6].w,midY,'bold 15px Arial','#f0f0f0','right');
-    tx(prize>0?fmtClean(prize):'—',cols[7].x+cols[7].w,midY,'bold 16px Arial',prize>0?'#e6b94a':'rgba(240,240,240,0.25)','right');
-    tx((expNet>=0?'+':'')+fmtClean(expNet),cols[8].x+cols[8].w,midY,'15px Arial',ec,'right');
-    tx((pnlFinal>=0?'+':'')+fmtClean(pnlFinal),cols[9].x+cols[9].w,midY,'bold 15px Arial',pc,'right');
-    ctx.globalAlpha=1;y+=ROW_H;
-  });
-  fr(0,y,W,FOOTER,'#1a1a1a');tx('HOME GAME · POKER',W/2,y+28,'14px Arial','rgba(230,185,74,0.4)','center');
-  const dataUrl=canvas.toDataURL('image/png');
-  if(!win){
-    const ov=document.createElement('div');
-    ov.style.cssText='position:fixed;inset:0;background:#111;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;';
-    ov.innerHTML='<img src="'+dataUrl+'" style="max-width:100%;max-height:80vh;border-radius:12px;"><p style="color:rgba(255,255,255,0.5);font-size:14px;margin-top:16px;text-align:center;">📱 Pressione e segure para salvar</p><button onclick="this.parentElement.remove()" style="margin-top:20px;background:#e6b94a;color:#000;border:none;border-radius:8px;padding:12px 32px;font-size:15px;font-weight:800;cursor:pointer;">Fechar</button>';
-    document.body.appendChild(ov);return;
-  }
-  win.document.write('<!DOCTYPE html><html><head><title>Resultado</title><meta name="viewport" content="width=device-width,initial-scale=1"><style>*{box-sizing:border-box;margin:0;padding:0;}body{background:#111;display:flex;flex-direction:column;align-items:center;min-height:100vh;font-family:Arial,sans-serif;padding:20px;}img{max-width:100%;border-radius:12px;}p{color:rgba(255,255,255,0.5);font-size:14px;margin-top:16px;text-align:center;}</style></head><body><img src="'+dataUrl+'"><p>📱 Pressione e segure a imagem para salvar no rolo de fotos</p></body></html>');
-  win.document.close();
+const pot=totalPot(),medals=Array.from({length:30},(_,i)=>i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1)+'º');
+const winnerIds=prizeData.map(d=>d.playerId),nonWinners=players.filter(p=>!winnerIds.includes(p.id));
+const allRows=[...prizeData.map((d,i)=>({p:players.find(x=>x.id===d.playerId),prize:d.amount,rank:medals[i],winner:true})),...nonWinners.map(p=>({p,prize:0,rank:'—',winner:false}))];
+const SCALE=2,W=1100,PAD=32,HEADER=130,COL_H=28,ROW_H=52,FOOTER=44,SEP_H=28;
+const hasSep=nonWinners.length>0,H=HEADER+COL_H+allRows.length*ROW_H+(hasSep?SEP_H:0)+FOOTER;
+const canvas=document.createElement('canvas');canvas.width=W*SCALE;canvas.height=H*SCALE;
+const ctx=canvas.getContext('2d');ctx.scale(SCALE,SCALE);
+const win=window.open('','_blank');
+const fr=(x,y,w,h,c)=>{ctx.fillStyle=c;ctx.fillRect(x,y,w,h);};
+const tx=(s,x,y,f,c,a='left')=>{ctx.font=f;ctx.fillStyle=c;ctx.textAlign=a;ctx.fillText(s,x,y);ctx.textAlign='left';};
+const cols=[{label:'#',w:52,align:'center'},{label:'Jogador',w:165,align:'left'},{label:'Buy-In',w:90,align:'right',color:'#e6b94a'},{label:'Rebuy',w:90,align:'right',color:'#4caf7d'},{label:'Add-On',w:90,align:'right',color:'#5c9ee0'},{label:'Jon Snow',w:90,align:'right',color:'#a07de0'},{label:'Investido',w:100,align:'right',color:'rgba(240,240,240,0.7)'},{label:'Prêmio',w:100,align:'right',color:'#e6b94a'},{label:'Gastos',w:100,align:'right',color:'rgba(240,240,240,0.7)'},{label:'Lucro/Prej.',w:110,align:'right',color:'rgba(240,240,240,0.7)'}];
+let cx=PAD;cols.forEach(c=>{c.x=cx;cx+=c.w;});
+fr(0,0,W,H,'#111');fr(0,0,W,HEADER,'#1a1a1a');fr(0,HEADER,W,2,'#e6b94a');
+tx('THC - HOME GAME · POKER',PAD,46,'bold 36px Arial','#e6b94a');
+tx(sessionDate+'   |   '+players.length+' jogadores   |   Pote: '+fmt(pot),PAD,82,'20px Arial','rgba(240,240,240,0.5)');
+tx('🏆  RESULTADO FINAL',PAD,114,'bold 17px Arial','#e6b94a');
+let chy=HEADER+2;fr(0,chy,W,COL_H,'#1e1e1e');
+cols.forEach(c=>tx(c.label,c.x+(c.align==='right'?c.w:c.align==='center'?c.w/2:0),chy+19,'bold 11px Arial','rgba(240,240,240,0.4)',c.align==='right'?'right':c.align==='center'?'center':'left'));
+fr(0,chy+COL_H-1,W,1,'rgba(255,255,255,0.07)');
+let y=chy+COL_H;
+allRows.forEach((row,ri)=>{
+   const{p,prize,rank,winner}=row;
+   if(!winner&&ri>0&&allRows[ri-1].winner){fr(0,y,W,SEP_H,'#1a1a1a');tx('SEM PREMIAÇÃO',W/2,y+SEP_H*0.68,'bold 12px Arial','rgba(240,240,240,0.3)','center');y+=SEP_H;}
+   ctx.globalAlpha=winner?1:0.38;
+   fr(0,y,W,ROW_H,winner?'rgba(230,185,74,0.05)':'transparent');fr(0,y+ROW_H-1,W,1,'rgba(255,255,255,0.05)');
+   const spent=playerTotal(p),midY=y+ROW_H/2+7,expNet=getExpNet(p.id),pnlFinal=prize+expNet-spent;
+   const ec=expNet>0?'#4caf7d':expNet<0?'#e05c5c':'rgba(240,240,240,0.4)';
+   const pc=pnlFinal>0?'#4caf7d':pnlFinal<0?'#e05c5c':'rgba(240,240,240,0.4)';
+   tx(rank,cols[0].x+cols[0].w/2,midY,'bold 18px Arial','#fff','center');
+   tx(p.name,cols[1].x,midY,'bold 18px Arial','#f0f0f0');
+   tx(fmtClean(p.buyin),cols[2].x+cols[2].w,midY,'15px Arial',cols[2].color,'right');
+   tx(fmtClean(p.rebuy),cols[3].x+cols[3].w,midY,'15px Arial',cols[3].color,'right');
+   tx(fmtClean(p.addon),cols[4].x+cols[4].w,midY,'15px Arial',cols[4].color,'right');
+   tx(fmtClean(p.jonsnow),cols[5].x+cols[5].w,midY,'15px Arial',cols[5].color,'right');
+   tx(fmtClean(spent),cols[6].x+cols[6].w,midY,'bold 15px Arial','#f0f0f0','right');
+   tx(prize>0?fmtClean(prize):'—',cols[7].x+cols[7].w,midY,'bold 16px Arial',prize>0?'#e6b94a':'rgba(240,240,240,0.25)','right');
+   tx((expNet>=0?'+':'')+fmtClean(expNet),cols[8].x+cols[8].w,midY,'15px Arial',ec,'right');
+   tx((pnlFinal>=0?'+':'')+fmtClean(pnlFinal),cols[9].x+cols[9].w,midY,'bold 15px Arial',pc,'right');
+   ctx.globalAlpha=1;y+=ROW_H;
+});
+fr(0,y,W,FOOTER,'#1a1a1a');tx('THC - HOME GAME · POKER',W/2,y+28,'14px Arial','rgba(230,185,74,0.4)','center');
+const dataUrl=canvas.toDataURL('image/png');
+if(!win){const ov=document.createElement('div');ov.style.cssText='position:fixed;inset:0;background:#111;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;';ov.innerHTML='<img src="'+dataUrl+'" style="max-width:100%;max-height:80vh;border-radius:12px;"><p style="color:rgba(255,255,255,0.5);font-size:14px;margin-top:16px;text-align:center;">📱 Pressione e segure para salvar</p><button onclick="this.parentElement.remove()" style="margin-top:20px;background:#e6b94a;color:#000;border:none;border-radius:8px;padding:12px 32px;font-size:15px;font-weight:800;cursor:pointer;">Fechar</button>';document.body.appendChild(ov);return;}
+win.document.write('<!DOCTYPE html><html><head><title>Resultado</title><meta name="viewport" content="width=device-width,initial-scale=1"><style>*{box-sizing:border-box;margin:0;padding:0;}body{background:#111;display:flex;flex-direction:column;align-items:center;min-height:100vh;font-family:Arial,sans-serif;padding:20px;}img{max-width:100%;border-radius:12px;}p{color:rgba(255,255,255,0.5);font-size:14px;margin-top:16px;text-align:center;}</style></head><body><img src="'+dataUrl+'"><p>📱 Pressione e segure a imagem para salvar no rolo de fotos</p></body></html>');
+win.document.close();
 }
-function showConfirm(msg,onYes){
-  const ov=document.createElement('div');ov.className='confirm-overlay';
-  ov.innerHTML=`<div class="confirm-box"><div class="confirm-msg">${msg}</div><div class="confirm-btns"><button class="confirm-yes" id="cYes">Sim</button><button class="confirm-no" id="cNo">Não</button></div></div>`;
-  document.body.appendChild(ov);
-  ov.querySelector('#cYes').onclick=()=>{ov.remove();onYes();};
-  ov.querySelector('#cNo').onclick=()=>ov.remove();
-  ov.onclick=e=>{if(e.target===ov)ov.remove();};
-}
-function showToast(msg){
-  const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2500);
-}
+function showConfirm(msg,onYes){const ov=document.createElement('div');ov.className='confirm-overlay';ov.innerHTML=`<div class="confirm-box"><div class="confirm-msg">${msg}</div><div class="confirm-btns"><button class="confirm-yes" id="cYes">Sim</button><button class="confirm-no" id="cNo">Não</button></div></div>`;document.body.appendChild(ov);ov.querySelector('#cYes').onclick=()=>{ov.remove();onYes();};ov.querySelector('#cNo').onclick=()=>ov.remove();ov.onclick=e=>{if(e.target===ov)ov.remove();};}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
 function render(){
-  document.getElementById('livePot').textContent=fmt(totalPot());
-  const investSec=document.getElementById('investSection');
-  if(players.length===0){investSec.style.display='none';}
-  else{
-    investSec.style.display='block';
-    const pRows=document.getElementById('playerRows');pRows.innerHTML='';
-    players.forEach(p=>{
-      const row=document.createElement('div');row.className='inv-row';
-      row.innerHTML=`<div class="inv-cell player-name-cell" onclick="openPlayerModal('${p.id}')">${p.name}<span class="edit-hint">editar</span></div>
-        <div class="inv-cell center" style="color:var(--gold)" onclick="openPlayerModal('${p.id}')">${fmtClean(p.buyin)}</div>
-        <div class="inv-cell center" style="color:var(--green)" onclick="openPlayerModal('${p.id}')">${fmtClean(p.rebuy)}</div>
-        <div class="inv-cell center" style="color:var(--blue)" onclick="openPlayerModal('${p.id}')">${fmtClean(p.addon)}</div>
-        <div class="inv-cell center" style="color:var(--purple)" onclick="openPlayerModal('${p.id}')">${fmtClean(p.jonsnow)}</div>
-        <div class="inv-cell right" style="font-weight:800" onclick="openPlayerModal('${p.id}')">${fmtClean(playerTotal(p))}</div>
-        <div class="inv-cell"><button class="btn-remove-sm" onclick="removePlayer('${p.id}')">✕</button></div>`;
-      pRows.appendChild(row);
-    });
-    const foot=document.getElementById('footerRow');
-    foot.innerHTML=`<div class="inv-cell" style="font-size:11px;">TOTAL</div>
-      <div class="inv-cell center">${fmtClean(players.reduce((a,p)=>a+p.buyin,0))}</div>
-      <div class="inv-cell center">${fmtClean(players.reduce((a,p)=>a+p.rebuy,0))}</div>
-      <div class="inv-cell center">${fmtClean(players.reduce((a,p)=>a+p.addon,0))}</div>
-      <div class="inv-cell center">${fmtClean(players.reduce((a,p)=>a+p.jonsnow,0))}</div>
-      <div class="inv-cell right">${fmtClean(totalPot())}</div>
-      <div class="inv-cell"></div>`;
-  }
-  const priz=document.getElementById('prizesSection');
-  if(players.length>=2){
-    priz.style.display='block';
-    prizeCount=players.length;
-    while(prizeData.length<prizeCount)prizeData.push({playerId:'',amount:0});
-    prizeData=prizeData.slice(0,prizeCount);
-    renderPrizes();
-  }else priz.style.display='none';
-  document.getElementById('resultsSection').style.display='none';
+document.getElementById('livePot').textContent=fmt(totalPot());
+const investSec=document.getElementById('investSection');
+if(players.length===0){investSec.style.display='none';}
+else{
+   investSec.style.display='block';const pRows=document.getElementById('playerRows');pRows.innerHTML='';
+   players.forEach(p=>{const row=document.createElement('div');row.className='inv-row';row.innerHTML=`<div class="inv-cell player-name-cell" onclick="openPlayerModal('${p.id}')">${p.name}<span class="edit-hint">editar</span></div><div class="inv-cell center" style="color:var(--gold)" onclick="openPlayerModal('${p.id}')">${fmtClean(p.buyin)}</div><div class="inv-cell center" style="color:var(--green)" onclick="openPlayerModal('${p.id}')">${fmtClean(p.rebuy)}</div><div class="inv-cell center" style="color:var(--blue)" onclick="openPlayerModal('${p.id}')">${fmtClean(p.addon)}</div><div class="inv-cell center" style="color:var(--purple)" onclick="openPlayerModal('${p.id}')">${fmtClean(p.jonsnow)}</div><div class="inv-cell right" style="font-weight:800" onclick="openPlayerModal('${p.id}')">${fmtClean(playerTotal(p))}</div><div class="inv-cell"><button class="btn-remove-sm" onclick="removePlayer('${p.id}')">✕</button></div>`;pRows.appendChild(row);});
+   const foot=document.getElementById('footerRow');foot.innerHTML=`<div class="inv-cell" style="font-size:11px;">TOTAL</div><div class="inv-cell center">${fmtClean(players.reduce((a,p)=>a+p.buyin,0))}</div><div class="inv-cell center">${fmtClean(players.reduce((a,p)=>a+p.rebuy,0))}</div><div class="inv-cell center">${fmtClean(players.reduce((a,p)=>a+p.addon,0))}</div><div class="inv-cell center">${fmtClean(players.reduce((a,p)=>a+p.jonsnow,0))}</div><div class="inv-cell right">${fmtClean(totalPot())}</div><div class="inv-cell"></div>`;
 }
-renderHistory();
-setSyncStatus('syncing');
-startPolling();
+const priz=document.getElementById('prizesSection');
+if(players.length>=2){priz.style.display='block';prizeCount=players.length;while(prizeData.length<prizeCount)prizeData.push({playerId:'',amount:0});prizeData=prizeData.slice(0,prizeCount);renderPrizes();}
+else priz.style.display='none';
+document.getElementById('resultsSection').style.display='none';
+}
+let cashPlayers=[];
+function addCashPlayer(){const name=document.getElementById('cashNewName').value.trim();if(!name){showToast('⚠ Insira o nome do jogador');return;}if(cashPlayers.find(p=>p.name.toLowerCase()===name.toLowerCase())){showToast('⚠ Jogador já existe');return;}cashPlayers.push({id:uid(),name,paid:0,gained:0});document.getElementById('cashNewName').value='';document.getElementById('cashNewName').focus();saveCashState();renderCashTable();}
+function removeCashPlayer(id){const p=cashPlayers.find(x=>x.id===id);showConfirm(`Remover <strong>${p.name}</strong> do Cash Game?`,()=>{cashPlayers=cashPlayers.filter(x=>x.id!==id);saveCashState();renderCashTable();});}
+function openCashModal(id){
+const p=cashPlayers.find(x=>x.id===id);const pnl=p.gained-p.paid;const pnlColor=pnl>0?'var(--green)':pnl<0?'var(--red)':'var(--text-muted)';
+const overlay=document.createElement('div');overlay.className='modal-overlay';overlay.id='cashModal';
+overlay.innerHTML=`<div class="modal-box">
+<div class="modal-player-name">${p.name}</div>
+<div class="modal-player-total" style="margin-bottom:16px;">P&L: <strong style="color:${pnlColor}">${pnl>=0?'+':''}${fmt(pnl)}</strong></div>
+<div class="modal-fields">
+<div class="modal-field-row"><div class="modal-field-left"><div class="modal-field-type" style="color:var(--red)">Pago</div><div class="modal-field-value" style="color:var(--red)" id="cashModalPaid">${fmt(p.paid)}</div><div class="modal-field-note">acumula · negativo para corrigir</div></div><div class="modal-field-right"><input class="modal-input" type="number" id="inpCashPaid" placeholder="valor" step="0.01" style="color:var(--red);border-color:rgba(224,92,92,0.3)" onkeydown="if(event.key==='Enter')applyCashPaid('${id}')"><button class="modal-btn-action" style="background:var(--red-dim);color:var(--red);border:1px solid rgba(224,92,92,0.2)" onclick="applyCashPaid('${id}')">+</button></div></div>
+<div class="modal-field-row"><div class="modal-field-left"><div class="modal-field-type" style="color:var(--green)">Ganho</div><div class="modal-field-value" style="color:var(--green)" id="cashModalGained">${fmt(p.gained)}</div><div class="modal-field-note">acumula · negativo para corrigir</div></div><div class="modal-field-right"><input class="modal-input" type="number" id="inpCashGained" placeholder="valor" step="0.01" style="color:var(--green);border-color:rgba(76,175,125,0.3)" onkeydown="if(event.key==='Enter')applyCashGained('${id}')"><button class="modal-btn-action" style="background:var(--green-dim);color:var(--green);border:1px solid rgba(76,175,125,0.2)" onclick="applyCashGained('${id}')">+</button></div></div>
+</div>
+<button class="modal-close" onclick="closeCashModal()">Fechar</button>
+</div>`;
+document.body.appendChild(overlay);overlay.onclick=e=>{if(e.target===overlay)closeCashModal();};
+}
+function closeCashModal(){const m=document.getElementById('cashModal');if(m)m.remove();}
+function refreshCashModal(id){const p=cashPlayers.find(x=>x.id===id);const g=i=>document.getElementById(i);if(!g('cashModal'))return;const pnl=p.gained-p.paid;const pnlColor=pnl>0?'var(--green)':pnl<0?'var(--red)':'var(--text-muted)';g('cashModalPaid').textContent=fmt(p.paid);g('cashModalGained').textContent=fmt(p.gained);const strong=g('cashModal').querySelector('.modal-player-total strong');if(strong){strong.textContent=(pnl>=0?'+':'')+fmt(pnl);strong.style.color=pnlColor;}saveCashState();renderCashTable();}
+function applyCashPaid(id){const raw=parseFloat(document.getElementById('inpCashPaid').value);if(isNaN(raw)||raw===0){showToast('⚠ Valor inválido');return;}const p=cashPlayers.find(x=>x.id===id);const next=p.paid+raw;if(next<0){showToast('⚠ Pago não pode ficar negativo');return;}p.paid=next;document.getElementById('inpCashPaid').value='';refreshCashModal(id);}
+function applyCashGained(id){const raw=parseFloat(document.getElementById('inpCashGained').value);if(isNaN(raw)||raw===0){showToast('⚠ Valor inválido');return;}const p=cashPlayers.find(x=>x.id===id);const next=p.gained+raw;if(next<0){showToast('⚠ Ganho não pode ficar negativo');return;}p.gained=next;document.getElementById('inpCashGained').value='';refreshCashModal(id);}
+function renderCashTable(){
+const sec=document.getElementById('cashTableSection');if(cashPlayers.length===0){sec.style.display='none';return;}sec.style.display='block';
+const dealerTotal=parseMoney(document.getElementById('cashDealerVal')?.value);
+const dealerPerPlayer=cashPlayers.length>0&&dealerTotal>0?dealerTotal/cashPlayers.length:0;
+const infoEl=document.getElementById('cashDealerInfo');if(infoEl){if(dealerTotal>0&&cashPlayers.length>0){infoEl.innerHTML=`${fmt(dealerTotal)} ÷ ${cashPlayers.length} jogadores = <strong style="color:var(--blue)">${fmt(dealerPerPlayer)}</strong> por jogador`;}else{infoEl.innerHTML='';}}
+const rowsEl=document.getElementById('cashPlayerRows');rowsEl.innerHTML='';
+cashPlayers.forEach(p=>{const pnl=p.gained-p.paid-dealerPerPlayer;const pnlClass=pnl>0?'cash-pnl-pos':pnl<0?'cash-pnl-neg':'cash-pnl-zero';const row=document.createElement('div');row.style.cssText='display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr 32px;border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.15s;';row.onmouseover=()=>row.style.background='rgba(230,185,74,0.04)';row.onmouseout=()=>row.style.background='';row.innerHTML=`<div class="inv-cell player-name-cell" onclick="openCashModal('${p.id}')">${p.name}<span class="edit-hint">editar</span></div><div class="inv-cell center" style="color:var(--red)" onclick="openCashModal('${p.id}')">${fmtClean(p.paid)}</div><div class="inv-cell center" style="color:var(--blue)">${fmtClean(dealerPerPlayer)}</div><div class="inv-cell center" style="color:var(--green)" onclick="openCashModal('${p.id}')">${fmtClean(p.gained)}</div><div class="inv-cell center ${pnlClass}" onclick="openCashModal('${p.id}')">${pnl>=0?'+':''}${fmtClean(pnl)}</div><div class="inv-cell"><button class="btn-remove-sm" onclick="removeCashPlayer('${p.id}')">✕</button></div>`;rowsEl.appendChild(row);});
+const totalPaid=cashPlayers.reduce((a,p)=>a+p.paid,0),totalGained=cashPlayers.reduce((a,p)=>a+p.gained,0),totalDealer=dealerPerPlayer*cashPlayers.length,totalPnl=totalGained-totalPaid-totalDealer;
+const footEl=document.getElementById('cashFooterRow');footEl.innerHTML=`<div class="inv-cell" style="font-size:11px;font-weight:800;color:var(--gold);">TOTAL</div><div class="inv-cell center" style="font-weight:800;color:var(--gold);">${fmtClean(totalPaid)}</div><div class="inv-cell center" style="font-weight:800;color:var(--blue);">${fmtClean(totalDealer)}</div><div class="inv-cell center" style="font-weight:800;color:var(--gold);">${fmtClean(totalGained)}</div><div class="inv-cell center" style="font-weight:800;color:${totalPnl>=0?'var(--green)':'var(--red)'};">${totalPnl>=0?'+':''}${fmtClean(totalPnl)}</div><div class="inv-cell"></div>`;
+}
+function saveCashState(){localStorage.setItem('pgCash',JSON.stringify(cashPlayers));}
+function loadCashState(){try{const raw=localStorage.getItem('pgCash');if(raw)cashPlayers=JSON.parse(raw);}catch(e){}}
+loadState();renderHistory();render();
+loadCashState();renderCashTable();
+setSyncStatus('syncing');startPolling();
 </script>
 </body>
 </html>
