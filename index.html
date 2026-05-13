@@ -319,182 +319,316 @@ if(timerPaused){sessionStartTime=Date.now()-pausedElapsedMs;timerPaused=false;st
 else{pausedElapsedMs=elapsedMs();timerPaused=true;if(timerInterval){clearInterval(timerInterval);timerInterval=null;}showToast('⏸ Cronômetro pausado');const el=document.getElementById('liveTimer');if(el)el.textContent=fmtElapsed(pausedElapsedMs);const btn=document.getElementById('pauseBtn');if(btn)btn.textContent='▶ Retomar';}
 saveState();
 }
-// ── FIREBASE REST SYNC ──
-const DB='https://thc-homegame-default-rtdb.firebaseio.com/session.json';
+// ── FIREBASE REST SYNC CORRIGIDO ──
+const DB='https://firebaseio.com';
 let lastData='',localChange=false,pollInterval=null;
-function setSyncStatus(status){const dot=document.getElementById('syncDot'),label=document.getElementById('syncLabel');if(!dot||!label)return;dot.className='sync-dot '+status;label.textContent=status==='online'?'ao vivo':status==='syncing'?'salvando...':'sem conexão';}
-function startPolling(){fetchState();pollInterval=setInterval(fetchState,3000);}
-async function fetchState(){try{const res=await fetch(DB+'?nocache='+Date.now());if(!res.ok){setSyncStatus('offline');return;}const data=await res.json();setSyncStatus('online');if(!data)return;const str=JSON.stringify(data);if(str===lastData||localChange)return;lastData=str;applyState(data);}catch(e){setSyncStatus('offline');}}
-async function pushState(state){setSyncStatus('syncing');try{const res=await fetch(DB,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(state)});if(res.ok){lastData=JSON.stringify(state);setSyncStatus('online');}else setSyncStatus('offline');}catch(e){setSyncStatus('offline');}}
-async function clearFirebase(){try{await fetch(DB,{method:'DELETE'});lastData='';setSyncStatus('online');}catch(e){setSyncStatus('offline');}}
+ 
+function setSyncStatus(status){
+  const dot=document.getElementById('syncDot'),label=document.getElementById('syncLabel');
+  if(!dot||!label)return;
+  dot.className='sync-dot '+status;
+  label.textContent=status==='online'?'ao vivo':status==='syncing'?'salvando...':'sem conexão';
+}
+ 
+function startPolling(){
+  fetchState();
+  pollInterval=setInterval(fetchState,3000);
+}
+ 
+async function fetchState(){
+  if(localChange) return; // Se você acabou de clicar, ignora a internet por alguns segundos para não travar
+  try{
+    const res=await fetch(DB+'?nocache='+Date.now());
+    if(!res.ok){setSyncStatus('offline');return;}
+    const data=await res.json();
+    setSyncStatus('online');
+    if(!data)return;
+    const str=JSON.stringify(data);
+    if(str===lastData||localChange)return;
+    lastData=str;
+    applyState(data);
+  }catch(e){setSyncStatus('offline');}
+}
+ 
+async function pushState(state){
+  setSyncStatus('syncing');
+  try{
+    const res=await fetch(DB,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(state)});
+    if(res.ok){
+      lastData=JSON.stringify(state);
+      setSyncStatus('online');
+    }else setSyncStatus('offline');
+  }catch(e){setSyncStatus('offline');}
+}
+ 
+async function clearFirebase(){
+  try{
+    await fetch(DB,{method:'DELETE'});
+    lastData='';
+    setSyncStatus('online');
+  }catch(e){setSyncStatus('offline');}
+}
+ 
 function saveState(){
-localChange=true;
-const dealerQtyEl = document.getElementById('dealerQty');
-const dealerVa1El = document.getElementById('dealerVal');
-const rentValEl = document.getElementById('rentVal');
-const currentDealerQty = dealerQtyEl ? (parseInt(dealerQtyEl.value) || 0) : (window.lastDealerQty ||0);
-const currentDealerVal = dealerValEl ? parseMoney(dealerValEl.value) : (window.lastDealerVal ||0);
-const currentRentVal = rentValEl ? parseMoney(rentValEl.value) : (window.lastRentVal ||0);
-window.lastDealerQty = currentDealerQty;
-window.lastDealerVal = currentDealerVal;
-window.lastRentVal = currentRentVal;
-const state={
-players,
-prizeData,
-prizeCount,
-sessionDate,
-sessionBuyIn,
-sessionReady,
-orders,
-rentPayersId,
-dealerPayersId,
-sessionStartTime,
-globalJonSnowCount,
-timerPaused,
-pausedElapsedMs,
-dealerQty: currentDealerQty,
-dealerVal: currentDealerVal,
-rentVal: currentRentVal
-};
-pushState(state).then(()=>setTimeout(()=>{localChange=false;},3000));
-localStorage.setItem('pgState',JSON.stringify(state));
+  localChange=true;
+  
+  // Pegando os valores da tela se existirem, senão mantendo os que já estavam na memória
+  const dqEl = document.getElementById('dealerQty');
+  const dvEl = document.getElementById('dealerVal');
+  const rvEl = document.getElementById('rentVal');
+  
+  if(dqEl) window.lastDealerQty = parseInt(dqEl.value) || 0;
+  if(dvEl) window.lastDealerVal = parseMoney(dvEl.value);
+  if(rvEl) window.lastRentVal = parseMoney(rvEl.value);
+ 
+  const state={
+    players,prizeData,prizeCount,sessionDate,sessionBuyin,sessionReady,orders,
+    rentPayerId,dealerPayerId,sessionStartTime,globalJonSnowCount,timerPaused,pausedElapsedMs,
+    dealerQty: window.lastDealerQty || 0,
+    dealerVal: window.lastDealerVal || 0,
+    rentVal: window.lastRentVal || 0
+  };
+  
+  localStorage.setItem('pgState',JSON.stringify(state));
+  pushState(state).then(()=>{
+    // Aumentamos o tempo de segurança para a internet não apagar o seu clique
+    setTimeout(()=>{ localChange=false; }, 4000);
+  });
 }
+ 
 function applyState(s){
-players=s.players||[];prizeData=s.prizeData||[];prizeCount=s.prizeCount||3;
-sessionDate=s.sessionDate||'';sessionBuyin=s.sessionBuyin||0;sessionReady=s.sessionReady||false;
-orders=s.orders||[];rentPayerId=s.rentPayerId||'';dealerPayerId=s.dealerPayerId||'';
-sessionStartTime=s.sessionStartTime||null;globalJonSnowCount=s.globalJonSnowCount||0;
-timerPaused=s.timerPaused||false;pausedElapsedMs=s.pausedElapsedMs||0;
-players.forEach(p=>{if(!p.rebuys)p.rebuys=[];if(!p.jonSnows)p.jonSnows=[];});
-const dq=document.getElementById('dealerQty'),dv=document.getElementById('dealerVal'),rv=document.getElementById('rentVal');
-if(dq&&s.dealerQty!=null)dq.value=s.dealerQty||'';
-if(dv&&s.dealerVal!=null)dv.value=s.dealerVal>0?s.dealerVal.toFixed(2):'';
-if(rv&&s.rentVal!=null)rv.value=s.rentVal>0?s.rentVal.toFixed(2):'';
-if(sessionReady){
-   document.getElementById('setupSection').style.display='none';
-   document.getElementById('sessionInfoBar').style.display='block';
-   document.getElementById('addPlayerSection').style.display='block';
-   document.getElementById('infoDate').textContent=sessionDate;
-   document.getElementById('infoBuyin').textContent='Buy-In: '+fmt(sessionBuyin);
-   if(sessionStartTime&&!timerPaused)startTimer();
-}else{
-   document.getElementById('setupSection').style.display='block';
-   document.getElementById('sessionInfoBar').style.display='none';
-   document.getElementById('addPlayerSection').style.display='none';
+  // Se a internet trouxer uma sessão vazia mas temos jogo ativo localmente, não reseta
+  if((!s.players || s.players.length === 0) && players.length > 0) return;
+ 
+  players=s.players||[];prizeData=s.prizeData||[];prizeCount=s.prizeCount||3;
+  sessionDate=s.sessionDate||'';sessionBuyin=s.sessionBuyin||0;sessionReady=s.sessionReady||false;
+  orders=s.orders||[];rentPayerId=s.rentPayerId||'';dealerPayerId=s.dealerPayerId||'';
+  sessionStartTime=s.sessionStartTime||null;globalJonSnowCount=s.globalJonSnowCount||0;
+  timerPaused=s.timerPaused||false;pausedElapsedMs=s.pausedElapsedMs||0;
+  
+  players.forEach(p=>{if(!p.rebuys)p.rebuys=[];if(!p.jonSnows)p.jonSnows=[];});
+  
+  window.lastDealerQty = s.dealerQty || 0;
+  window.lastDealerVal = s.dealerVal || 0;
+  window.lastRentVal = s.rentVal || 0;
+ 
+  const dq=document.getElementById('dealerQty'),dv=document.getElementById('dealerVal'),rv=document.getElementById('rentVal');
+  if(dq) dq.value=s.dealerQty||'';
+  if(dv) dv.value=s.dealerVal>0?s.dealerVal.toFixed(2):'';
+  if(rv) rv.value=s.rentVal>0?s.rentVal.toFixed(2):'';
+  
+  if(sessionReady){
+    document.getElementById('setupSection').style.display='none';
+    document.getElementById('sessionInfoBar').style.display='block';
+    document.getElementById('addPlayerSection').style.display='block';
+    document.getElementById('infoDate').textContent=sessionDate;
+    document.getElementById('infoBuyin').textContent='Buy-In: '+fmt(sessionBuyin);
+    if(sessionStartTime&&!timerPaused)startTimer();
+  }else{
+    document.getElementById('setupSection').style.display='block';
+    document.getElementById('sessionInfoBar').style.display='none';
+    document.getElementById('addPlayerSection').style.display='none';
+  }
+  render();renderDealerPayers();renderRentPayers();calcExpenses();
 }
-render();renderDealerPayers();renderRentPayers();calcExpenses();
+ 
+function loadState(){
+  try{
+    const raw=localStorage.getItem('pgState');
+    if(!raw)return;
+    applyState(JSON.parse(raw));
+  }catch(e){console.log('load error',e);}
 }
-function loadState(){try{const raw=localStorage.getItem('pgState');if(!raw)return;applyState(JSON.parse(raw));}catch(e){console.log('load error',e);}}
+ 
 function confirmSetup(){
-const date=document.getElementById('setupDate').value.trim();
-const buyin=parseMoney(document.getElementById('setupBuyin').value);
-if(!date){showToast('⚠ Insira a data da sessão');return;}
-if(buyin<=0){showToast('⚠ Insira o valor do Buy-In');return;}
-sessionDate=date;sessionBuyin=buyin;sessionReady=true;sessionStartTime=Date.now();globalJonSnowCount=0;timerPaused=false;pausedElapsedMs=0;
-document.getElementById('setupSection').style.display='none';
-document.getElementById('sessionInfoBar').style.display='block';
-document.getElementById('addPlayerSection').style.display='block';
-document.getElementById('infoDate').textContent=sessionDate;
-document.getElementById('infoBuyin').textContent='Buy-In: '+fmt(sessionBuyin);
-document.getElementById('newName').focus();
-startTimer();saveState();
+  const date=document.getElementById('setupDate').value.trim();
+  const buyin=parseMoney(document.getElementById('setupBuyin').value);
+  if(!date){showToast(' Insira a data da sessão');return;}
+  if(buyin<=0){showToast(' Insira o valor do Buy-In');return;}
+  sessionDate=date;sessionBuyin=buyin;sessionReady=true;sessionStartTime=Date.now();
+  globalJonSnowCount=0;timerPaused=false;pausedElapsedMs=0;
+  document.getElementById('setupSection').style.display='none';
+  document.getElementById('sessionInfoBar').style.display='block';
+  document.getElementById('addPlayerSection').style.display='block';
+  document.getElementById('infoDate').textContent=sessionDate;
+  document.getElementById('infoBuyin').textContent='Buy-In: '+fmt(sessionBuyin);
+  document.getElementById('newName').focus();
+  startTimer();saveState();
 }
-function editSetup(){document.getElementById('setupSection').style.display='block';document.getElementById('sessionInfoBar').style.display='none';document.getElementById('setupDate').value=sessionDate;document.getElementById('setupBuyin').value=sessionBuyin;sessionReady=false;saveState();}
+ 
+function editSetup(){
+  document.getElementById('setupSection').style.display='block';
+  document.getElementById('sessionInfoBar').style.display='none';
+  document.getElementById('setupDate').value=sessionDate;
+  document.getElementById('setupBuyin').value=sessionBuyin;
+  sessionReady=false;
+  saveState();
+}
+ 
 function resetSession(){
-showConfirm('Limpar <strong>toda a sessão atual</strong>?',()=>{
-   if(timerInterval){clearInterval(timerInterval);timerInterval=null;}
-   players=[];prizeData=[];prizeCount=3;sessionDate='';sessionBuyin=0;sessionReady=false;
-   orders=[];rentPayerId='';dealerPayerId='';sessionStartTime=null;globalJonSnowCount=0;timerPaused=false;pausedElapsedMs=0;
-   document.getElementById('setupSection').style.display='block';
-   document.getElementById('sessionInfoBar').style.display='none';
-   document.getElementById('addPlayerSection').style.display='none';
-   document.getElementById('setupDate').value='';document.getElementById('setupBuyin').value='';
-   const dq=document.getElementById('dealerQty');if(dq)dq.value='';
-   const dv=document.getElementById('dealerVal');if(dv)dv.value='';
-   const rv=document.getElementById('rentVal');if(rv)rv.value='';
-   localStorage.removeItem('pgState');localStorage.removeItem('pgCash');
-   cashPlayers=[];const cdv=document.getElementById('cashDealerVal');if(cdv)cdv.value='';
-   clearFirebase();render();renderCashTable();showToast('✅ Sessão resetada!');
-});
+  showConfirm('Limpar <strong>toda a sessão atual</strong>?',()=>{
+    if(timerInterval){clearInterval(timerInterval);timerInterval=null;}
+    players=[];prizeData=[];prizeCount=3;sessionDate='';sessionBuyin=0;sessionReady=false;
+    orders=[];rentPayerId='';dealerPayerId='';sessionStartTime=null;globalJonSnowCount=0;timerPaused=false;pausedElapsedMs=0;
+    document.getElementById('setupSection').style.display='block';
+    document.getElementById('sessionInfoBar').style.display='none';
+    document.getElementById('addPlayerSection').style.display='none';
+    document.getElementById('setupDate').value='';document.getElementById('setupBuyin').value='';
+    const dq=document.getElementById('dealerQty');if(dq)dq.value='';
+    const dv=document.getElementById('dealerVal');if(dv)dv.value='';
+    const rv=document.getElementById('rentVal');if(rv)rv.value='';
+    localStorage.removeItem('pgState');localStorage.removeItem('pgCash');
+    cashPlayers=[];const cdv=document.getElementById('cashDealerVal');if(cdv)cdv.value='';
+    clearFirebase();render();renderCashTable();showToast(' Sessão resetada! ✅');
+  });
 }
+ 
 function addPlayer(){
-if(!sessionReady){showToast('⚠ Configure a sessão primeiro');return;}
-const name=document.getElementById('newName').value.trim();
-if(!name){showToast('⚠ Insira o nome do jogador');return;}
-players.push({id:uid(),name,buyin:sessionBuyin,rebuy:0,addon:0,jonsnow:0,rebuys:[],jonSnows:[]});
-document.getElementById('newName').value='';document.getElementById('newName').focus();
-render();saveState();
+  if(!sessionReady){showToast(' Configure a sessão primeiro');return;}
+  const name=document.getElementById('newName').value.trim();
+  if(!name){showToast(' Insira o nome do jogador');return;}
+  players.push({id:uid(),name,buyin:sessionBuyin,rebuy:0,addon:0,jonsnow:0,rebuys:[],jonSnows:[]});
+  document.getElementById('newName').value='';document.getElementById('newName').focus();
+  render();saveState();
 }
-function removePlayer(id){const p=players.find(x=>x.id===id);showConfirm(`Remover <strong>${p.name}</strong>?`,()=>{players=players.filter(x=>x.id!==id);render();saveState();});}
+ 
+function removePlayer(id){
+  const p=players.find(x=>x.id===id);
+  showConfirm(`Remover <strong>${p.name}</strong>?`,()=>{players=players.filter(x=>x.id!==id);render();saveState();});
+}
+ 
 function openPlayerModal(id){
-const p=players.find(x=>x.id===id);
-let lastJsVal=0;players.forEach(pp=>{(pp.jonSnows||[]).forEach(js=>{if(js.globalIndex>lastJsVal)lastJsVal=js.amount;});});
-const lastJsNote=lastJsVal>0?fmtClean(lastJsVal):'0,00';
-const overlay=document.createElement('div');overlay.className='modal-overlay';overlay.id='playerModal';
-overlay.innerHTML=`<div class="modal-box">
-<div class="modal-player-name">${p.name}</div>
-<div class="modal-player-total">Total: <strong id="modalTotal">${fmt(playerTotal(p))}</strong></div>
-<div class="modal-fields">
-<div class="modal-field-row"><div class="modal-field-left"><div class="modal-field-type" style="color:var(--green)">Rebuy</div><div class="modal-field-value" style="color:var(--green)" id="modalRebuy">${fmt(p.rebuy)}</div><div class="modal-field-note">acumula · negativo para corrigir</div></div><div class="modal-field-right"><input class="modal-input" type="number" id="inpRebuy" placeholder="ex:-10" step="0.01" style="color:var(--green)" onkeydown="if(event.key==='Enter')applyRebuy('${id}')"><button class="modal-btn-action" style="background:var(--green-dim);color:var(--green);border:1px solid rgba(76,175,125,0.2)" onclick="applyRebuy('${id}')">+</button></div></div>
-<div class="modal-field-row"><div class="modal-field-left"><div class="modal-field-type" style="color:var(--blue)">Add-On</div><div class="modal-field-value" style="color:var(--blue)" id="modalAddon">${fmt(p.addon)}</div><div class="modal-field-note">valor fixo</div></div><div class="modal-field-right"><input class="modal-input" type="number" id="inpAddon" placeholder="valor" step="0.01" min="0" style="color:var(--blue)" onkeydown="if(event.key==='Enter')applyAddon('${id}')"><button class="modal-btn-action" style="background:var(--blue-dim);color:var(--blue);border:1px solid rgba(92,158,224,0.2)" onclick="applyAddon('${id}')">✓</button></div></div>
-<div class="modal-field-row"><div class="modal-field-left"><div class="modal-field-type" style="color:var(--purple)">Jon Snow</div><div class="modal-field-value" style="color:var(--purple)" id="modalJonsnow">${fmt(p.jonsnow)}</div><div class="modal-field-note" id="modalJsNote">último: ${fmt(p.jonSnows&&p.jonSnows.length>0?p.jonSnows[p.jonSnows.length-1].amount:0)} · negativo para corrigir</div></div><div class="modal-field-right"><input class="modal-input" type="number" id="inpJonsnow" placeholder="${lastJsNote}" step="0.01" style="color:var(--purple)" onkeydown="if(event.key==='Enter')applyJonSnow('${id}')"><button class="modal-btn-action" style="background:var(--purple-dim);color:var(--purple);border:1px solid rgba(160,125,224,0.2)" onclick="applyJonSnow('${id}')">+</button></div></div>
-</div>
-<button class="modal-close" onclick="closePlayerModal()">Fechar</button>
-</div>`;
-document.body.appendChild(overlay);overlay.onclick=e=>{if(e.target===overlay)closePlayerModal();};
+  const p=players.find(x=>x.id===id);
+  let lastJsVal=0;players.forEach(pp=>{(pp.jonSnows||[]).forEach(js=>{if(js.globalIndex>lastJsVal)lastJsVal=js.amount;});});
+  const lastJsNote=lastJsVal>0?fmtClean(lastJsVal):'0,00';
+  const overlay=document.createElement('div');overlay.className='modal-overlay';overlay.id='playerModal';
+  overlay.innerHTML=`<div class="modal-box">
+  <div class="modal-player-name">${p.name}</div>
+  <div class="modal-player-total">Total: <strong id="modalTotal">${fmt(playerTotal(p))}</strong></div>
+  <div class="modal-fields">
+  <div class="modal-field-row"><div class="modal-field-left"><div class="modal-field-type" style="color:var(--green)">Rebuy</div><div class="modal-field-value" style="color:var(--green)" id="modalRebuy">${fmt(p.rebuy)}</div><div class="modal-field-note">acumula · negativo para corrigir</div></div><div class="modal-field-right"><input class="modal-input" type="number" id="inpRebuy" placeholder="ex:-10" step="0.01" style="color:var(--green)" onkeydown="if(event.key==='Enter')applyRebuy('${id}')"><button class="modal-btn-action" style="background:var(--green-dim);color:var(--green);border:1px solid rgba(76,175,125,0.2)" onclick="applyRebuy('${id}')">+</button></div></div>
+  <div class="modal-field-row"><div class="modal-field-left"><div class="modal-field-type" style="color:var(--blue)">Add-On</div><div class="modal-field-value" style="color:var(--blue)" id="modalAddon">${fmt(p.addon)}</div><div class="modal-field-note">valor fixo</div></div><div class="modal-field-right"><input class="modal-input" type="number" id="inpAddon" placeholder="valor" step="0.01" min="0" style="color:var(--blue)" onkeydown="if(event.key==='Enter')applyAddon('${id}')"><button class="modal-btn-action" style="background:var(--blue-dim);color:var(--blue);border:1px solid rgba(92,158,224,0.2)" onclick="applyAddon('${id}')">✓</button></div></div>
+  <div class="modal-field-row"><div class="modal-field-left"><div class="modal-field-type" style="color:var(--purple)">Jon Snow</div><div class="modal-field-value" style="color:var(--purple)" id="modalJonsnow">${fmt(p.jonsnow)}</div><div class="modal-field-note" id="modalJsNote">último: ${fmt(p.jonSnows&&p.jonSnows.length>0?p.jonSnows[p.jonSnows.length-1].amount:0)} · negativo para corrigir</div></div><div class="modal-field-right"><input class="modal-input" type="number" id="inpJonsnow" placeholder="${lastJsNote}" step="0.01" style="color:var(--purple)" onkeydown="if(event.key==='Enter')applyJonSnow('${id}')"><button class="modal-btn-action" style="background:var(--purple-dim);color:var(--purple);border:1px solid rgba(160,125,224,0.2)" onclick="applyJonSnow('${id}')">+</button></div></div>
+  </div><button class="modal-close" onclick="closePlayerModal()">Fechar</button></div>`;
+  document.body.appendChild(overlay);overlay.onclick=e=>{if(e.target===overlay)closePlayerModal();};
 }
+ 
 function closePlayerModal(){const m=document.getElementById('playerModal');if(m)m.remove();}
 function refreshModal(id){const p=players.find(x=>x.id===id);const g=i=>document.getElementById(i);if(!g('playerModal'))return;g('modalTotal').textContent=fmt(playerTotal(p));g('modalRebuy').textContent=fmt(p.rebuy);g('modalAddon').textContent=fmt(p.addon);g('modalJonsnow').textContent=fmt(p.jonsnow);render();saveState();}
-function applyRebuy(id){const raw=parseFloat(document.getElementById('inpRebuy').value);if(isNaN(raw)||raw===0){showToast('⚠ Valor inválido');return;}const p=players.find(x=>x.id===id);const next=p.rebuy+raw;if(next<0){showToast('⚠ Rebuy não pode ficar negativo');return;}if(raw>0){if(!p.rebuys)p.rebuys=[];p.rebuys.push({amount:raw,elapsedMs:elapsedMs()});}p.rebuy=next;document.getElementById('inpRebuy').value='';refreshModal(id);}
-function applyAddon(id){const val=parseMoney(document.getElementById('inpAddon').value);if(val<=0){showToast('⚠ Valor inválido');return;}players.find(x=>x.id===id).addon=val;document.getElementById('inpAddon').value='';refreshModal(id);}
-function applyJonSnow(id){const raw=parseFloat(document.getElementById('inpJonsnow').value);if(isNaN(raw)||raw===0){showToast('⚠ Valor inválido');return;}const p=players.find(x=>x.id===id);const next=p.jonsnow+raw;if(next<0){showToast('⚠ Jon Snow não pode ficar negativo');return;}if(raw>0){if(!p.jonSnows)p.jonSnows=[];globalJonSnowCount++;p.jonSnows.push({amount:raw,elapsedMs:elapsedMs(),globalIndex:globalJonSnowCount});}p.jonsnow=next;document.getElementById('inpJonsnow').value='';refreshModal(id);}
+ 
+function applyRebuy(id){
+  const raw=parseFloat(document.getElementById('inpRebuy').value);if(isNaN(raw)||raw===0){showToast(' Valor inválido');return;}
+  const p=players.find(x=>x.id===id);const next=p.rebuy+raw;if(next<0){showToast(' Rebuy não pode ficar negativo');return;}
+  if(raw>0){if(!p.rebuys)p.rebuys=[];p.rebuys.push({amount:raw,elapsedMs:elapsedMs()});}p.rebuy=next;document.getElementById('inpRebuy').value='';refreshModal(id);
+}
+ 
+function applyAddon(id){const val=parseMoney(document.getElementById('inpAddon').value);if(val<=0){showToast(' Valor inválido');return;}players.find(x=>x.id===id).addon=val;document.getElementById('inpAddon').value='';refreshModal(id);}
+ 
+function applyJonSnow(id){
+  const raw=parseFloat(document.getElementById('inpJonsnow').value);if(isNaN(raw)||raw===0){showToast(' Valor inválido');return;}
+  const p=players.find(x=>x.id===id);const next=p.jonsnow+raw;if(next<0){showToast(' Jon Snow não pode ficar negativo');return;}
+  if(raw>0){if(!p.jonSnows)p.jonSnows=[];globalJonSnowCount++;p.jonSnows.push({amount:raw,elapsedMs:elapsedMs(),globalIndex:globalJonSnowCount});}p.jonsnow=next;document.getElementById('inpJonsnow').value='';refreshModal(id);
+}
+ 
 function updatePrizePlayer(i,val){prizeData[i].playerId=val;renderPrizesRemain();saveState();}
 function updatePrizeAmount(i,val){prizeData[i].amount=parseMoney(val);renderPrizesRemain();saveState();}
 function allocatedTotal(){return prizeData.reduce((a,b)=>a+b.amount,0);}
-function renderPrizesRemain(){const remain=totalPot()-allocatedTotal();const el=document.getElementById('prizesRemain'),over=remain<-0.005;el.className='prizes-remain'+(over?' over':'');el.innerHTML=over?`Excedido em: <strong>${fmt(Math.abs(remain))}</strong>`:`Saldo restante: <strong>${fmt(Math.max(0,remain))}</strong>`;updateHints();}
+ 
+function renderPrizesRemain(){
+  const remain=totalPot()-allocatedTotal();const el=document.getElementById('prizesRemain'),over=remain<-0.005;
+  el.className='prizes-remain'+(over?' over':'');el.innerHTML=over?`Excedido em: <strong>${fmt(Math.abs(remain))}</strong>`:`Saldo restante: <strong>${fmt(Math.max(0,remain))}</strong>`;updateHints();
+}
+ 
 function updateHints(){
-const pot=totalPot(),pcts=[50,30,20];
-let fromFourthOnward=0;for(let j=3;j<prizeData.length;j++)fromFourthOnward+=prizeData[j]?.amount||0;
-const base=Math.max(0,pot-fromFourthOnward);
-document.querySelectorAll('.prize-hint').forEach((h,i)=>{if(i>=3||pot<=0){h.innerHTML='';return;}h.innerHTML=`Sugestão: <strong>${fmt(base*pcts[i]/100)}</strong> (${pcts[i]}% do pote - 4º+)`;});
+  const pot=totalPot(),pcts=[50,30,20];
+  let fromFourthOnward=0;for(let j=3;j<prizeData.length;j++)fromFourthOnward+=prizeData[j]?.amount||0;
+  const base=Math.max(0,pot-fromFourthOnward);
+  document.querySelectorAll('.prize-hint').forEach((h,i)=>{if(i>=3||pot<=0){h.innerHTML='';return;}h.innerHTML=`Sugestão: <strong>${fmt(base*pcts[i]/100)}</strong> (${pcts[i]}% do pote - 4º+)`;});
 }
+ 
 function renderPrizes(){
-const colors=['#e6b94a','#c0c0c0','#cd7f32','#88aacc','#a07de0','#4caf7d','#e05c5c','#e0aa5c'];
-const labels=Array.from({length:20},(_,i)=>`${i+1}º Lugar`);
-const prRows=document.getElementById('prizeRows');prRows.innerHTML='';
-for(let i=0;i<prizeCount;i++){
-   const d=prizeData[i]||{playerId:'',amount:0},color=colors[i]||'#aaa';
-   const div=document.createElement('div');div.className='prize-row-item';
-   let opts=`<option value="">— Selecionar jogador —</option>`;
-   players.forEach(p=>{opts+=`<option value="${p.id}" ${d.playerId===p.id?'selected':''}>${p.name}</option>`;});
-   div.innerHTML=`<div class="prize-row-top"><span class="prize-rank" style="color:${color}">${labels[i]}</span><select class="prize-player-select" onchange="updatePrizePlayer(${i},this.value)">${opts}</select><div class="prize-amount-group"><span class="prize-amount-label">R$</span><input class="prize-amount-input" type="number" min="0" step="0.01" value="${d.amount>0?d.amount.toFixed(2):''}" placeholder="0,00" oninput="updatePrizeAmount(${i},this.value)" style="border-color:${color}33"></div></div><div class="prize-hint" id="hint${i}"></div>`;
-   prRows.appendChild(div);
+  const colors=['#e6b94a','#c0c0c0','#cd7f32','#88aacc','#a07de0','#4caf7d','#e05c5c','#e0aa5c'];
+  const labels=Array.from({length:20},(_,i)=>`${i+1}º Lugar`);
+  const prRows=document.getElementById('prizeRows');prRows.innerHTML='';
+  for(let i=0;i<prizeCount;i++){
+    const d=prizeData[i]||{playerId:'',amount:0},color=colors[i]||'#aaa';
+    const div=document.createElement('div');div.className='prize-row-item';
+    let opts=`<option value="">— Selecionar jogador —</option>`;
+    players.forEach(p=>{opts+=`<option value="${p.id}" ${d.playerId===p.id?'selected':''}>${p.name}</option>`;});
+    div.innerHTML=`<div class="prize-row-top"><span class="prize-rank" style="color:${color}">${labels[i]}</span><select class="prize-player-select" onchange="updatePrizePlayer(${i},this.value)">${opts}</select><div class="prize-amount-group"><span class="prize-amount-label">R$</span><input class="prize-amount-input" type="number" min="0" step="0.01" value="${d.amount>0?d.amount.toFixed(2):''}" placeholder="0,00" oninput="updatePrizeAmount(${i},this.value)" style="border-color:${color}33"></div></div><div class="prize-hint" id="hint${i}"></div>`;
+    prRows.appendChild(div);
+  }
+  renderPrizesRemain();
 }
-renderPrizesRemain();
-}
+ 
 function calcResults(){
-const pot=totalPot(),alloc=allocatedTotal();
-if(alloc>pot+0.01){showToast('⚠ Valor excede o pote!');return;}
-for(let i=0;i<prizeCount;i++){if(!prizeData[i].playerId){showToast(`⚠ Selecione o ${i+1}º colocado`);return;}}
-const ids=prizeData.map(d=>d.playerId);if(new Set(ids).size!==ids.length){showToast('⚠ Jogador duplicado');return;}
-const medals=['🥇','🥈','🥉','④','⑤','⑥','⑦','⑧'];const winnerIds=prizeData.map(d=>d.playerId);
-const rl=document.getElementById('resultsList');rl.innerHTML='';
-prizeData.forEach((d,i)=>{const p=players.find(x=>x.id===d.playerId),prize=d.amount,spent=playerTotal(p),pnl=prize-spent;const item=document.createElement('div');item.className='result-item winner';item.innerHTML=`<div class="result-medal">${medals[i]||'▪'}</div><div class="result-info"><div class="result-name">${p.name}</div><div class="result-spent">Investido: ${fmt(spent)}</div></div><div class="result-right"><div class="result-prize">${fmt(prize)}</div><div class="result-pnl ${pnl>0?'pnl-pos':pnl<0?'pnl-neg':'pnl-zero'}">${pnl>=0?'+':''}${fmt(pnl)}</div></div>`;rl.appendChild(item);});
-const nonWinners=players.filter(p=>!winnerIds.includes(p.id));
-if(nonWinners.length>0){const sep=document.createElement('div');sep.style.cssText='font-size:9px;letter-spacing:3px;text-align:center;padding:7px;color:rgba(240,240,240,0.3);background:var(--surface2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);';sep.textContent='SEM PREMIAÇÃO';rl.appendChild(sep);nonWinners.forEach(p=>{const spent=playerTotal(p);const item=document.createElement('div');item.className='result-item loser';item.innerHTML=`<div class="result-medal" style="font-size:16px;color:var(--text-muted)">—</div><div class="result-info"><div class="result-name">${p.name}</div><div class="result-spent">Investido: ${fmt(spent)}</div></div><div class="result-right"><div class="result-prize" style="font-size:16px;color:var(--text-muted)">—</div><div class="result-pnl pnl-neg">-${fmt(spent)}</div></div>`;rl.appendChild(item);});}
-document.getElementById('resultPotDisplay').textContent=fmt(pot);document.getElementById('resultsSection').style.display='block';document.getElementById('resultsSection').scrollIntoView({behavior:'smooth',block:'start'});
+  const pot=totalPot(),alloc=allocatedTotal();if(alloc>pot+0.01){showToast(' Valor excede o pote !');return;}
+  for(let i=0;i<prizeCount;i++){if(!prizeData[i].playerId){showToast(` Selecione o ${i+1}º colocado`);return;}}
+  const ids=prizeData.map(d=>d.playerId);if(new Set(ids).size!==ids.length){showToast(' Jogador duplicado');return;}
+  const medals=[' ',' ',' ','④','⑤','⑥','⑦','⑧'];const winnerIds=prizeData.map(d=>d.playerId);
+  const rl=document.getElementById('resultsList');rl.innerHTML='';
+  prizeData.forEach((d,i)=>{
+    const p=players.find(x=>x.id===d.playerId),prize=d.amount,spent=playerTotal(p),pnl=prize-spent;
+    const item=document.createElement('div');item.className='result-item winner';
+    item.innerHTML=`<div class="result-medal">${medals[i]||'▪'}</div><div class="result-info"><div class="result-name">${p.name}</div><div class="result-spent">Investido: ${fmt(spent)}</div></div><div class="result-right"><div class="result-prize">${fmt(prize)}</div><div class="result-pnl ${pnl>0?'pnl-pos':pnl<0?'pnl-neg':'pnl-zero'}">${pnl>=0?'+':''}${fmt(pnl)}</div></div>`;rl.appendChild(item);
+  });
+  const nonWinners=players.filter(p=>!winnerIds.includes(p.id));
+  if(nonWinners.length>0){
+    const sep=document.createElement('div');sep.style.cssText='font-size:9px;letter-spacing:3px;text-align:center;padding:7px;color:rgba(240,240,240,0.3);background:var(--surface2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);';sep.textContent='SEM PREMIAÇÃO';rl.appendChild(sep);
+    nonWinners.forEach(p=>{
+      const spent=playerTotal(p);const item=document.createElement('div');item.className='result-item loser';
+      item.innerHTML=`<div class="result-medal" style="font-size:16px;color:var(--text-muted)">—</div><div class="result-info"><div class="result-name">${p.name}</div><div class="result-spent">Investido: ${fmt(spent)}</div></div><div class="result-right"><div class="result-prize" style="font-size:16px;color:var(--text-muted)">—</div><div class="result-pnl pnl-neg">-${fmt(spent)}</div></div>`;rl.appendChild(item);
+    });
+  }
+  document.getElementById('resultPotDisplay').textContent=fmt(pot);document.getElementById('resultsSection').style.display='block';document.getElementById('resultsSection').scrollIntoView({behavior:'smooth',block:'start'});
 }
+ 
 function saveSession(){const date=sessionDate||new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'});const history=JSON.parse(localStorage.getItem('pgHistory')||'[]');history.unshift({id:uid(),name:date,date,pot:totalPot(),players:players.length});localStorage.setItem('pgHistory',JSON.stringify(history.slice(0,20)));renderHistory();showToast('✅ Sessão salva!');}
 function deleteHistoryItem(id){const history=JSON.parse(localStorage.getItem('pgHistory')||'[]');const item=history.find(h=>h.id===id);showConfirm(`Apagar <strong>${item?item.name:'esta sessão'}</strong>?`,()=>{localStorage.setItem('pgHistory',JSON.stringify(history.filter(h=>h.id!==id)));renderHistory();});}
 function clearHistory(){showConfirm('Apagar <strong>todo o histórico</strong>?',()=>{localStorage.removeItem('pgHistory');renderHistory();});}
-function renderHistory(){const history=JSON.parse(localStorage.getItem('pgHistory')||'[]');const sec=document.getElementById('historySection');if(!history.length){sec.style.display='none';return;}sec.style.display='block';const hl=document.getElementById('historyList');hl.innerHTML='';history.forEach(h=>{if(!h.id)h.id=uid();const item=document.createElement('div');item.className='history-item';item.innerHTML=`<div style="flex:1"><div class="history-name">${h.name}</div><div class="history-meta">${h.date} · ${h.players} jogadores</div></div><div class="history-pot">${fmt(h.pot)}</div><button class="btn-remove-hist" onclick="deleteHistoryItem('${h.id}')">✕</button>`;hl.appendChild(item);});}
-function addOrder(){if(players.length===0){showToast('⚠ Adicione jogadores primeiro');return;}orders.push({id:uid(),value:0,payerId:'',eaterIds:[]});renderOrders();saveState();}
+ 
+function renderHistory(){
+  const history=JSON.parse(localStorage.getItem('pgHistory')||'[]');const sec=document.getElementById('historySection');if(!history.length){sec.style.display='none';return;}sec.style.display='block';
+  const hl=document.getElementById('historyList');hl.innerHTML='';
+  history.forEach(h=>{
+    if(!h.id)h.id=uid();const item=document.createElement('div');item.className='history-item';
+    item.innerHTML=`<div style="flex:1"><div class="history-name">${h.name}</div><div class="history-meta">${h.date} · ${h.players} jogadores</div></div><div class="history-pot">${fmt(h.pot)}</div><button class="btn-remove-hist" onclick="deleteHistoryItem('${h.id}')">✕</button>`;hl.appendChild(item);
+  });
+}
+ 
+function addOrder(){if(players.length===0){showToast(' Adicione jogadores primeiro');return;}orders.push({id:uid(),value:0,payerId:'',eaterIds:[]});renderOrders();saveState();}
 function removeOrder(id){orders=orders.filter(o=>o.id!==id);renderOrders();calcExpenses();saveState();}
 function updateOrderValue(id,val){const o=orders.find(x=>x.id===id);o.value=parseMoney(val);calcExpenses();saveState();}
-function togglePayer(orderId,playerId){const o=orders.find(x=>x.id===orderId);if(!o)return;o.payerId=(o.payerId===playerId)?'':playerId;renderOrders();calcExpenses();saveState();}
-function toggleEater(orderId,playerId){const o=orders.find(x=>x.id===orderId);if(!o)return;if(o.eaterIds.includes(playerId))o.eaterIds=o.eaterIds.filter(id=>id!==playerId);else o.eaterIds.push(playerId);renderOrders();calcExpenses();saveState();}
-function renderOrders(){const list=document.getElementById('orderList');if(!list)return;list.innerHTML='';if(orders.length===0){list.innerHTML='<div style="text-align:center;color:var(--text-muted);font-size:13px;padding:12px 0;">Nenhum pedido ainda</div>';return;}orders.forEach((o,idx)=>{const div=document.createElement('div');div.className='order-card';let payerChips=players.map(p=>`<span class="order-payer-chip ${o.payerId===p.id?'selected':''}" onclick="togglePayer('${o.id}','${p.id}')">${p.name}</span>`).join('');let eaterChips=players.map(p=>`<span class="order-player-chip ${o.eaterIds.includes(p.id)?'selected':''}" onclick="toggleEater('${o.id}','${p.id}')">${p.name}</span>`).join('');const perHead=o.eaterIds.length>0?(o.value/o.eaterIds.length):0;div.innerHTML=`<div class="order-card-top"><span class="order-card-label">Pedido ${idx+1}</span><div style="display:flex;align-items:center;gap:8px;"><span class="order-card-val">${fmt(o.value)}</span><button class="btn-remove-sm" onclick="removeOrder('${o.id}')">✕</button></div></div><div class="field-group" style="margin-bottom:12px;"><div class="field-label">Valor Total (R$)</div><input class="field-input" type="number" placeholder="0,00" min="0" step="0.01" value="${o.value>0?o.value.toFixed(2):''}" oninput="updateOrderValue('${o.id}',this.value)"></div><div class="order-who"><div class="order-who-label" style="color:var(--green)">Quem pagou</div><div class="order-players">${payerChips}</div></div><div class="order-who" style="margin-top:10px;"><div class="order-who-label">Quem comeu ${perHead>0?'· <span style="color:var(--gold)">'+fmt(perHead)+'/pessoa</span>':''}</div><div class="order-players">${eaterChips}</div></div>`;list.appendChild(div);});}
-function renderRentPayers(){const rv=parseMoney(document.getElementById('rentVal')?.value);const sec=document.getElementById('rentPayerSection'),chips=document.getElementById('rentPayerChips');if(!sec||!chips)return;if(rv<=0||players.length===0){sec.style.display='none';return;}sec.style.display='block';chips.innerHTML='';players.forEach(p=>{const span=document.createElement('span');span.className='order-payer-chip'+(rentPayerId===p.id?' selected':'');span.textContent=p.name;span.onclick=()=>{rentPayerId=(rentPayerId===p.id)?'':p.id;renderRentPayers();calcExpenses();saveState();};chips.appendChild(span);});}
+ 
+function togglePayer(orderId,playerId){
+  const o=orders.find(x=>x.id===orderId);
+  o.payerId=(o.payerId===playerId)?'':playerId;
+  renderOrders();
+  calcExpenses();
+  saveState();
+}
+ 
+function toggleEater(orderId,playerId){
+  const o=orders.find(x=>x.id===orderId);
+  if(o.eaterIds.includes(playerId))o.eaterIds=o.eaterIds.filter(id=>id!==playerId);
+  else o.eaterIds.push(playerId);
+  renderOrders();
+  calcExpenses();
+  saveState();
+}
+ 
+function renderOrders(){
+  const list=document.getElementById('orderList');if(!list)return;list.innerHTML='';
+  if(orders.length===0){list.innerHTML='<div style="text-align:center;color:var(--text-muted);font-size:13px;padding:12px 0;">Nenhum pedido ainda</div>';return;}
+  orders.forEach((o,idx)=>{
+    const div=document.createElement('div');div.className='order-card';
+    let payerChips=players.map(p=>`<span class="order-payer-chip ${o.payerId===p.id?'selected':''}" onclick="togglePayer('${o.id}','${p.id}')">${p.name}</span>`).join('');
+    let eaterChips=players.map(p=>`<span class="order-player-chip ${o.eaterIds.includes(p.id)?'selected':''}" onclick="toggleEater('${o.id}','${p.id}')">${p.name}</span>`).join('');
+    const perHead=o.eaterIds.length>0?(o.value/o.eaterIds.length):0;
+    div.innerHTML=`<div class="order-card-top"><span class="order-card-label">Pedido ${idx+1}</span><div style="display:flex;align-items:center;gap:8px;"><span class="order-card-val">${fmt(o.value)}</span><button class="btn-remove-sm" onclick="removeOrder('${o.id}')">✕</button></div></div><div class="field-group" style="margin-bottom:12px;"><div class="field-label">Valor Total (R$)</div><input class="field-input" type="number" placeholder="0,00" min="0" step="0.01" value="${o.value>0?o.value.toFixed(2):''}" oninput="updateOrderValue('${o.id}',this.value)"></div><div class="order-who"><div class="order-who-label" style="color:var(--green)">Quem pagou</div><div class="order-players">${payerChips}</div></div><div class="order-who" style="margin-top:10px;"><div class="order-who-label">Quem comeu ${perHead>0?'· <span style="color:var(--gold)">'+fmt(perHead)+'/pessoa</span>':''}</div><div class="order-players">${eaterChips}</div></div>`;
+    list.appendChild(div);
+  });
+}
 function renderDealerPayers(){const dq=parseInt(document.getElementById('dealerQty')?.value)||0,dv=parseMoney(document.getElementById('dealerVal')?.value),total=dq*dv;const sec=document.getElementById('dealerPayerSection'),chips=document.getElementById('dealerPayerChips');if(!sec||!chips)return;if(total<=0||players.length===0){sec.style.display='none';return;}sec.style.display='block';chips.innerHTML='';players.forEach(p=>{const span=document.createElement('span');span.className='order-payer-chip'+(dealerPayerId===p.id?' selected':'');span.textContent=p.name;span.onclick=()=>{dealerPayerId=(dealerPayerId===p.id)?'':p.id;renderDealerPayers();calcExpenses();saveState();};chips.appendChild(span);});}
 function calcExpenses(){
 const dq=parseInt(document.getElementById('dealerQty')?.value)||0,dv=parseMoney(document.getElementById('dealerVal')?.value),rv=parseMoney(document.getElementById('rentVal')?.value),dealerTotal=dq*dv;
