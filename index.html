@@ -681,9 +681,9 @@ function togglePayer(orderId, playerId) {
   const o = orders.find(x => x.id === orderId);
   if (!o) return;
   o.payerId = (o.payerId === playerId) ? '' : playerId;
-  renderOrders();
+  saveState();
   calcExpenses();
-  saveAndSync();
+  renderOrders();
 }
 
 function toggleEater(orderId, playerId) {
@@ -691,9 +691,9 @@ function toggleEater(orderId, playerId) {
   if (!o) return;
   if (o.eaterIds.includes(playerId)) o.eaterIds = o.eaterIds.filter(id => id !== playerId);
   else o.eaterIds.push(playerId);
-  renderOrders();
+  saveState();
   calcExpenses();
-  saveAndSync();
+  renderOrders();
 }
 
 function renderOrders(){
