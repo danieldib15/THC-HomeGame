@@ -856,18 +856,20 @@ function getCashPnlForPlayer(pid){
 }
 function renderResultTab(){
   const cont=document.getElementById('resultTabContent');
-  if(players.length===0||prizeData.every(d=>!d.playerId)){cont.innerHTML='<div class="empty-state"><div class="empty-icon">🏆</div>Calcule o resultado na aba Mesa para ver a tabela aqui</div>';return;}
-  const pot=totalPot(),medals=Array.from({length:30},(_,i)=>i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1)+'º');
-  const winnerIds=prizeData.filter(d=>d.playerId).map(d=>d.playerId),nonWinners=players.filter(p=>!winnerIds.includes(p.id));
-  let winnerRows='';
-  prizeData.forEach((d,i)=>{if(!d.playerId)return;const p=players.find(x=>x.id===d.playerId),prize=d.amount,spent=playerTotal(p),expNet=getExpNet(p.id),pnl=prize+expNet-spent;const pc=pnl>0?'var(--green)':pnl<0?'var(--red)':'var(--text-muted)',ec=expNet>0?'var(--green)':expNet<0?'var(--red)':'var(--text-muted)';winnerRows+=`<tr class="rt-winner"><td>${medals[i]}</td><td>${p.name}</td><td style="color:var(--gold)">${fmtClean(p.buyin)}</td><td style="color:var(--green)">${fmtClean(p.rebuy)}</td><td style="color:var(--blue)">${fmtClean(p.addon)}</td><td style="color:var(--purple)">${fmtClean(p.jonsnow)}</td><td style="font-weight:800">${fmtClean(spent)}</td><td style="color:var(--gold);font-weight:800">${fmtClean(prize)}</td><td style="color:${ec};font-weight:700">${expNet>=0?'+':''}${fmtClean(expNet)}</td><td style="color:${pc};font-weight:800">${pnl>=0?'+':''}${fmtClean(pnl)}</td></tr>`;});
-  let loserRows='';
-  if(nonWinners.length>0){loserRows+=`<tr class="rt-sep"><td colspan="10">SEM PREMIAÇÃO</td></tr>`;nonWinners.forEach(p=>{const spent=playerTotal(p),expNet=getExpNet(p.id),pnl=expNet-spent;const pc=pnl>0?'var(--green)':pnl<0?'var(--red)':'var(--text-muted)',ec=expNet>0?'var(--green)':expNet<0?'var(--red)':'var(--text-muted)';loserRows+=`<tr class="rt-loser"><td>—</td><td>${p.name}</td><td style="color:var(--gold)">${fmtClean(p.buyin)}</td><td style="color:var(--green)">${fmtClean(p.rebuy)}</td><td style="color:var(--blue)">${fmtClean(p.addon)}</td><td style="color:var(--purple)">${fmtClean(p.jonsnow)}</td><td style="font-weight:800">${fmtClean(spent)}</td><td>—</td><td style="color:${ec};font-weight:700">${expNet>=0?'+':''}${fmtClean(expNet)}</td><td style="color:${pc};font-weight:800">${pnl>=0?'+':''}${fmtClean(pnl)}</td></tr>`;});}
-  const totInvested=players.reduce((a,p)=>a+playerTotal(p),0),totPrize=prizeData.reduce((a,d)=>a+d.amount,0);
+  if(players.length===0||prizeData.every(d=>!d.playerId)){
+    cont.innerHTML='<div class="empty-state"><div class="empty-icon">🏆</div>Calcule o resultado na aba Mesa para ver a tabela aqui</div>';
+    return;
+  }
+  const pot=totalPot();
+  const medals=Array.from({length:30},(_,i)=>i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1)+'º');
+  const winnerIds=prizeData.filter(d=>d.playerId).map(d=>d.playerId);
+  const nonWinners=players.filter(p=>!winnerIds.includes(p.id));
   const hasCash=cashMode==='tournament'&&cashPlayers.length>0;
+  const cashHeader=hasCash?'<th>Cash P&L</th>':'';
+  const cashFooter=hasCash?'<td>—</td>':'';
 
-  // helper: get cash P&L for a tournament player
   function getCashPnl(pid){
+    if(!hasCash)return 0;
     const cp=cashPlayers.find(x=>x.tournamentId===pid);
     if(!cp)return 0;
     const dv=parseMoney(document.getElementById('cashDealerVal')?.value);
@@ -875,51 +877,50 @@ function renderResultTab(){
     return cp.gained-cp.paid-dealer;
   }
 
-  // rebuild winner/loser rows with cash column
-  winnerRows='';
+  let winnerRows='';
   prizeData.forEach((d,i)=>{
     if(!d.playerId)return;
-    const p=players.find(x=>x.id===d.playerId),prize=d.amount,spent=playerTotal(p),expNet=getExpNet(p.id);
-    const cashPnl=hasCash?getCashPnl(p.id):0;
+    const p=players.find(x=>x.id===d.playerId);
+    const prize=d.amount,spent=playerTotal(p),expNet=getExpNet(p.id),cashPnl=getCashPnl(p.id);
     const pnl=prize+expNet+cashPnl-spent;
-    const pc=pnl>0?'var(--green)':pnl<0?'var(--red)':'var(--text-muted)',ec=expNet>0?'var(--green)':expNet<0?'var(--red)':'var(--text-muted)';
+    const pc=pnl>0?'var(--green)':pnl<0?'var(--red)':'var(--text-muted)';
+    const ec=expNet>0?'var(--green)':expNet<0?'var(--red)':'var(--text-muted)';
     const cc=cashPnl>0?'var(--green)':cashPnl<0?'var(--red)':'var(--text-muted)';
     const cashCol=hasCash?`<td style="color:${cc};font-weight:700">${cashPnl>=0?'+':''}${fmtClean(cashPnl)}</td>`:'';
     winnerRows+=`<tr class="rt-winner"><td>${medals[i]}</td><td>${p.name}</td><td style="color:var(--gold)">${fmtClean(p.buyin)}</td><td style="color:var(--green)">${fmtClean(p.rebuy)}</td><td style="color:var(--blue)">${fmtClean(p.addon)}</td><td style="color:var(--purple)">${fmtClean(p.jonsnow)}</td><td style="font-weight:800">${fmtClean(spent)}</td><td style="color:var(--gold);font-weight:800">${fmtClean(prize)}</td><td style="color:${ec};font-weight:700">${expNet>=0?'+':''}${fmtClean(expNet)}</td>${cashCol}<td style="color:${pc};font-weight:800">${pnl>=0?'+':''}${fmtClean(pnl)}</td></tr>`;
   });
-  loserRows='';
+
+  let loserRows='';
   if(nonWinners.length>0){
     const colspan=hasCash?11:10;
     loserRows+=`<tr class="rt-sep"><td colspan="${colspan}">SEM PREMIAÇÃO</td></tr>`;
     nonWinners.forEach(p=>{
-      const spent=playerTotal(p),expNet=getExpNet(p.id);
-      const cashPnl=hasCash?getCashPnl(p.id):0;
+      const spent=playerTotal(p),expNet=getExpNet(p.id),cashPnl=getCashPnl(p.id);
       const pnl=expNet+cashPnl-spent;
-      const pc=pnl>0?'var(--green)':pnl<0?'var(--red)':'var(--text-muted)',ec=expNet>0?'var(--green)':expNet<0?'var(--red)':'var(--text-muted)';
+      const pc=pnl>0?'var(--green)':pnl<0?'var(--red)':'var(--text-muted)';
+      const ec=expNet>0?'var(--green)':expNet<0?'var(--red)':'var(--text-muted)';
       const cc=cashPnl>0?'var(--green)':cashPnl<0?'var(--red)':'var(--text-muted)';
       const cashCol=hasCash?`<td style="color:${cc};font-weight:700">${cashPnl>=0?'+':''}${fmtClean(cashPnl)}</td>`:'';
       loserRows+=`<tr class="rt-loser"><td>—</td><td>${p.name}</td><td style="color:var(--gold)">${fmtClean(p.buyin)}</td><td style="color:var(--green)">${fmtClean(p.rebuy)}</td><td style="color:var(--blue)">${fmtClean(p.addon)}</td><td style="color:var(--purple)">${fmtClean(p.jonsnow)}</td><td style="font-weight:800">${fmtClean(spent)}</td><td>—</td><td style="color:${ec};font-weight:700">${expNet>=0?'+':''}${fmtClean(expNet)}</td>${cashCol}<td style="color:${pc};font-weight:800">${pnl>=0?'+':''}${fmtClean(pnl)}</td></tr>`;
     });
   }
 
-  // Extra rows: cash players not in tournament
   let extraRows='';
   if(hasCash){
-    const cashOnlyPlayers=cashPlayers.filter(cp=>!cp.tournamentId&&cp.tournamentId!==undefined||!players.find(p=>p.id===cp.tournamentId));
     cashPlayers.filter(cp=>!cp.tournamentId).forEach(cp=>{
       const dv=parseMoney(document.getElementById('cashDealerVal')?.value);
       const dealer=cashPlayers.length>0&&dv>0?dv/cashPlayers.length:0;
       const cashPnl=cp.gained-cp.paid-dealer;
       const cc=cashPnl>0?'var(--green)':cashPnl<0?'var(--red)':'var(--text-muted)';
-      extraRows+=`<tr class="rt-loser" style="opacity:0.7"><td>—</td><td>${cp.name} <span style="font-size:9px;color:var(--gold)">(só cash)</span></td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td style="color:${cc};font-weight:700">${cashPnl>=0?'+':''}${fmtClean(cashPnl)}</td><td style="color:${cc};font-weight:800">${cashPnl>=0?'+':''}${fmtClean(cashPnl)}</td></tr>`;
+      extraRows+=`<tr class="rt-loser" style="opacity:0.8"><td>—</td><td>${cp.name} <span style="font-size:9px;color:var(--gold)">(só cash)</span></td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td style="color:${cc};font-weight:700">${cashPnl>=0?'+':''}${fmtClean(cashPnl)}</td><td style="color:${cc};font-weight:800">${cashPnl>=0?'+':''}${fmtClean(cashPnl)}</td></tr>`;
     });
   }
 
-  const cashHeader=hasCash?'<th>Cash P&L</th>':'';
-  const cashFooter=hasCash?'<td>—</td>':'';
-  const colspan2=hasCash?2:2;
+  const totInvested=players.reduce((a,p)=>a+playerTotal(p),0);
+  const totPrize=prizeData.reduce((a,d)=>a+d.amount,0);
   cont.innerHTML=`<div class="rt-card"><div class="rt-header"><div class="rt-title">🏆 Resultado Final</div><div class="rt-meta">${sessionDate||'—'} · ${players.length} jogadores · Pote: ${fmt(pot)}</div></div><div style="overflow-x:auto"><table class="rt-table"><thead><tr><th>#</th><th>Jogador</th><th>Buy-In</th><th>Rebuy</th><th>Add-On</th><th>Jon Snow</th><th>Investido</th><th>Prêmio</th><th>Gastos</th>${cashHeader}<th>Lucro/Prej.</th></tr></thead><tbody>${winnerRows}${loserRows}${extraRows}<tr class="rt-footer"><td colspan="2">TOTAL</td><td>${fmtClean(players.reduce((a,p)=>a+p.buyin,0))}</td><td>${fmtClean(players.reduce((a,p)=>a+p.rebuy,0))}</td><td>${fmtClean(players.reduce((a,p)=>a+p.addon,0))}</td><td>${fmtClean(players.reduce((a,p)=>a+p.jonsnow,0))}</td><td>${fmtClean(totInvested)}</td><td>${fmtClean(totPrize)}</td><td>—</td>${cashFooter}<td>—</td></tr></tbody></table></div></div><button class="rt-img-btn" onclick="exportImage()">📸 Gerar Imagem para Compartilhar</button>`;
 }
+
 function exportImage(){
   const pot=totalPot(),medals=Array.from({length:30},(_,i)=>i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1)+'º');
   const winnerIds=prizeData.map(d=>d.playerId),nonWinners=players.filter(p=>!winnerIds.includes(p.id));
