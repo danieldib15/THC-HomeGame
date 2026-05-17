@@ -544,7 +544,7 @@ function resetSession(){
     const dq=document.getElementById('dealerQty');if(dq)dq.value='';
     const dv=document.getElementById('dealerVal');if(dv)dv.value='';
     const rv=document.getElementById('rentVal');if(rv)rv.value='';
-    localStorage.removeItem('pgState');localStorage.removeItem('pgCash');cashPlayers=[];const cdv=document.getElementById('cashDealerVal');if(cdv)cdv.value='';clearFirebase();render();renderCashTable();updateHeaderTimer();showToast('✅ Sessão resetada!');
+    localStorage.removeItem('pgState');localStorage.removeItem('pgCash');cashPlayers=[];cashMode='standalone';const cdv=document.getElementById('cashDealerVal');if(cdv)cdv.value='';clearFirebase();render();renderCashTable();updateHeaderTimer();showToast('✅ Sessão resetada!');
   });
 }
 function addPlayer(){
@@ -1024,7 +1024,70 @@ function render(){
 loadState();renderHistory();render();setSyncStatus('syncing');startPolling();
 
 // ── CASH GAME ──
-let cashPlayers = []; // {id, name, paid, gained}
+let cashPlayers = [];
+let cashMode = 'standalone';
+
+function setCashMode(mode){
+  cashMode = mode;
+  const btnS = document.getElementById('cashModeStandalone');
+  const btnT = document.getElementById('cashModeTournament');
+  const formS = document.getElementById('cashAddFormStandalone');
+  const formT = document.getElementById('cashAddFormTournament');
+  if(btnS) btnS.classList.toggle('active', mode==='standalone');
+  if(btnT) btnT.classList.toggle('active', mode==='tournament');
+  if(formS) formS.style.display = mode==='standalone' ? 'block' : 'none';
+  if(formT) formT.style.display = mode==='tournament' ? 'block' : 'none';
+  if(mode==='tournament') populateTournamentSelect();
+  saveCashState();
+}
+
+function populateTournamentSelect(){
+  const sel = document.getElementById('cashTournamentSelect');
+  if(!sel) return;
+  sel.innerHTML = '<option value="">— selecionar —</option>';
+  players.forEach(p => {
+    if(!cashPlayers.find(cp => cp.tournamentId === p.id)){
+      const opt = document.createElement('option');
+      opt.value = p.id;
+      opt.textContent = p.name;
+      sel.appendChild(opt);
+    }
+  });
+  const newOpt = document.createElement('option');
+  newOpt.value = '__new__';
+  newOpt.textContent = '+ Novo jogador';
+  sel.appendChild(newOpt);
+  sel.onchange = () => {
+    const row = document.getElementById('cashNewPlayerNameRow');
+    if(row) row.style.display = sel.value === '__new__' ? 'block' : 'none';
+  };
+}
+
+function addCashPlayerFromTournament(){
+  const sel = document.getElementById('cashTournamentSelect');
+  const val = sel?.value;
+  if(!val){ showToast('⚠ Selecione um jogador'); return; }
+  let name = '', tournamentId = null;
+  if(val === '__new__'){
+    name = document.getElementById('cashNewPlayerName')?.value.trim();
+    if(!name){ showToast('⚠ Insira o nome'); return; }
+  } else {
+    const tp = players.find(p => p.id === val);
+    if(!tp){ showToast('⚠ Jogador não encontrado'); return; }
+    name = tp.name;
+    tournamentId = tp.id;
+  }
+  if(cashPlayers.find(cp => cp.name.toLowerCase() === name.toLowerCase())){
+    showToast('⚠ Jogador já existe'); return;
+  }
+  cashPlayers.push({id:uid(), name, paid:0, gained:0, tournamentId});
+  if(sel) sel.value = '';
+  const ni = document.getElementById('cashNewPlayerName'); if(ni) ni.value = '';
+  const nr = document.getElementById('cashNewPlayerNameRow'); if(nr) nr.style.display = 'none';
+  populateTournamentSelect();
+  saveCashState();
+  renderCashTable();
+}
 
 function addCashPlayer(){
   const name=document.getElementById('cashNewName').value.trim();
@@ -1039,8 +1102,9 @@ function addCashPlayer(){
 
 function removeCashPlayer(id){
   const p=cashPlayers.find(x=>x.id===id);
-  showConfirm(`Remover <strong>${p.name}</strong> do Cash Game?`,()=>{
+  showConfirm(`Remover <strong>${p.name}</strong> do Cash?`,()=>{
     cashPlayers=cashPlayers.filter(x=>x.id!==id);
+    if(cashMode==='tournament') populateTournamentSelect();
     saveCashState();
     renderCashTable();
   });
