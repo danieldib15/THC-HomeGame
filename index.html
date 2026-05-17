@@ -837,13 +837,14 @@ function renderStats(){
 }
 function switchTab(tab){
   const mainEl=document.querySelector('.main');
-  ['expTabPage','statsTabPage','resultTabPage'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
+  ['expTabPage','statsTabPage','cashTabPage','resultTabPage'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
   mainEl.style.display='none';
-  ['tabBtnMain','tabBtnExp','tabBtnStats','tabBtnResult'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.remove('active');});
+  ['tabBtnMain','tabBtnExp','tabBtnStats','tabBtnCash','tabBtnResult'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.remove('active');});
   if(tab==='main'){mainEl.style.display='block';document.getElementById('tabBtnMain').classList.add('active');}
   else if(tab==='exp'){document.getElementById('expTabPage').style.display='block';document.getElementById('tabBtnExp').classList.add('active');buildOrderList();renderDealerPayers();renderRentPayers();calcExpenses();}
   else if(tab==='stats'){document.getElementById('statsTabPage').style.display='block';document.getElementById('tabBtnStats').classList.add('active');renderStats();}
-  else{document.getElementById('resultTabPage').style.display='block';document.getElementById('tabBtnResult').classList.add('active');renderResultTab();}
+  else if(tab==='cash'){document.getElementById('cashTabPage').style.display='block';document.getElementById('tabBtnCash').classList.add('active');setCashMode(cashMode);renderCashTable();}
+  else if(tab==='result'){document.getElementById('resultTabPage').style.display='block';document.getElementById('tabBtnResult').classList.add('active');renderResultTab();}
 }
 function getCashPnlForPlayer(pid){
   if(cashMode!=='tournament')return null;
