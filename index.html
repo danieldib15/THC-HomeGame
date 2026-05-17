@@ -856,8 +856,8 @@ function getCashPnlForPlayer(pid){
 }
 function renderResultTab(){
   const cont=document.getElementById('resultTabContent');
-  if(players.length===0||prizeData.every(d=>!d.playerId)){
-    cont.innerHTML='<div class="empty-state"><div class="empty-icon">🏆</div>Calcule o resultado na aba Mesa para ver a tabela aqui</div>';
+  if(players.length===0){
+    cont.innerHTML='<div class="empty-state"><div class="empty-icon">🏆</div>Adicione jogadores na aba Mesa para ver a tabela aqui</div>';
     return;
   }
   const pot=totalPot();
