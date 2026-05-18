@@ -17,7 +17,6 @@ body{background:var(--bg);font-family:'Nunito',sans-serif;color:var(--text);min-
 .header-clock{font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--gold);letter-spacing:2px;line-height:1}
 .header-timer-meta{font-size:10px;color:var(--text-muted);letter-spacing:1px}
 .btn-pause-header{background:var(--surface2);border:1px solid var(--border);color:var(--text-soft);border-radius:6px;padding:4px 12px;font-family:'Nunito',sans-serif;font-size:11px;font-weight:700;cursor:pointer;transition:all 0.15s;white-space:nowrap}
-.btn-pause-header:hover{border-color:var(--gold);color:var(--gold)}
 .btn-pause-header.paused{border-color:var(--green);color:var(--green)}
 .logo{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px;color:var(--gold);line-height:1}
 .logo-sub{font-size:10px;color:var(--text-muted);letter-spacing:3px;text-transform:uppercase}
@@ -196,11 +195,6 @@ body{background:var(--bg);font-family:'Nunito',sans-serif;color:var(--text);min-
 .cash-pnl-neg{color:var(--red);font-weight:800}
 .cash-pnl-zero{color:var(--text-muted);font-weight:800}
 .rt-img-btn{display:block;width:100%;background:var(--green-dim);border:1px solid rgba(76,175,125,0.25);color:var(--green);border-radius:var(--radius-sm);padding:13px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;cursor:pointer;text-align:center}
-/* STATS */
-.stats-timer-box{background:var(--surface);border:1px solid rgba(230,185,74,0.2);border-radius:var(--radius);padding:20px;text-align:center;margin-bottom:16px}
-.stats-timer-label{font-size:10px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px}
-.stats-timer{font-family:'Bebas Neue',sans-serif;font-size:56px;color:var(--gold);letter-spacing:4px;line-height:1}
-.stats-timer-sub{font-size:11px;color:var(--text-muted);margin-top:6px}
 .stats-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden}
 .stats-card-header{padding:12px 16px;background:var(--surface2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
 .stats-card-title{font-size:10px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--text-muted)}
@@ -226,9 +220,9 @@ body{background:var(--bg);font-family:'Nunito',sans-serif;color:var(--text);min-
       <div class="sync-badge"><div class="sync-dot" id="syncDot"></div><span class="sync-label" id="syncLabel">conectando...</span></div>
       <div class="pot-live"><div class="pot-live-label">Pote Total</div><div class="pot-live-value" id="livePot">R$ 0,00</div></div>
       <div style="display:flex;gap:6px;align-items:center;">
-      <button class="btn-sync" id="btnSync" onclick="manualSync()">↑ Sync</button>
-      <button class="btn-reset" onclick="resetSession()">↺ Nova Sessão</button>
-    </div>
+        <button class="btn-sync" id="btnSync" onclick="manualSync()">↑ Sync</button>
+        <button class="btn-reset" onclick="resetSession()">↺ Nova Sessão</button>
+      </div>
     </div>
   </div>
   <div class="header-timer-bar" id="headerTimerBar">
@@ -243,13 +237,11 @@ body{background:var(--bg);font-family:'Nunito',sans-serif;color:var(--text);min-
 <div class="main">
   <div id="setupSection">
     <div class="section-title">Configurar Sessão</div>
-    <div class="setup-card">
-      <div class="setup-row">
-        <div class="field-group"><div class="field-label">Data da Sessão</div><input class="field-input" type="text" id="setupDate" placeholder="ex: 02/05/2025" onkeydown="if(event.key==='Enter')document.getElementById('setupBuyin').focus()"/></div>
-        <div class="field-group" style="max-width:160px;"><div class="field-label">Valor do Buy-In (R$)</div><input class="field-input" type="number" id="setupBuyin" placeholder="0,00" min="0" step="0.01" onkeydown="if(event.key==='Enter')confirmSetup()"/></div>
-        <button class="btn-add" onclick="confirmSetup()">Confirmar →</button>
-      </div>
-    </div>
+    <div class="setup-card"><div class="setup-row">
+      <div class="field-group"><div class="field-label">Data da Sessão</div><input class="field-input" type="text" id="setupDate" placeholder="ex: 02/05/2025" onkeydown="if(event.key==='Enter')document.getElementById('setupBuyin').focus()"/></div>
+      <div class="field-group" style="max-width:160px;"><div class="field-label">Valor do Buy-In (R$)</div><input class="field-input" type="number" id="setupBuyin" placeholder="0,00" min="0" step="0.01" onkeydown="if(event.key==='Enter')confirmSetup()"/></div>
+      <button class="btn-add" onclick="confirmSetup()">Confirmar →</button>
+    </div></div>
   </div>
   <div id="sessionInfoBar" style="display:none">
     <div class="section-title">Sessão</div>
@@ -294,35 +286,27 @@ body{background:var(--bg);font-family:'Nunito',sans-serif;color:var(--text);min-
   <button class="tab-btn" id="tabBtnCash" onclick="switchTab('cash')"><span class="tab-icon">💰</span><span class="tab-label">Cash</span></button>
   <button class="tab-btn" id="tabBtnResult" onclick="switchTab('result')"><span class="tab-icon">🏆</span><span class="tab-label">Resultado</span></button>
 </div>
-<div class="tab-page" id="expTabPage">
+<div class="tab-page" id="expTabPage" style="display:none">
   <div class="exp-card"><div class="exp-card-title">Dealers</div><div style="display:flex;gap:10px;flex-wrap:wrap;"><div class="field-group" style="max-width:130px;"><div class="field-label">Nº de Dealers</div><input class="field-input" type="number" id="dealerQty" placeholder="0" min="0" step="1" oninput="this.value=Math.floor(Math.abs(this.value)||0);saveState();renderDealerPayers()"/></div><div class="field-group" style="max-width:160px;"><div class="field-label">Valor por Dealer (R$)</div><input class="field-input" type="number" id="dealerVal" placeholder="0,00" min="0" step="0.01" oninput="saveState();renderDealerPayers()"/></div></div><div id="dealerPayerSection" style="display:none;margin-top:10px;"><div class="order-who-label" style="color:var(--green);font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Quem pagou</div><div class="order-players" id="dealerPayerChips"></div></div><div class="exp-total-box" style="margin-top:14px;"><span class="exp-total-label">Total Dealers</span><span class="exp-total-value" id="dealerTotal">R$ 0,00</span></div></div>
   <div class="exp-card"><div class="exp-card-title">Aluguel / Espaço / Serviço</div><div class="field-group" style="max-width:180px;"><div class="field-label">Valor (R$)</div><input class="field-input" type="number" id="rentVal" placeholder="0,00" min="0" step="0.01" oninput="saveState();renderRentPayers()"/></div><div id="rentPayerSection" style="display:none;margin-top:10px;"><div class="order-who-label" style="color:var(--green);font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Quem pagou</div><div class="order-players" id="rentPayerChips"></div></div></div>
   <div class="exp-card"><div class="exp-card-title">Comida & Pedidos</div><div class="order-list" id="orderList"></div><button class="btn-add-order" onclick="addOrder()">+ Novo Pedido</button></div>
   <div class="exp-card" id="expSummaryCard" style="display:none"><div class="exp-card-title">Resumo por Jogador</div><div id="expSummaryList" style="background:var(--surface2);border-radius:var(--radius-sm);overflow:hidden;"></div><div class="exp-total-box" style="margin-top:10px;"><span class="exp-total-label">Total Gasto na Noite</span><span class="exp-total-value" id="expGrandTotal">R$ 0,00</span></div></div>
 </div>
-<div class="tab-page" id="statsTabPage"><div id="statsContent"><div class="empty-state"><div class="empty-icon">📊</div>Inicie uma sessão para ver as estatísticas</div></div></div>
-<div class="tab-page" id="resultTabPage" style="display:none"><div id="resultTabContent"><div class="empty-state"><div class="empty-icon">🏆</div>Calcule o resultado na aba Mesa para ver a tabela aqui</div></div></div>
-<!-- CASH GAME TAB -->
+<div class="tab-page" id="statsTabPage" style="display:none"><div id="statsContent"><div class="empty-state"><div class="empty-icon">📊</div>Inicie uma sessão para ver as estatísticas</div></div></div>
 <div class="tab-page" id="cashTabPage" style="display:none">
-  <div style="max-width:680px;margin:0 auto;padding:20px 16px 100px;">
-
+  <div style="max-width:680px;margin:0 auto;">
     <div class="section-title" style="margin-top:0">Tipo de Cash Game</div>
     <div class="cash-mode-selector">
       <button class="cash-mode-btn active" id="cashModeStandalone" onclick="setCashMode('standalone')">🃏 Dia de Cash<br><span style="font-size:10px;font-weight:400;opacity:0.7">independente do torneio</span></button>
       <button class="cash-mode-btn" id="cashModeTournament" onclick="setCashMode('tournament')">🏆 Cash do Torneio<br><span style="font-size:10px;font-weight:400;opacity:0.7">vinculado à sessão atual</span></button>
     </div>
-
     <div class="section-title">Custo do Dealer</div>
     <div class="exp-card" style="margin-bottom:16px;">
       <div style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;">
-        <div class="field-group" style="max-width:200px;">
-          <div class="field-label">Valor Total do Dealer (R$)</div>
-          <input class="field-input" type="number" id="cashDealerVal" placeholder="0,00" min="0" step="0.01" oninput="saveCashState();renderCashTable()"/>
-        </div>
+        <div class="field-group" style="max-width:200px;"><div class="field-label">Valor Total do Dealer (R$)</div><input class="field-input" type="number" id="cashDealerVal" placeholder="0,00" min="0" step="0.01" oninput="saveCashState();renderCashTable()"/></div>
       </div>
       <div id="cashDealerInfo" style="margin-top:10px;font-size:12px;color:var(--text-muted);"></div>
     </div>
-
     <div class="section-title">Adicionar Jogador</div>
     <div class="add-form" id="cashAddFormStandalone">
       <div class="add-form-row">
@@ -336,10 +320,9 @@ body{background:var(--bg);font-family:'Nunito',sans-serif;color:var(--text);min-
         <button class="btn-add" onclick="addCashPlayerFromTournament()">+ Adicionar</button>
       </div>
       <div id="cashNewPlayerNameRow" style="display:none;margin-top:10px;">
-        <div class="field-group"><div class="field-label">Nome do Novo Jogador</div><input class="field-input" type="text" id="cashNewPlayerName" placeholder="Digite o nome"/></div>
+        <div class="field-group"><div class="field-label">Nome do Novo Jogador</div><input class="field-input" type="text" id="cashNewPlayerName" placeholder="Digite o nome" onkeydown="if(event.key==='Enter')addCashPlayerFromTournament()"/></div>
       </div>
     </div>
-
     <div id="cashTableSection" style="display:none;margin-top:20px;">
       <div class="section-title">Mesa Cash · toque no jogador para editar</div>
       <div class="inv-table">
@@ -355,13 +338,13 @@ body{background:var(--bg);font-family:'Nunito',sans-serif;color:var(--text);min-
         <div id="cashFooterRow" style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr 32px;background:var(--surface2);border-top:1px solid rgba(230,185,74,0.2);"></div>
       </div>
     </div>
-
   </div>
 </div>
-
+<div class="tab-page" id="resultTabPage" style="display:none"><div id="resultTabContent"><div class="empty-state"><div class="empty-icon">🏆</div>Calcule o resultado na aba Mesa para ver a tabela aqui</div></div></div>
 <div class="toast" id="toast"></div>
 <script>
 let players=[],prizeData=[],prizeCount=3,sessionDate='',sessionBuyin=0,sessionReady=false,orders=[],rentPayerId='',dealerPayerId='',sessionStartTime=null,timerInterval=null,globalJonSnowCount=0,timerPaused=false,pausedElapsedMs=0;
+let cashPlayers=[],cashMode='standalone';
 const uid=()=>Math.random().toString(36).slice(2,8);
 const fmt=v=>'R$ '+v.toFixed(2).replace('.',',').replace(/\B(?=(\d{3})+(?!\d))/g,'.');
 const fmtClean=v=>v.toFixed(2).replace('.',',').replace(/\B(?=(\d{3})+(?!\d))/g,'.');
@@ -376,96 +359,35 @@ function startTimer(){
   updateHeaderTimer();
   timerInterval=setInterval(()=>{
     const el=document.getElementById('liveTimer');if(el)el.textContent=fmtElapsed(elapsedMs());
-    const btn=document.getElementById('pauseBtn');if(btn)btn.textContent=timerPaused?'▶ Retomar':'⏸ Pausar';
     updateHeaderTimer();
   },1000);
 }
 function updateHeaderTimer(){
-  const bar=document.getElementById('headerTimerBar');
-  const clock=document.getElementById('headerClock');
-  const meta=document.getElementById('headerTimerMeta');
-  const pauseBtn=document.getElementById('headerPauseBtn');
+  const bar=document.getElementById('headerTimerBar'),clock=document.getElementById('headerClock'),meta=document.getElementById('headerTimerMeta'),pauseBtn=document.getElementById('headerPauseBtn'),levelEl=document.getElementById('headerLevel');
   if(!bar||!clock)return;
   if(sessionReady&&sessionStartTime){
     bar.classList.add('active');
     clock.textContent=fmtElapsed(elapsedMs());
     if(meta)meta.textContent='início: '+new Date(sessionStartTime).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
-    if(pauseBtn){
-      pauseBtn.textContent=timerPaused?'▶ Retomar':'⏸ Pausar';
-      pauseBtn.className='btn-pause-header'+(timerPaused?' paused':'');
-    }
-    const levelEl=document.getElementById('headerLevel');
-    if(levelEl){
-      const mins=Math.floor(elapsedMs()/60000);
-      const level=Math.floor(mins/15)+1;
-      levelEl.textContent='LEVEL '+String(level).padStart(2,'0');
-    }
-  } else {
-    bar.classList.remove('active');
-  }
+    if(pauseBtn){pauseBtn.textContent=timerPaused?'▶ Retomar':'⏸ Pausar';pauseBtn.className='btn-pause-header'+(timerPaused?' paused':'');}
+    if(levelEl){const mins=Math.floor(elapsedMs()/60000);levelEl.textContent='LEVEL '+String(Math.floor(mins/15)+1).padStart(2,'0');}
+  }else{bar.classList.remove('active');}
 }
 function toggleTimer(){
   if(!sessionReady)return;
-  if(timerPaused){
-    // Resume: shift sessionStartTime forward by paused duration
-    sessionStartTime=Date.now()-pausedElapsedMs;
-    timerPaused=false;
-    startTimer();
-    showToast('▶ Cronômetro retomado');
-  }else{
-    // Pause: save elapsed so far
-    pausedElapsedMs=elapsedMs();
-    timerPaused=true;
-    if(timerInterval){clearInterval(timerInterval);timerInterval=null;}
-    showToast('⏸ Cronômetro pausado');
-    const el=document.getElementById('liveTimer');if(el)el.textContent=fmtElapsed(pausedElapsedMs);
-    const btn=document.getElementById('pauseBtn');if(btn)btn.textContent='▶ Retomar';
-  }
-  saveState();
+  if(timerPaused){sessionStartTime=Date.now()-pausedElapsedMs;timerPaused=false;startTimer();showToast('▶ Cronômetro retomado');}
+  else{pausedElapsedMs=elapsedMs();timerPaused=true;if(timerInterval){clearInterval(timerInterval);timerInterval=null;}showToast('⏸ Cronômetro pausado');const el=document.getElementById('liveTimer');if(el)el.textContent=fmtElapsed(pausedElapsedMs);}
+  updateHeaderTimer();saveState();
 }
-// ── FIREBASE REST SYNC ──
 const DB='https://thc-homegame-default-rtdb.firebaseio.com/session.json';
 let lastData='',localChange=false,pollInterval=null;
-
-function setSyncStatus(status){
-  const dot=document.getElementById('syncDot'),label=document.getElementById('syncLabel');
-  if(!dot||!label)return;
-  dot.className='sync-dot '+status;
-  label.textContent=status==='online'?'ao vivo':status==='syncing'?'salvando...':'sem conexão';
-}
-
+function setSyncStatus(status){const dot=document.getElementById('syncDot'),label=document.getElementById('syncLabel');if(!dot||!label)return;dot.className='sync-dot '+status;label.textContent=status==='online'?'ao vivo':status==='syncing'?'salvando...':'sem conexão';}
 function startPolling(){fetchState();pollInterval=setInterval(fetchState,3000);}
-
-async function fetchState(){
-  try{
-    const res=await fetch(DB+'?nocache='+Date.now());
-    if(!res.ok){setSyncStatus('offline');return;}
-    const data=await res.json();
-    setSyncStatus('online');
-    if(!data)return;
-    const str=JSON.stringify(data);
-    if(str===lastData||localChange)return;
-    lastData=str;
-    applyState(data);
-  }catch(e){setSyncStatus('offline');}
-}
-
-async function pushState(state){
-  setSyncStatus('syncing');
-  try{
-    const res=await fetch(DB,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(state)});
-    if(res.ok){lastData=JSON.stringify(state);setSyncStatus('online');}
-    else setSyncStatus('offline');
-  }catch(e){setSyncStatus('offline');}
-}
-
-async function clearFirebase(){
-  try{await fetch(DB,{method:'DELETE'});lastData='';setSyncStatus('online');}
-  catch(e){setSyncStatus('offline');}
-}
-
+async function fetchState(){try{const res=await fetch(DB+'?nocache='+Date.now(),{signal:AbortSignal.timeout(5000)});if(!res.ok){setSyncStatus('offline');return;}const data=await res.json();setSyncStatus('online');if(!data)return;const str=JSON.stringify(data);if(str===lastData||localChange)return;lastData=str;applyState(data);}catch(e){setSyncStatus('offline');}}
+async function pushState(state){setSyncStatus('syncing');try{const res=await fetch(DB,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(state)});if(res.ok){lastData=JSON.stringify(state);setSyncStatus('online');}else setSyncStatus('offline');}catch(e){setSyncStatus('offline');}}
+async function clearFirebase(){try{await fetch(DB,{method:'DELETE'});lastData='';setSyncStatus('online');}catch(e){setSyncStatus('offline');}}
 function buildState(){
-  return {players,prizeData,prizeCount,sessionDate,sessionBuyin,sessionReady,orders,rentPayerId,dealerPayerId,sessionStartTime,globalJonSnowCount,timerPaused,pausedElapsedMs,
+  return{players,prizeData,prizeCount,sessionDate,sessionBuyin,sessionReady,orders,rentPayerId,dealerPayerId,sessionStartTime,globalJonSnowCount,timerPaused,pausedElapsedMs,
     dealerQty:parseInt(document.getElementById('dealerQty')?.value)||0,
     dealerVal:parseMoney(document.getElementById('dealerVal')?.value),
     rentVal:parseMoney(document.getElementById('rentVal')?.value)};
@@ -478,13 +400,11 @@ async function manualSync(){
   const btn=document.getElementById('btnSync');
   if(btn){btn.textContent='↑ ...';btn.style.opacity='0.5';}
   localChange=true;
-  const state=buildState();
-  await pushState(state);
+  await pushState(buildState());
   setTimeout(()=>{localChange=false;},3000);
   if(btn){btn.textContent='↑ Sync';btn.style.opacity='1';}
   showToast('✅ Sincronizado!');
 }
-
 function applyState(s){
   players=s.players||[];prizeData=s.prizeData||[];prizeCount=s.prizeCount||3;
   sessionDate=s.sessionDate||'';sessionBuyin=s.sessionBuyin||0;sessionReady=s.sessionReady||false;
@@ -510,19 +430,13 @@ function applyState(s){
   }
   render();if(typeof buildOrderList==='function')buildOrderList();renderDealerPayers();renderRentPayers();calcExpenses();
 }
-
-function loadState(){
-  try{
-    const raw=localStorage.getItem('pgState');if(!raw)return;
-    applyState(JSON.parse(raw));
-  }catch(e){console.log('load error',e);}
-}
+function loadState(){try{const raw=localStorage.getItem('pgState');if(!raw)return;applyState(JSON.parse(raw));}catch(e){}}
 function confirmSetup(){
   const date=document.getElementById('setupDate').value.trim();
   const buyin=parseMoney(document.getElementById('setupBuyin').value);
   if(!date){showToast('⚠ Insira a data da sessão');return;}
   if(buyin<=0){showToast('⚠ Insira o valor do Buy-In');return;}
-  sessionDate=date;sessionBuyin=buyin;sessionReady=true;sessionStartTime=Date.now();globalJonSnowCount=0;
+  sessionDate=date;sessionBuyin=buyin;sessionReady=true;sessionStartTime=Date.now();globalJonSnowCount=0;timerPaused=false;pausedElapsedMs=0;
   document.getElementById('setupSection').style.display='none';
   document.getElementById('sessionInfoBar').style.display='block';
   document.getElementById('addPlayerSection').style.display='block';
@@ -536,7 +450,7 @@ function resetSession(){
   showConfirm('Limpar <strong>toda a sessão atual</strong>?',()=>{
     if(timerInterval){clearInterval(timerInterval);timerInterval=null;}
     players=[];prizeData=[];prizeCount=3;sessionDate='';sessionBuyin=0;sessionReady=false;
-    orders=[];rentPayerId='';dealerPayerId='';sessionStartTime=null;globalJonSnowCount=0;
+    orders=[];rentPayerId='';dealerPayerId='';sessionStartTime=null;globalJonSnowCount=0;timerPaused=false;pausedElapsedMs=0;
     document.getElementById('setupSection').style.display='block';
     document.getElementById('sessionInfoBar').style.display='none';
     document.getElementById('addPlayerSection').style.display='none';
@@ -544,7 +458,10 @@ function resetSession(){
     const dq=document.getElementById('dealerQty');if(dq)dq.value='';
     const dv=document.getElementById('dealerVal');if(dv)dv.value='';
     const rv=document.getElementById('rentVal');if(rv)rv.value='';
-    localStorage.removeItem('pgState');localStorage.removeItem('pgCash');cashPlayers=[];cashMode='standalone';const cdv=document.getElementById('cashDealerVal');if(cdv)cdv.value='';clearFirebase();render();renderCashTable();updateHeaderTimer();showToast('✅ Sessão resetada!');
+    localStorage.removeItem('pgState');localStorage.removeItem('pgCash');
+    cashPlayers=[];cashMode='standalone';
+    const cdv=document.getElementById('cashDealerVal');if(cdv)cdv.value='';
+    clearFirebase();render();renderCashTable();updateHeaderTimer();showToast('✅ Sessão resetada!');
   });
 }
 function addPlayer(){
@@ -558,6 +475,8 @@ function addPlayer(){
 function removePlayer(id){const p=players.find(x=>x.id===id);showConfirm(`Remover <strong>${p.name}</strong>?`,()=>{players=players.filter(x=>x.id!==id);render();saveState();});}
 function openPlayerModal(id){
   const p=players.find(x=>x.id===id);
+  let lastJsVal=0;players.forEach(pp=>{(pp.jonSnows||[]).forEach(js=>{if(js.amount>lastJsVal)lastJsVal=js.amount;});});
+  const lastJsNote=lastJsVal>0?fmtClean(lastJsVal):'0,00';
   const overlay=document.createElement('div');overlay.className='modal-overlay';overlay.id='playerModal';
   overlay.innerHTML=`<div class="modal-box">
     <div class="modal-player-name">${p.name}</div>
@@ -565,57 +484,26 @@ function openPlayerModal(id){
     <div class="modal-fields">
       <div class="modal-field-row"><div class="modal-field-left"><div class="modal-field-type" style="color:var(--green)">Rebuy</div><div class="modal-field-value" style="color:var(--green)" id="modalRebuy">${fmt(p.rebuy)}</div><div class="modal-field-note">acumula · negativo para corrigir</div></div><div class="modal-field-right"><input class="modal-input" type="number" id="inpRebuy" placeholder="ex:-10" step="0.01" style="color:var(--green)" onkeydown="if(event.key==='Enter')applyRebuy('${id}')"><button class="modal-btn-action" style="background:var(--green-dim);color:var(--green);border:1px solid rgba(76,175,125,0.2)" onclick="applyRebuy('${id}')">+</button></div></div>
       <div class="modal-field-row"><div class="modal-field-left"><div class="modal-field-type" style="color:var(--blue)">Add-On</div><div class="modal-field-value" style="color:var(--blue)" id="modalAddon">${fmt(p.addon)}</div><div class="modal-field-note">valor fixo</div></div><div class="modal-field-right"><input class="modal-input" type="number" id="inpAddon" placeholder="valor" step="0.01" min="0" style="color:var(--blue)" onkeydown="if(event.key==='Enter')applyAddon('${id}')"><button class="modal-btn-action" style="background:var(--blue-dim);color:var(--blue);border:1px solid rgba(92,158,224,0.2)" onclick="applyAddon('${id}')">✓</button></div></div>
-      <div class="modal-field-row"><div class="modal-field-left"><div class="modal-field-type" style="color:var(--purple)">Jon Snow</div><div class="modal-field-value" style="color:var(--purple)" id="modalJonsnow">${fmt(p.jonsnow)}</div><div class="modal-field-note" id="modalJsNote">acumula · negativo para corrigir</div></div><div class="modal-field-right"><input class="modal-input" type="number" id="inpJonsnow" placeholder="${(()=>{let last=0;players.forEach(p=>{(p.jonSnows||[]).forEach(js=>{if(js.globalIndex>last)last=js.amount;})});return last>0?fmtClean(last):'0,00'})()}" step="0.01" style="color:var(--purple)" onkeydown="if(event.key==='Enter')applyJonSnow('${id}')"><button class="modal-btn-action" style="background:var(--purple-dim);color:var(--purple);border:1px solid rgba(160,125,224,0.2)" onclick="applyJonSnow('${id}')">+</button></div></div>
+      <div class="modal-field-row"><div class="modal-field-left"><div class="modal-field-type" style="color:var(--purple)">Jon Snow</div><div class="modal-field-value" style="color:var(--purple)" id="modalJonsnow">${fmt(p.jonsnow)}</div><div class="modal-field-note" id="modalJsNote">último: ${fmt(p.jonSnows&&p.jonSnows.length>0?p.jonSnows[p.jonSnows.length-1].amount:0)} · negativo para corrigir</div></div><div class="modal-field-right"><input class="modal-input" type="number" id="inpJonsnow" placeholder="${lastJsNote}" step="0.01" style="color:var(--purple)" onkeydown="if(event.key==='Enter')applyJonSnow('${id}')"><button class="modal-btn-action" style="background:var(--purple-dim);color:var(--purple);border:1px solid rgba(160,125,224,0.2)" onclick="applyJonSnow('${id}')">+</button></div></div>
     </div>
     <button class="modal-close" onclick="closePlayerModal()">Fechar</button>
   </div>`;
   document.body.appendChild(overlay);overlay.onclick=e=>{if(e.target===overlay)closePlayerModal();};
-  // Set Jon Snow note with last value
-  const jsNote=document.getElementById('modalJsNote');
-  if(jsNote){
-    const lastJs=p.jonSnows&&p.jonSnows.length>0?p.jonSnows[p.jonSnows.length-1].amount:0;
-    jsNote.textContent='último: '+fmt(lastJs)+' · negativo para corrigir';
-  }
 }
 function closePlayerModal(){const m=document.getElementById('playerModal');if(m)m.remove();}
 function refreshModal(id){const p=players.find(x=>x.id===id);const g=i=>document.getElementById(i);if(!g('playerModal'))return;g('modalTotal').textContent=fmt(playerTotal(p));g('modalRebuy').textContent=fmt(p.rebuy);g('modalAddon').textContent=fmt(p.addon);g('modalJonsnow').textContent=fmt(p.jonsnow);render();saveState();}
-function applyRebuy(id){
-  const raw=parseFloat(document.getElementById('inpRebuy').value);
-  if(isNaN(raw)||raw===0){showToast('⚠ Valor inválido');return;}
-  const p=players.find(x=>x.id===id);const next=p.rebuy+raw;
-  if(next<0){showToast('⚠ Rebuy não pode ficar negativo');return;}
-  if(raw>0){if(!p.rebuys)p.rebuys=[];p.rebuys.push({amount:raw,elapsedMs:elapsedMs()});}
-  p.rebuy=next;document.getElementById('inpRebuy').value='';refreshModal(id);
-}
+function applyRebuy(id){const raw=parseFloat(document.getElementById('inpRebuy').value);if(isNaN(raw)||raw===0){showToast('⚠ Valor inválido');return;}const p=players.find(x=>x.id===id);const next=p.rebuy+raw;if(next<0){showToast('⚠ Rebuy não pode ficar negativo');return;}if(raw>0){if(!p.rebuys)p.rebuys=[];p.rebuys.push({amount:raw,elapsedMs:elapsedMs()});}p.rebuy=next;document.getElementById('inpRebuy').value='';refreshModal(id);}
 function applyAddon(id){const val=parseMoney(document.getElementById('inpAddon').value);if(val<=0){showToast('⚠ Valor inválido');return;}players.find(x=>x.id===id).addon=val;document.getElementById('inpAddon').value='';refreshModal(id);}
-function applyJonSnow(id){
-  const raw=parseFloat(document.getElementById('inpJonsnow').value);
-  if(isNaN(raw)||raw===0){showToast('⚠ Valor inválido');return;}
-  const p=players.find(x=>x.id===id);const next=p.jonsnow+raw;
-  if(next<0){showToast('⚠ Jon Snow não pode ficar negativo');return;}
-  if(raw>0){if(!p.jonSnows)p.jonSnows=[];globalJonSnowCount++;p.jonSnows.push({amount:raw,elapsedMs:elapsedMs(),globalIndex:globalJonSnowCount});}
-  p.jonsnow=next;document.getElementById('inpJonsnow').value='';refreshModal(id);
-}
+function applyJonSnow(id){const raw=parseFloat(document.getElementById('inpJonsnow').value);if(isNaN(raw)||raw===0){showToast('⚠ Valor inválido');return;}const p=players.find(x=>x.id===id);const next=p.jonsnow+raw;if(next<0){showToast('⚠ Jon Snow não pode ficar negativo');return;}if(raw>0){if(!p.jonSnows)p.jonSnows=[];globalJonSnowCount++;p.jonSnows.push({amount:raw,elapsedMs:elapsedMs(),globalIndex:globalJonSnowCount});}p.jonsnow=next;document.getElementById('inpJonsnow').value='';refreshModal(id);}
 function updatePrizePlayer(i,val){prizeData[i].playerId=val;renderPrizesRemain();saveState();}
 function updatePrizeAmount(i,val){prizeData[i].amount=parseMoney(val);renderPrizesRemain();saveState();}
 function allocatedTotal(){return prizeData.reduce((a,b)=>a+b.amount,0);}
-function renderPrizesRemain(){
-  const remain=totalPot()-allocatedTotal();const el=document.getElementById('prizesRemain'),over=remain<-0.005;
-  el.className='prizes-remain'+(over?' over':'');
-  el.innerHTML=over?`Excedido em: <strong>${fmt(Math.abs(remain))}</strong>`:`Saldo restante: <strong>${fmt(Math.max(0,remain))}</strong>`;
-  updateHints();
-}
+function renderPrizesRemain(){const remain=totalPot()-allocatedTotal();const el=document.getElementById('prizesRemain'),over=remain<-0.005;el.className='prizes-remain'+(over?' over':'');el.innerHTML=over?`Excedido em: <strong>${fmt(Math.abs(remain))}</strong>`:`Saldo restante: <strong>${fmt(Math.max(0,remain))}</strong>`;updateHints();}
 function updateHints(){
   const pot=totalPot(),pcts=[50,30,20];
-  // Sum amounts from 4th place onwards (index 3+)
-  let fromFourthOnward=0;
-  for(let j=3;j<prizeData.length;j++) fromFourthOnward+=prizeData[j]?.amount||0;
-  const base=Math.max(0,pot-fromFourthOnward);
-  document.querySelectorAll('.prize-hint').forEach((h,i)=>{
-    if(i>=3||pot<=0){h.innerHTML='';return;}
-    const suggestion=base*pcts[i]/100;
-    h.innerHTML=`Sugestão: <strong>${fmt(suggestion)}</strong> (${pcts[i]}% do pote - 4º+)`;
-  });
+  let fromFourth=0;for(let j=3;j<prizeData.length;j++)fromFourth+=prizeData[j]?.amount||0;
+  const base=Math.max(0,pot-fromFourth);
+  document.querySelectorAll('.prize-hint').forEach((h,i)=>{if(i>=3||pot<=0){h.innerHTML='';return;}h.innerHTML=`Sugestão: <strong>${fmt(base*pcts[i]/100)}</strong> (${pcts[i]}% do pote - 4º+)`;});
 }
 function renderPrizes(){
   const colors=['#e6b94a','#c0c0c0','#cd7f32','#88aacc','#a07de0','#4caf7d','#e05c5c','#e0aa5c'];
@@ -649,9 +537,6 @@ function clearHistory(){showConfirm('Apagar <strong>todo o histórico</strong>?'
 function renderHistory(){const history=JSON.parse(localStorage.getItem('pgHistory')||'[]');const sec=document.getElementById('historySection');if(!history.length){sec.style.display='none';return;}sec.style.display='block';const hl=document.getElementById('historyList');hl.innerHTML='';history.forEach(h=>{if(!h.id)h.id=uid();const item=document.createElement('div');item.className='history-item';item.innerHTML=`<div style="flex:1"><div class="history-name">${h.name}</div><div class="history-meta">${h.date} · ${h.players} jogadores</div></div><div class="history-pot">${fmt(h.pot)}</div><button class="btn-remove-hist" onclick="deleteHistoryItem('${h.id}')">✕</button>`;hl.appendChild(item);});}
 function addOrder(){if(players.length===0){showToast('⚠ Adicione jogadores primeiro');return;}orders.push({id:uid(),value:0,payerId:'',eaterIds:[]});buildOrderList();calcExpenses();saveState();}
 function removeOrder(id){orders=orders.filter(o=>o.id!==id);buildOrderList();calcExpenses();saveState();}
-function updateOrderValue(id,val){const o=orders.find(x=>x.id===id);o.value=parseMoney(val);calcExpenses();saveState();}
-function togglePayer(orderId,playerId){const o=orders.find(x=>x.id===orderId);o.payerId=(o.payerId===playerId)?'':playerId;renderOrders();calcExpenses();saveState();}
-function toggleEater(orderId,playerId){const o=orders.find(x=>x.id===orderId);if(o.eaterIds.includes(playerId))o.eaterIds=o.eaterIds.filter(id=>id!==playerId);else o.eaterIds.push(playerId);renderOrders();calcExpenses();saveState();}
 function renderOrders(){buildOrderList();}
 function buildOrderList(){
   const list=document.getElementById('orderList');if(!list)return;
@@ -659,7 +544,6 @@ function buildOrderList(){
   if(orders.length===0){list.innerHTML='<div style="text-align:center;color:var(--text-muted);font-size:13px;padding:12px 0;">Nenhum pedido ainda</div>';return;}
   orders.forEach((o,idx)=>{
     const div=document.createElement('div');div.className='order-card';
-    // header
     const top=document.createElement('div');top.className='order-card-top';
     const lbl=document.createElement('span');lbl.className='order-card-label';lbl.textContent='Pedido '+(idx+1);
     const tr=document.createElement('div');tr.style.cssText='display:flex;align-items:center;gap:8px;';
@@ -667,122 +551,31 @@ function buildOrderList(){
     const rb=document.createElement('button');rb.className='btn-remove-sm';rb.textContent='✕';
     rb.onclick=()=>{orders=orders.filter(x=>x.id!==o.id);buildOrderList();calcExpenses();saveState();};
     tr.appendChild(vs);tr.appendChild(rb);top.appendChild(lbl);top.appendChild(tr);div.appendChild(top);
-    // value
     const vg=document.createElement('div');vg.className='field-group';vg.style.marginBottom='12px';
     const vl=document.createElement('div');vl.className='field-label';vl.textContent='Valor Total (R$)';
     const vi=document.createElement('input');vi.className='field-input';vi.type='number';vi.placeholder='0,00';vi.min='0';vi.step='0.01';
     if(o.value>0)vi.value=o.value.toFixed(2);
     vi.oninput=()=>{o.value=parseMoney(vi.value);vs.textContent=fmt(o.value);if(eperLabel)eperLabel.innerHTML=eaterLabelHTML();calcExpenses();saveState();};
     vg.appendChild(vl);vg.appendChild(vi);div.appendChild(vg);
-    // payer
     const pw=document.createElement('div');pw.className='order-who';
     const pl=document.createElement('div');pl.className='order-who-label';pl.style.color='var(--green)';pl.textContent='Quem pagou';
     const pc=document.createElement('div');pc.className='order-players';
     players.forEach(p=>{
-      const chip=document.createElement('span');
-      chip.className='order-payer-chip'+(o.payerId===p.id?' selected':'');
-      chip.textContent=p.name;
-      chip.addEventListener('mousedown',e=>{
-        e.preventDefault();
-        o.payerId=(o.payerId===p.id)?'':p.id;
-        pc.querySelectorAll('span').forEach((c,i)=>{c.className='order-payer-chip'+(players[i]&&o.payerId===players[i].id?' selected':'');});
-        calcExpenses();saveState();
-      });
+      const chip=document.createElement('span');chip.className='order-payer-chip'+(o.payerId===p.id?' selected':'');chip.textContent=p.name;
+      chip.addEventListener('mousedown',e=>{e.preventDefault();o.payerId=(o.payerId===p.id)?'':p.id;pc.querySelectorAll('span').forEach((c,i)=>{c.className='order-payer-chip'+(players[i]&&o.payerId===players[i].id?' selected':'');});calcExpenses();saveState();});
       pc.appendChild(chip);
     });
     pw.appendChild(pl);pw.appendChild(pc);div.appendChild(pw);
-    // eaters
     const ew=document.createElement('div');ew.className='order-who';ew.style.marginTop='10px';
     const eaterLabelHTML=()=>'Quem comeu'+(o.eaterIds.length>0&&o.value>0?` · <span style="color:var(--gold)">${fmt(o.value/o.eaterIds.length)}/pessoa</span>`:'');
     const eperLabel=document.createElement('div');eperLabel.className='order-who-label';eperLabel.innerHTML=eaterLabelHTML();
     const ec=document.createElement('div');ec.className='order-players';
     players.forEach(p=>{
-      const chip=document.createElement('span');
-      chip.className='order-player-chip'+(o.eaterIds.includes(p.id)?' selected':'');
-      chip.textContent=p.name;
-      chip.addEventListener('mousedown',e=>{
-        e.preventDefault();
-        if(o.eaterIds.includes(p.id))o.eaterIds=o.eaterIds.filter(id=>id!==p.id);
-        else o.eaterIds.push(p.id);
-        ec.querySelectorAll('span').forEach((c,i)=>{c.className='order-player-chip'+(players[i]&&o.eaterIds.includes(players[i].id)?' selected':'');});
-        eperLabel.innerHTML=eaterLabelHTML();
-        calcExpenses();saveState();
-      });
+      const chip=document.createElement('span');chip.className='order-player-chip'+(o.eaterIds.includes(p.id)?' selected':'');chip.textContent=p.name;
+      chip.addEventListener('mousedown',e=>{e.preventDefault();if(o.eaterIds.includes(p.id))o.eaterIds=o.eaterIds.filter(id=>id!==p.id);else o.eaterIds.push(p.id);ec.querySelectorAll('span').forEach((c,i)=>{c.className='order-player-chip'+(players[i]&&o.eaterIds.includes(players[i].id)?' selected':'');});eperLabel.innerHTML=eaterLabelHTML();calcExpenses();saveState();});
       ec.appendChild(chip);
     });
     ew.appendChild(eperLabel);ew.appendChild(ec);div.appendChild(ew);
-    list.appendChild(div);
-  });
-}
-
-function removeOrder(id){orders=orders.filter(o=>o.id!==id);buildOrderList();calcExpenses();saveState();}
-function updateOrderValue(id,val){const o=orders.find(x=>x.id===id);o.value=parseMoney(val);calcExpenses();saveState();}
-function togglePayer(orderId,playerId){const o=orders.find(x=>x.id===orderId);o.payerId=(o.payerId===playerId)?'':playerId;renderOrders();calcExpenses();saveState();}
-function toggleEater(orderId,playerId){const o=orders.find(x=>x.id===orderId);if(o.eaterIds.includes(playerId))o.eaterIds=o.eaterIds.filter(id=>id!==playerId);else o.eaterIds.push(playerId);renderOrders();calcExpenses();saveState();}
-function renderOrders(){
-  const list=document.getElementById('orderList');
-  if(!list)return;
-  list.innerHTML='';
-  if(orders.length===0){list.innerHTML='<div style="text-align:center;color:var(--text-muted);font-size:13px;padding:12px 0;">Nenhum pedido ainda</div>';return;}
-  orders.forEach((o,idx)=>{
-    const div=document.createElement('div');
-    div.className='order-card';
-    const perHead=o.eaterIds.length>0?(o.value/o.eaterIds.length):0;
-
-    // header
-    const top=document.createElement('div');
-    top.className='order-card-top';
-    top.innerHTML=`<span class="order-card-label">Pedido ${idx+1}</span><div style="display:flex;align-items:center;gap:8px;"><span class="order-card-val">${fmt(o.value)}</span></div>`;
-    const removeBtn=document.createElement('button');
-    removeBtn.className='btn-remove-sm';
-    removeBtn.textContent='✕';
-    removeBtn.onclick=()=>removeOrder(o.id);
-    top.querySelector('div').appendChild(removeBtn);
-    div.appendChild(top);
-
-    // value input
-    const valGroup=document.createElement('div');
-    valGroup.className='field-group';
-    valGroup.style.marginBottom='12px';
-    valGroup.innerHTML='<div class="field-label">Valor Total (R$)</div>';
-    const valInput=document.createElement('input');
-    valInput.className='field-input';
-    valInput.type='number';
-    valInput.placeholder='0,00';
-    valInput.min='0';
-    valInput.step='0.01';
-    if(o.value>0)valInput.value=o.value.toFixed(2);
-    valInput.oninput=()=>{o.value=parseMoney(valInput.value);calcExpenses();saveState();const cv=div.querySelector('.order-card-val');if(cv)cv.textContent=fmt(o.value);};
-    valGroup.appendChild(valInput);
-    div.appendChild(valGroup);
-
-    // payer
-    const payerWho=document.createElement('div');payerWho.className='order-who';
-    const payerLabel=document.createElement('div');payerLabel.className='order-who-label';payerLabel.style.color='var(--green)';payerLabel.textContent='Quem pagou';
-    const payerChips=document.createElement('div');payerChips.className='order-players';
-    players.forEach(p=>{
-      const chip=document.createElement('span');
-      chip.className='order-payer-chip'+(o.payerId===p.id?' selected':'');
-      chip.textContent=p.name;
-      chip.onmousedown=(e)=>{e.preventDefault();o.payerId=(o.payerId===p.id)?'':p.id;calcExpenses();saveState();renderOrders();};
-      payerChips.appendChild(chip);
-    });
-    payerWho.appendChild(payerLabel);payerWho.appendChild(payerChips);div.appendChild(payerWho);
-
-    // eaters
-    const eaterWho=document.createElement('div');eaterWho.className='order-who';eaterWho.style.marginTop='10px';
-    const eaterLabel=document.createElement('div');eaterLabel.className='order-who-label';
-    eaterLabel.innerHTML='Quem comeu'+(perHead>0?` · <span style="color:var(--gold)">${fmt(perHead)}/pessoa</span>`:'');
-    const eaterChips=document.createElement('div');eaterChips.className='order-players';
-    players.forEach(p=>{
-      const chip=document.createElement('span');
-      chip.className='order-player-chip'+(o.eaterIds.includes(p.id)?' selected':'');
-      chip.textContent=p.name;
-      chip.onmousedown=(e)=>{e.preventDefault();if(o.eaterIds.includes(p.id))o.eaterIds=o.eaterIds.filter(id=>id!==p.id);else o.eaterIds.push(p.id);calcExpenses();saveState();renderOrders();};
-      eaterChips.appendChild(chip);
-    });
-    eaterWho.appendChild(eaterLabel);eaterWho.appendChild(eaterChips);div.appendChild(eaterWho);
-
     list.appendChild(div);
   });
 }
@@ -806,34 +599,29 @@ function getExpNet(pid){let net=0;orders.forEach(o=>{if(o.value===0||o.eaterIds.
 function renderStats(){
   const cont=document.getElementById('statsContent');
   if(!sessionReady||players.length===0){cont.innerHTML='<div class="empty-state"><div class="empty-icon">📊</div>Inicie uma sessão para ver as estatísticas</div>';return;}
-  const totalMs=elapsedMs();
-  let allJonSnows=[];
-  players.forEach(p=>{(p.jonSnows||[]).forEach(js=>{allJonSnows.push({...js,playerName:p.name,playerId:p.id});});});
+  let allJonSnows=[];players.forEach(p=>{(p.jonSnows||[]).forEach(js=>{allJonSnows.push({...js,playerName:p.name,playerId:p.id});});});
   allJonSnows.sort((a,b)=>a.globalIndex-b.globalIndex);
-  let html=``;
-  html+=`<div class="stats-card"><div class="stats-card-header"><span class="stats-card-title">🌨 Jon Snow da Noite</span><span style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--purple)">${allJonSnows.length} no total</span></div>`;
+  let html=`<div class="stats-card"><div class="stats-card-header"><span class="stats-card-title">🌨 Jon Snow da Noite</span><span style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--purple)">${allJonSnows.length} no total</span></div>`;
   if(allJonSnows.length===0){html+=`<div class="stats-no-data">Nenhum Jon Snow ainda</div>`;}
   else{allJonSnows.forEach(js=>{html+=`<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid var(--border);"><div><span style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--purple)">${js.globalIndex}º Jon Snow</span><span style="font-size:12px;color:var(--text-muted);margin-left:8px;">por ${js.playerName}</span></div><div style="text-align:right;"><div style="font-size:13px;font-weight:700;color:var(--gold)">${fmt(js.amount)}</div><div style="font-size:10px;color:var(--text-muted)">+${fmtElapsed(js.elapsedMs)}</div></div></div>`;});}
-  html+=`</div>`;
-  html+=`<div class="stats-card"><div class="stats-card-header"><span class="stats-card-title">👤 Estatísticas por Jogador</span></div>`;
+  html+=`</div><div class="stats-card"><div class="stats-card-header"><span class="stats-card-title">👤 Estatísticas por Jogador</span></div>`;
   players.forEach(p=>{
     const rebuys=p.rebuys||[],jonSnows=p.jonSnows||[];
     let rebuyAvgText='nenhum';
     if(rebuys.length===1){rebuyAvgText=fmtElapsed(rebuys[0].elapsedMs)+' (1 rebuy)';}
-    else if(rebuys.length>1){const intervals=[];for(let i=1;i<rebuys.length;i++)intervals.push(rebuys[i].elapsedMs-rebuys[i-1].elapsedMs);const avgMs=intervals.reduce((a,b)=>a+b,0)/intervals.length;rebuyAvgText=`a cada ~${fmtMinutes(avgMs)} (${rebuys.length} rebuys)`;}
+    else if(rebuys.length>1){const intervals=[];for(let i=1;i<rebuys.length;i++)intervals.push(rebuys[i].elapsedMs-rebuys[i-1].elapsedMs);rebuyAvgText=`a cada ~${fmtMinutes(intervals.reduce((a,b)=>a+b,0)/intervals.length)} (${rebuys.length} rebuys)`;}
     const rebuyChips=rebuys.map((r,i)=>`<span class="stats-chip chip-rebuy">${i+1}º +${fmtElapsed(r.elapsedMs)}</span>`).join('');
-    const jsChips=allJonSnows.map(js=>{const mine=js.playerId===p.id;return `<span class="stats-chip ${mine?'chip-jonsnow-mine':'chip-jonsnow'}">${js.globalIndex}º${mine?' ✓':''}</span>`;}).join('');
-    const myJsCount=jonSnows.length,myJsTotal=jonSnows.reduce((a,b)=>a+b.amount,0);
+    const jsChips=allJonSnows.map(js=>{const mine=js.playerId===p.id;return`<span class="stats-chip ${mine?'chip-jonsnow-mine':'chip-jonsnow'}">${js.globalIndex}º${mine?' ✓':''}</span>`;}).join('');
+    const myJsTotal=jonSnows.reduce((a,b)=>a+b.amount,0);
     html+=`<div class="stats-player-block"><div class="stats-player-name">${p.name}</div>
       <div class="stats-row"><span class="stats-label">🟢 Rebuys</span><span class="stats-val">${rebuyAvgText}</span></div>`;
     if(rebuys.length>0)html+=`<div class="stats-row"><span class="stats-label"></span><div class="stats-chips">${rebuyChips}</div></div>`;
-    html+=`<div class="stats-row" style="margin-top:6px;"><span class="stats-label">🟣 Jon Snow</span><span class="stats-val">${myJsCount>0?myJsCount+' vez(es) · '+fmt(myJsTotal):'nenhum'}</span></div>`;
+    html+=`<div class="stats-row" style="margin-top:6px;"><span class="stats-label">🟣 Jon Snow</span><span class="stats-val">${jonSnows.length>0?jonSnows.length+' vez(es) · '+fmt(myJsTotal):'nenhum'}</span></div>`;
     if(allJonSnows.length>0)html+=`<div class="stats-row"><span class="stats-label"></span><div class="stats-chips">${jsChips}</div></div>`;
     html+=`</div>`;
   });
   html+=`</div>`;
   cont.innerHTML=html;
-  startTimer();
 }
 function switchTab(tab){
   const mainEl=document.querySelector('.main');
@@ -846,146 +634,73 @@ function switchTab(tab){
   else if(tab==='cash'){document.getElementById('cashTabPage').style.display='block';document.getElementById('tabBtnCash').classList.add('active');setCashMode(cashMode);renderCashTable();}
   else if(tab==='result'){document.getElementById('resultTabPage').style.display='block';document.getElementById('tabBtnResult').classList.add('active');renderResultTab();}
 }
-function getCashPnlForPlayer(pid){
-  if(cashMode!=='tournament')return null;
-  const cp=cashPlayers.find(x=>x.tournamentId===pid);
-  if(!cp)return null;
-  const dv=parseMoney(document.getElementById('cashDealerVal')?.value);
-  const dealer=cashPlayers.length>0&&dv>0?dv/cashPlayers.length:0;
-  return cp.gained-cp.paid-dealer;
-}
 function renderResultTab(){
-  const cont = document.getElementById('resultTabContent');
-  if(!cont) return;
-
-  if(players.length === 0){
-    cont.innerHTML = '<div class="empty-state"><div class="empty-icon">🏆</div>Adicione jogadores na aba Mesa</div>';
-    return;
-  }
-
-  const pot = totalPot();
-  const medals = ['🥇','🥈','🥉','4º','5º','6º','7º','8º','9º','10º'];
-
-  // Map winner positions
-  const prizeMap = {}; // playerId -> {rank, prize}
-  prizeData.forEach((d,i) => {
-    if(d.playerId) prizeMap[d.playerId] = {rank: medals[i]||((i+1)+'º'), prize: d.amount||0};
-  });
-
-  // Cash P&L helper
+  const cont=document.getElementById('resultTabContent');
+  if(!cont)return;
+  if(players.length===0){cont.innerHTML='<div class="empty-state"><div class="empty-icon">🏆</div>Adicione jogadores na aba Mesa</div>';return;}
+  const pot=totalPot();
+  const medals=['🥇','🥈','🥉','4º','5º','6º','7º','8º','9º','10º'];
+  const prizeMap={};
+  prizeData.forEach((d,i)=>{if(d.playerId)prizeMap[d.playerId]={rank:medals[i]||((i+1)+'º'),prize:d.amount||0};});
   function getCashPnl(pid){
-    if(cashMode !== 'tournament') return 0;
-    const cp = cashPlayers.find(x => x.tournamentId === pid);
-    if(!cp) return 0;
-    const dv = parseMoney(document.getElementById('cashDealerVal')?.value);
-    const dealer = cashPlayers.length > 0 && dv > 0 ? dv / cashPlayers.length : 0;
-    return cp.gained - cp.paid - dealer;
+    if(cashMode!=='tournament')return 0;
+    const cp=cashPlayers.find(x=>x.tournamentId===pid);if(!cp)return 0;
+    const dv=parseMoney(document.getElementById('cashDealerVal')?.value);
+    const dealer=cashPlayers.length>0&&dv>0?dv/cashPlayers.length:0;
+    return cp.gained-cp.paid-dealer;
   }
-
-  const hasCash = cashMode === 'tournament' && cashPlayers.length > 0;
-
-  // Sort players: winners first by rank, then others
-  const sorted = [...players].sort((a,b) => {
-    const ra = prizeMap[a.id] ? Object.keys(prizeMap).indexOf(a.id) : 999;
-    const rb = prizeMap[b.id] ? Object.keys(prizeMap).indexOf(b.id) : 999;
-    return ra - rb;
+  const hasCash=cashMode==='tournament'&&cashPlayers.length>0;
+  const sorted=[...players].sort((a,b)=>{
+    const ra=prizeMap[a.id]?Object.keys(prizeMap).indexOf(a.id):999;
+    const rb=prizeMap[b.id]?Object.keys(prizeMap).indexOf(b.id):999;
+    return ra-rb;
   });
-
-  let rows = '';
-  sorted.forEach(p => {
-    const isWinner = !!prizeMap[p.id];
-    const rank = isWinner ? prizeMap[p.id].rank : '—';
-    const prize = isWinner ? prizeMap[p.id].prize : 0;
-    const spent = playerTotal(p);
-    const expNet = getExpNet(p.id);
-    const cashPnl = getCashPnl(p.id);
-    // Lucro = Prêmio + Gastos (net) + Cash P&L - Investido
-    const pnl = prize + expNet + cashPnl - spent;
-
-    const pnlColor = pnl > 0 ? 'var(--green)' : pnl < 0 ? 'var(--red)' : 'var(--text-muted)';
-    const expColor = expNet > 0 ? 'var(--green)' : expNet < 0 ? 'var(--red)' : 'var(--text-muted)';
-    const cashColor = cashPnl > 0 ? 'var(--green)' : cashPnl < 0 ? 'var(--red)' : 'var(--text-muted)';
-    const rowClass = isWinner ? 'rt-winner' : 'rt-loser';
-
-    const cashCol = hasCash ? `<td style="color:${cashColor};font-weight:700">${cashPnl >= 0 ? '+' : ''}${fmtClean(cashPnl)}</td>` : '';
-
-    rows += `<tr class="${rowClass}">
-      <td>${rank}</td>
-      <td>${p.name}</td>
+  let rows='';
+  sorted.forEach(p=>{
+    const isWinner=!!prizeMap[p.id];
+    const rank=isWinner?prizeMap[p.id].rank:'—';
+    const prize=isWinner?prizeMap[p.id].prize:0;
+    const spent=playerTotal(p);
+    const expNet=getExpNet(p.id);
+    const cashPnl=getCashPnl(p.id);
+    const pnl=prize+expNet+cashPnl-spent;
+    const pnlColor=pnl>0?'var(--green)':pnl<0?'var(--red)':'var(--text-muted)';
+    const expColor=expNet>0?'var(--green)':expNet<0?'var(--red)':'var(--text-muted)';
+    const cashColor=cashPnl>0?'var(--green)':cashPnl<0?'var(--red)':'var(--text-muted)';
+    const rowClass=isWinner?'rt-winner':'rt-loser';
+    const cashCol=hasCash?`<td style="color:${cashColor};font-weight:700">${cashPnl>=0?'+':''}${fmtClean(cashPnl)}</td>`:'';
+    rows+=`<tr class="${rowClass}">
+      <td>${rank}</td><td>${p.name}</td>
       <td style="color:var(--gold)">${fmtClean(p.buyin)}</td>
       <td style="color:var(--green)">${fmtClean(p.rebuy)}</td>
       <td style="color:var(--blue)">${fmtClean(p.addon)}</td>
       <td style="color:var(--purple)">${fmtClean(p.jonsnow)}</td>
       <td style="font-weight:800">${fmtClean(spent)}</td>
-      <td style="color:var(--gold);font-weight:800">${prize > 0 ? fmtClean(prize) : '—'}</td>
-      <td style="color:${expColor};font-weight:700">${expNet >= 0 ? '+' : ''}${fmtClean(expNet)}</td>
+      <td style="color:var(--gold);font-weight:800">${prize>0?fmtClean(prize):'—'}</td>
+      <td style="color:${expColor};font-weight:700">${expNet>=0?'+':''}${fmtClean(expNet)}</td>
       ${cashCol}
-      <td style="color:${pnlColor};font-weight:800">${pnl >= 0 ? '+' : ''}${fmtClean(pnl)}</td>
+      <td style="color:${pnlColor};font-weight:800">${pnl>=0?'+':''}${fmtClean(pnl)}</td>
     </tr>`;
   });
-
-  // Extra: cash only players (not in tournament)
   if(hasCash){
-    cashPlayers.filter(cp => !cp.tournamentId).forEach(cp => {
-      const dv = parseMoney(document.getElementById('cashDealerVal')?.value);
-      const dealer = cashPlayers.length > 0 && dv > 0 ? dv / cashPlayers.length : 0;
-      const cashPnl = cp.gained - cp.paid - dealer;
-      const cc = cashPnl > 0 ? 'var(--green)' : cashPnl < 0 ? 'var(--red)' : 'var(--text-muted)';
-      rows += `<tr class="rt-loser" style="opacity:0.8">
-        <td>—</td><td>${cp.name} <span style="font-size:9px;color:var(--gold)">(só cash)</span></td>
-        <td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td>
-        <td style="color:${cc};font-weight:700">${cashPnl >= 0 ? '+' : ''}${fmtClean(cashPnl)}</td>
-        <td style="color:${cc};font-weight:800">${cashPnl >= 0 ? '+' : ''}${fmtClean(cashPnl)}</td>
-      </tr>`;
+    cashPlayers.filter(cp=>!cp.tournamentId).forEach(cp=>{
+      const dv=parseMoney(document.getElementById('cashDealerVal')?.value);
+      const dealer=cashPlayers.length>0&&dv>0?dv/cashPlayers.length:0;
+      const cashPnl=cp.gained-cp.paid-dealer;
+      const cc=cashPnl>0?'var(--green)':cashPnl<0?'var(--red)':'var(--text-muted)';
+      rows+=`<tr class="rt-loser" style="opacity:0.8"><td>—</td><td>${cp.name} <span style="font-size:9px;color:var(--gold)">(só cash)</span></td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td style="color:${cc};font-weight:700">${cashPnl>=0?'+':''}${fmtClean(cashPnl)}</td><td style="color:${cc};font-weight:800">${cashPnl>=0?'+':''}${fmtClean(cashPnl)}</td></tr>`;
     });
   }
-
-  const totInvested = players.reduce((a,p) => a + playerTotal(p), 0);
-  const totPrize = prizeData.reduce((a,d) => a + (d.amount||0), 0);
-  const cashHeader = hasCash ? '<th>Cash P&L</th>' : '';
-  const cashFooter = hasCash ? '<td>—</td>' : '';
-
-  cont.innerHTML = `
-    <div class="rt-card">
-      <div class="rt-header">
-        <div class="rt-title">🏆 Resultado Final</div>
-        <div class="rt-meta">${sessionDate||'—'} · ${players.length} jogadores · Pote: ${fmt(pot)}</div>
-      </div>
-      <div style="overflow-x:auto">
-        <table class="rt-table">
-          <thead>
-            <tr>
-              <th>#</th><th>Jogador</th><th>Buy-In</th><th>Rebuy</th><th>Add-On</th>
-              <th>Jon Snow</th><th>Investido</th><th>Prêmio</th><th>Gastos</th>
-              ${cashHeader}<th>Lucro/Prej.</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${rows}
-            <tr class="rt-footer">
-              <td colspan="2">TOTAL</td>
-              <td>${fmtClean(players.reduce((a,p)=>a+p.buyin,0))}</td>
-              <td>${fmtClean(players.reduce((a,p)=>a+p.rebuy,0))}</td>
-              <td>${fmtClean(players.reduce((a,p)=>a+p.addon,0))}</td>
-              <td>${fmtClean(players.reduce((a,p)=>a+p.jonsnow,0))}</td>
-              <td>${fmtClean(totInvested)}</td>
-              <td>${fmtClean(totPrize)}</td>
-              <td>—</td>
-              ${cashFooter}
-              <td>—</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <button class="rt-img-btn" onclick="exportImage()">📸 Gerar Imagem para Compartilhar</button>
-  `;
+  const totInvested=players.reduce((a,p)=>a+playerTotal(p),0);
+  const totPrize=prizeData.reduce((a,d)=>a+(d.amount||0),0);
+  const cashHeader=hasCash?'<th>Cash P&L</th>':'';
+  const cashFooter=hasCash?'<td>—</td>':'';
+  cont.innerHTML=`<div class="rt-card"><div class="rt-header"><div class="rt-title">🏆 Resultado Final</div><div class="rt-meta">${sessionDate||'—'} · ${players.length} jogadores · Pote: ${fmt(pot)}</div></div><div style="overflow-x:auto"><table class="rt-table"><thead><tr><th>#</th><th>Jogador</th><th>Buy-In</th><th>Rebuy</th><th>Add-On</th><th>Jon Snow</th><th>Investido</th><th>Prêmio</th><th>Gastos</th>${cashHeader}<th>Lucro/Prej.</th></tr></thead><tbody>${rows}<tr class="rt-footer"><td colspan="2">TOTAL</td><td>${fmtClean(players.reduce((a,p)=>a+p.buyin,0))}</td><td>${fmtClean(players.reduce((a,p)=>a+p.rebuy,0))}</td><td>${fmtClean(players.reduce((a,p)=>a+p.addon,0))}</td><td>${fmtClean(players.reduce((a,p)=>a+p.jonsnow,0))}</td><td>${fmtClean(totInvested)}</td><td>${fmtClean(totPrize)}</td><td>—</td>${cashFooter}<td>—</td></tr></tbody></table></div></div><button class="rt-img-btn" onclick="exportImage()">📸 Gerar Imagem para Compartilhar</button>`;
 }
-
 function exportImage(){
   const pot=totalPot(),medals=Array.from({length:30},(_,i)=>i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1)+'º');
   const winnerIds=prizeData.map(d=>d.playerId),nonWinners=players.filter(p=>!winnerIds.includes(p.id));
-  const allRows=[...prizeData.map((d,i)=>({p:players.find(x=>x.id===d.playerId),prize:d.amount,rank:medals[i],winner:true})),...nonWinners.map(p=>({p,prize:0,rank:'—',winner:false}))];
+  const allRows=[...prizeData.map((d,i)=>({p:players.find(x=>x.id===d.playerId),prize:d.amount,rank:medals[i],winner:true})).filter(r=>r.p),...nonWinners.map(p=>({p,prize:0,rank:'—',winner:false}))];
   const SCALE=2,W=1100,PAD=32,HEADER=130,COL_H=28,ROW_H=52,FOOTER=44,SEP_H=28;
   const hasSep=nonWinners.length>0,H=HEADER+COL_H+allRows.length*ROW_H+(hasSep?SEP_H:0)+FOOTER;
   const canvas=document.createElement('canvas');canvas.width=W*SCALE;canvas.height=H*SCALE;
@@ -996,14 +711,38 @@ function exportImage(){
   const cols=[{label:'#',w:52,align:'center'},{label:'Jogador',w:165,align:'left'},{label:'Buy-In',w:90,align:'right',color:'#e6b94a'},{label:'Rebuy',w:90,align:'right',color:'#4caf7d'},{label:'Add-On',w:90,align:'right',color:'#5c9ee0'},{label:'Jon Snow',w:90,align:'right',color:'#a07de0'},{label:'Investido',w:100,align:'right',color:'rgba(240,240,240,0.7)'},{label:'Prêmio',w:100,align:'right',color:'#e6b94a'},{label:'Gastos',w:100,align:'right',color:'rgba(240,240,240,0.7)'},{label:'Lucro/Prej.',w:110,align:'right',color:'rgba(240,240,240,0.7)'}];
   let cx=PAD;cols.forEach(c=>{c.x=cx;cx+=c.w;});
   fr(0,0,W,H,'#111');fr(0,0,W,HEADER,'#1a1a1a');fr(0,HEADER,W,2,'#e6b94a');
-  tx('HOME GAME · POKER',PAD,46,'bold 36px Arial','#e6b94a');tx(sessionDate+'   |   '+players.length+' jogadores   |   Pote: '+fmt(pot),PAD,82,'20px Arial','rgba(240,240,240,0.5)');tx('🏆  RESULTADO FINAL',PAD,114,'bold 17px Arial','#e6b94a');
-  let chy=HEADER+2;fr(0,chy,W,COL_H,'#1e1e1e');cols.forEach(c=>tx(c.label,c.x+(c.align==='right'?c.w:c.align==='center'?c.w/2:0),chy+19,'bold 11px Arial','rgba(240,240,240,0.4)',c.align==='right'?'right':c.align==='center'?'center':'left'));fr(0,chy+COL_H-1,W,1,'rgba(255,255,255,0.07)');
+  tx('THC - HOME GAME · POKER',PAD,46,'bold 36px Arial','#e6b94a');
+  tx(sessionDate+'   |   '+players.length+' jogadores   |   Pote: '+fmt(pot),PAD,82,'20px Arial','rgba(240,240,240,0.5)');
+  tx('🏆  RESULTADO FINAL',PAD,114,'bold 17px Arial','#e6b94a');
+  let chy=HEADER+2;fr(0,chy,W,COL_H,'#1e1e1e');
+  cols.forEach(c=>tx(c.label,c.x+(c.align==='right'?c.w:c.align==='center'?c.w/2:0),chy+19,'bold 11px Arial','rgba(240,240,240,0.4)',c.align==='right'?'right':c.align==='center'?'center':'left'));
+  fr(0,chy+COL_H-1,W,1,'rgba(255,255,255,0.07)');
   let y=chy+COL_H;
-  allRows.forEach((row,ri)=>{const{p,prize,rank,winner}=row;if(!winner&&ri>0&&allRows[ri-1].winner){fr(0,y,W,SEP_H,'#1a1a1a');tx('SEM PREMIAÇÃO',W/2,y+SEP_H*0.68,'bold 12px Arial','rgba(240,240,240,0.3)','center');y+=SEP_H;}ctx.globalAlpha=winner?1:0.38;fr(0,y,W,ROW_H,winner?'rgba(230,185,74,0.05)':'transparent');fr(0,y+ROW_H-1,W,1,'rgba(255,255,255,0.05)');const spent=playerTotal(p),midY=y+ROW_H/2+7,expNet=getExpNet(p.id),pnlFinal=prize+expNet-spent;const ec=expNet>0?'#4caf7d':expNet<0?'#e05c5c':'rgba(240,240,240,0.4)',pc=pnlFinal>0?'#4caf7d':pnlFinal<0?'#e05c5c':'rgba(240,240,240,0.4)';tx(rank,cols[0].x+cols[0].w/2,midY,'bold 18px Arial','#fff','center');tx(p.name,cols[1].x,midY,'bold 18px Arial','#f0f0f0');tx(fmtClean(p.buyin),cols[2].x+cols[2].w,midY,'15px Arial',cols[2].color,'right');tx(fmtClean(p.rebuy),cols[3].x+cols[3].w,midY,'15px Arial',cols[3].color,'right');tx(fmtClean(p.addon),cols[4].x+cols[4].w,midY,'15px Arial',cols[4].color,'right');tx(fmtClean(p.jonsnow),cols[5].x+cols[5].w,midY,'15px Arial',cols[5].color,'right');tx(fmtClean(spent),cols[6].x+cols[6].w,midY,'bold 15px Arial','#f0f0f0','right');tx(prize>0?fmtClean(prize):'—',cols[7].x+cols[7].w,midY,'bold 16px Arial',prize>0?'#e6b94a':'rgba(240,240,240,0.25)','right');tx((expNet>=0?'+':'')+fmtClean(expNet),cols[8].x+cols[8].w,midY,'15px Arial',ec,'right');tx((pnlFinal>=0?'+':'')+fmtClean(pnlFinal),cols[9].x+cols[9].w,midY,'bold 15px Arial',pc,'right');ctx.globalAlpha=1;y+=ROW_H;});
-  fr(0,y,W,FOOTER,'#1a1a1a');tx('HOME GAME · POKER',W/2,y+28,'14px Arial','rgba(230,185,74,0.4)','center');
+  allRows.forEach((row,ri)=>{
+    const{p,prize,rank,winner}=row;
+    if(!winner&&ri>0&&allRows[ri-1].winner){fr(0,y,W,SEP_H,'#1a1a1a');tx('SEM PREMIAÇÃO',W/2,y+SEP_H*0.68,'bold 12px Arial','rgba(240,240,240,0.3)','center');y+=SEP_H;}
+    ctx.globalAlpha=winner?1:0.38;
+    fr(0,y,W,ROW_H,winner?'rgba(230,185,74,0.05)':'transparent');fr(0,y+ROW_H-1,W,1,'rgba(255,255,255,0.05)');
+    const spent=playerTotal(p),midY=y+ROW_H/2+7,expNet=getExpNet(p.id),pnlFinal=prize+expNet-spent;
+    const ec=expNet>0?'#4caf7d':expNet<0?'#e05c5c':'rgba(240,240,240,0.4)';
+    const pc=pnlFinal>0?'#4caf7d':pnlFinal<0?'#e05c5c':'rgba(240,240,240,0.4)';
+    tx(rank,cols[0].x+cols[0].w/2,midY,'bold 18px Arial','#fff','center');
+    tx(p.name,cols[1].x,midY,'bold 18px Arial','#f0f0f0');
+    tx(fmtClean(p.buyin),cols[2].x+cols[2].w,midY,'15px Arial',cols[2].color,'right');
+    tx(fmtClean(p.rebuy),cols[3].x+cols[3].w,midY,'15px Arial',cols[3].color,'right');
+    tx(fmtClean(p.addon),cols[4].x+cols[4].w,midY,'15px Arial',cols[4].color,'right');
+    tx(fmtClean(p.jonsnow),cols[5].x+cols[5].w,midY,'15px Arial',cols[5].color,'right');
+    tx(fmtClean(spent),cols[6].x+cols[6].w,midY,'bold 15px Arial','#f0f0f0','right');
+    tx(prize>0?fmtClean(prize):'—',cols[7].x+cols[7].w,midY,'bold 16px Arial',prize>0?'#e6b94a':'rgba(240,240,240,0.25)','right');
+    tx((expNet>=0?'+':'')+fmtClean(expNet),cols[8].x+cols[8].w,midY,'15px Arial',ec,'right');
+    tx((pnlFinal>=0?'+':'')+fmtClean(pnlFinal),cols[9].x+cols[9].w,midY,'bold 15px Arial',pc,'right');
+    ctx.globalAlpha=1;y+=ROW_H;
+  });
+  fr(0,y,W,FOOTER,'#1a1a1a');tx('THC - HOME GAME · POKER',W/2,y+28,'14px Arial','rgba(230,185,74,0.4)','center');
   const dataUrl=canvas.toDataURL('image/png');
   if(!win){const ov=document.createElement('div');ov.style.cssText='position:fixed;inset:0;background:#111;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;';ov.innerHTML='<img src="'+dataUrl+'" style="max-width:100%;max-height:80vh;border-radius:12px;"><p style="color:rgba(255,255,255,0.5);font-size:14px;margin-top:16px;text-align:center;">📱 Pressione e segure para salvar</p><button onclick="this.parentElement.remove()" style="margin-top:20px;background:#e6b94a;color:#000;border:none;border-radius:8px;padding:12px 32px;font-size:15px;font-weight:800;cursor:pointer;">Fechar</button>';document.body.appendChild(ov);return;}
-  win.document.write('<!DOCTYPE html><html><head><title>Resultado</title><meta name="viewport" content="width=device-width,initial-scale=1"><style>*{box-sizing:border-box;margin:0;padding:0;}body{background:#111;display:flex;flex-direction:column;align-items:center;min-height:100vh;font-family:Arial,sans-serif;padding:20px;}img{max-width:100%;border-radius:12px;}p{color:rgba(255,255,255,0.5);font-size:14px;margin-top:16px;text-align:center;}</style></head><body><img src="'+dataUrl+'"><p>📱 Pressione e segure a imagem para salvar no rolo de fotos</p></body></html>');win.document.close();
+  win.document.write('<!DOCTYPE html><html><head><title>Resultado</title><meta name="viewport" content="width=device-width,initial-scale=1"><style>*{box-sizing:border-box;margin:0;padding:0;}body{background:#111;display:flex;flex-direction:column;align-items:center;min-height:100vh;font-family:Arial,sans-serif;padding:20px;}img{max-width:100%;border-radius:12px;}p{color:rgba(255,255,255,0.5);font-size:14px;margin-top:16px;text-align:center;}</style></head><body><img src="'+dataUrl+'"><p>📱 Pressione e segure a imagem para salvar no rolo de fotos</p></body></html>');
+  win.document.close();
 }
 function showConfirm(msg,onYes){const ov=document.createElement('div');ov.className='confirm-overlay';ov.innerHTML=`<div class="confirm-box"><div class="confirm-msg">${msg}</div><div class="confirm-btns"><button class="confirm-yes" id="cYes">Sim</button><button class="confirm-no" id="cNo">Não</button></div></div>`;document.body.appendChild(ov);ov.querySelector('#cYes').onclick=()=>{ov.remove();onYes();};ov.querySelector('#cNo').onclick=()=>ov.remove();ov.onclick=e=>{if(e.target===ov)ov.remove();};}
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
@@ -1021,267 +760,67 @@ function render(){
   else priz.style.display='none';
   document.getElementById('resultsSection').style.display='none';
 }
-loadState();renderHistory();render();setSyncStatus('syncing');startPolling();
-
-// ── CASH GAME ──
-let cashPlayers = [];
-let cashMode = 'standalone';
-
 function setCashMode(mode){
-  cashMode = mode;
-  const btnS = document.getElementById('cashModeStandalone');
-  const btnT = document.getElementById('cashModeTournament');
-  const formS = document.getElementById('cashAddFormStandalone');
-  const formT = document.getElementById('cashAddFormTournament');
-  if(btnS) btnS.classList.toggle('active', mode==='standalone');
-  if(btnT) btnT.classList.toggle('active', mode==='tournament');
-  if(formS) formS.style.display = mode==='standalone' ? 'block' : 'none';
-  if(formT) formT.style.display = mode==='tournament' ? 'block' : 'none';
-  if(mode==='tournament') populateTournamentSelect();
+  cashMode=mode;
+  const btnS=document.getElementById('cashModeStandalone'),btnT=document.getElementById('cashModeTournament');
+  const formS=document.getElementById('cashAddFormStandalone'),formT=document.getElementById('cashAddFormTournament');
+  if(btnS)btnS.classList.toggle('active',mode==='standalone');
+  if(btnT)btnT.classList.toggle('active',mode==='tournament');
+  if(formS)formS.style.display=mode==='standalone'?'block':'none';
+  if(formT)formT.style.display=mode==='tournament'?'block':'none';
+  if(mode==='tournament')populateTournamentSelect();
   saveCashState();
 }
-
 function populateTournamentSelect(){
-  const sel = document.getElementById('cashTournamentSelect');
-  if(!sel) return;
-  sel.innerHTML = '<option value="">— selecionar —</option>';
-  players.forEach(p => {
-    if(!cashPlayers.find(cp => cp.tournamentId === p.id)){
-      const opt = document.createElement('option');
-      opt.value = p.id;
-      opt.textContent = p.name;
-      sel.appendChild(opt);
-    }
-  });
-  const newOpt = document.createElement('option');
-  newOpt.value = '__new__';
-  newOpt.textContent = '+ Novo jogador';
-  sel.appendChild(newOpt);
-  sel.onchange = () => {
-    const row = document.getElementById('cashNewPlayerNameRow');
-    if(row) row.style.display = sel.value === '__new__' ? 'block' : 'none';
-  };
+  const sel=document.getElementById('cashTournamentSelect');if(!sel)return;
+  sel.innerHTML='<option value="">— selecionar —</option>';
+  players.forEach(p=>{if(!cashPlayers.find(cp=>cp.tournamentId===p.id)){const opt=document.createElement('option');opt.value=p.id;opt.textContent=p.name;sel.appendChild(opt);}});
+  const newOpt=document.createElement('option');newOpt.value='__new__';newOpt.textContent='+ Novo jogador';sel.appendChild(newOpt);
+  sel.onchange=()=>{const row=document.getElementById('cashNewPlayerNameRow');if(row)row.style.display=sel.value==='__new__'?'block':'none';};
 }
-
 function addCashPlayerFromTournament(){
-  const sel = document.getElementById('cashTournamentSelect');
-  const val = sel?.value;
-  if(!val){ showToast('⚠ Selecione um jogador'); return; }
-  let name = '', tournamentId = null;
-  if(val === '__new__'){
-    name = document.getElementById('cashNewPlayerName')?.value.trim();
-    if(!name){ showToast('⚠ Insira o nome'); return; }
-  } else {
-    const tp = players.find(p => p.id === val);
-    if(!tp){ showToast('⚠ Jogador não encontrado'); return; }
-    name = tp.name;
-    tournamentId = tp.id;
-  }
-  if(cashPlayers.find(cp => cp.name.toLowerCase() === name.toLowerCase())){
-    showToast('⚠ Jogador já existe'); return;
-  }
-  cashPlayers.push({id:uid(), name, paid:0, gained:0, tournamentId});
-  if(sel) sel.value = '';
-  const ni = document.getElementById('cashNewPlayerName'); if(ni) ni.value = '';
-  const nr = document.getElementById('cashNewPlayerNameRow'); if(nr) nr.style.display = 'none';
-  populateTournamentSelect();
-  saveCashState();
-  renderCashTable();
+  const sel=document.getElementById('cashTournamentSelect');const val=sel?.value;
+  if(!val){showToast('⚠ Selecione um jogador');return;}
+  let name='',tournamentId=null;
+  if(val==='__new__'){name=document.getElementById('cashNewPlayerName')?.value.trim();if(!name){showToast('⚠ Insira o nome');return;}}
+  else{const tp=players.find(p=>p.id===val);if(!tp){showToast('⚠ Jogador não encontrado');return;}name=tp.name;tournamentId=tp.id;}
+  if(cashPlayers.find(cp=>cp.name.toLowerCase()===name.toLowerCase())){showToast('⚠ Jogador já existe');return;}
+  cashPlayers.push({id:uid(),name,paid:0,gained:0,tournamentId});
+  if(sel)sel.value='';const ni=document.getElementById('cashNewPlayerName');if(ni)ni.value='';
+  const nr=document.getElementById('cashNewPlayerNameRow');if(nr)nr.style.display='none';
+  populateTournamentSelect();saveCashState();renderCashTable();
 }
-
-function addCashPlayer(){
-  const name=document.getElementById('cashNewName').value.trim();
-  if(!name){showToast('⚠ Insira o nome do jogador');return;}
-  if(cashPlayers.find(p=>p.name.toLowerCase()===name.toLowerCase())){showToast('⚠ Jogador já existe');return;}
-  cashPlayers.push({id:uid(),name,paid:0,gained:0});
-  document.getElementById('cashNewName').value='';
-  document.getElementById('cashNewName').focus();
-  saveCashState();
-  renderCashTable();
-}
-
-function removeCashPlayer(id){
-  const p=cashPlayers.find(x=>x.id===id);
-  showConfirm(`Remover <strong>${p.name}</strong> do Cash?`,()=>{
-    cashPlayers=cashPlayers.filter(x=>x.id!==id);
-    if(cashMode==='tournament') populateTournamentSelect();
-    saveCashState();
-    renderCashTable();
-  });
-}
-
+function addCashPlayer(){const name=document.getElementById('cashNewName').value.trim();if(!name){showToast('⚠ Insira o nome do jogador');return;}if(cashPlayers.find(p=>p.name.toLowerCase()===name.toLowerCase())){showToast('⚠ Jogador já existe');return;}cashPlayers.push({id:uid(),name,paid:0,gained:0,tournamentId:null});document.getElementById('cashNewName').value='';document.getElementById('cashNewName').focus();saveCashState();renderCashTable();}
+function removeCashPlayer(id){const p=cashPlayers.find(x=>x.id===id);showConfirm(`Remover <strong>${p.name}</strong> do Cash?`,()=>{cashPlayers=cashPlayers.filter(x=>x.id!==id);if(cashMode==='tournament')populateTournamentSelect();saveCashState();renderCashTable();});}
 function openCashModal(id){
-  const p=cashPlayers.find(x=>x.id===id);
-  const pnl=p.gained-p.paid;
-  const pnlColor=pnl>0?'var(--green)':pnl<0?'var(--red)':'var(--text-muted)';
+  const p=cashPlayers.find(x=>x.id===id);const pnl=p.gained-p.paid;const pnlColor=pnl>0?'var(--green)':pnl<0?'var(--red)':'var(--text-muted)';
   const overlay=document.createElement('div');overlay.className='modal-overlay';overlay.id='cashModal';
-  overlay.innerHTML=`<div class="modal-box">
-    <div class="modal-player-name">${p.name}</div>
-    <div class="modal-player-total" style="margin-bottom:16px;">
-      P&L: <strong style="color:${pnlColor}">${pnl>=0?'+':''}${fmt(pnl)}</strong>
-    </div>
-    <div class="modal-fields">
-      <div class="modal-field-row">
-        <div class="modal-field-left">
-          <div class="modal-field-type" style="color:var(--red)">Pago</div>
-          <div class="modal-field-value" style="color:var(--red)" id="cashModalPaid">${fmt(p.paid)}</div>
-          <div class="modal-field-note">acumula · negativo para corrigir</div>
-        </div>
-        <div class="modal-field-right">
-          <input class="modal-input" type="number" id="inpCashPaid" placeholder="valor" step="0.01"
-            style="color:var(--red);border-color:rgba(224,92,92,0.3)"
-            onkeydown="if(event.key==='Enter')applyCashPaid('${id}')">
-          <button class="modal-btn-action"
-            style="background:var(--red-dim);color:var(--red);border:1px solid rgba(224,92,92,0.2)"
-            onclick="applyCashPaid('${id}')">+</button>
-        </div>
-      </div>
-      <div class="modal-field-row">
-        <div class="modal-field-left">
-          <div class="modal-field-type" style="color:var(--green)">Ganho</div>
-          <div class="modal-field-value" style="color:var(--green)" id="cashModalGained">${fmt(p.gained)}</div>
-          <div class="modal-field-note">acumula · negativo para corrigir</div>
-        </div>
-        <div class="modal-field-right">
-          <input class="modal-input" type="number" id="inpCashGained" placeholder="valor" step="0.01"
-            style="color:var(--green);border-color:rgba(76,175,125,0.3)"
-            onkeydown="if(event.key==='Enter')applyCashGained('${id}')">
-          <button class="modal-btn-action"
-            style="background:var(--green-dim);color:var(--green);border:1px solid rgba(76,175,125,0.2)"
-            onclick="applyCashGained('${id}')">+</button>
-        </div>
-      </div>
-    </div>
-    <button class="modal-close" onclick="closeCashModal()">Fechar</button>
-  </div>`;
-  document.body.appendChild(overlay);
-  overlay.onclick=e=>{if(e.target===overlay)closeCashModal();};
+  overlay.innerHTML=`<div class="modal-box"><div class="modal-player-name">${p.name}</div><div class="modal-player-total" style="margin-bottom:16px;">P&L: <strong style="color:${pnlColor}">${pnl>=0?'+':''}${fmt(pnl)}</strong></div><div class="modal-fields"><div class="modal-field-row"><div class="modal-field-left"><div class="modal-field-type" style="color:var(--red)">Pago</div><div class="modal-field-value" style="color:var(--red)" id="cashModalPaid">${fmt(p.paid)}</div><div class="modal-field-note">acumula · negativo para corrigir</div></div><div class="modal-field-right"><input class="modal-input" type="number" id="inpCashPaid" placeholder="valor" step="0.01" style="color:var(--red);border-color:rgba(224,92,92,0.3)" onkeydown="if(event.key==='Enter')applyCashPaid('${id}')"><button class="modal-btn-action" style="background:var(--red-dim);color:var(--red);border:1px solid rgba(224,92,92,0.2)" onclick="applyCashPaid('${id}')">+</button></div></div><div class="modal-field-row"><div class="modal-field-left"><div class="modal-field-type" style="color:var(--green)">Ganho</div><div class="modal-field-value" style="color:var(--green)" id="cashModalGained">${fmt(p.gained)}</div><div class="modal-field-note">acumula · negativo para corrigir</div></div><div class="modal-field-right"><input class="modal-input" type="number" id="inpCashGained" placeholder="valor" step="0.01" style="color:var(--green);border-color:rgba(76,175,125,0.3)" onkeydown="if(event.key==='Enter')applyCashGained('${id}')"><button class="modal-btn-action" style="background:var(--green-dim);color:var(--green);border:1px solid rgba(76,175,125,0.2)" onclick="applyCashGained('${id}')">+</button></div></div></div><button class="modal-close" onclick="closeCashModal()">Fechar</button></div>`;
+  document.body.appendChild(overlay);overlay.onclick=e=>{if(e.target===overlay)closeCashModal();};
 }
-
 function closeCashModal(){const m=document.getElementById('cashModal');if(m)m.remove();}
-
-function refreshCashModal(id){
-  const p=cashPlayers.find(x=>x.id===id);
-  const g=i=>document.getElementById(i);
-  if(!g('cashModal'))return;
-  const pnl=p.gained-p.paid;
-  const pnlColor=pnl>0?'var(--green)':pnl<0?'var(--red)':'var(--text-muted)';
-  g('cashModalPaid').textContent=fmt(p.paid);
-  g('cashModalGained').textContent=fmt(p.gained);
-  g('cashModal').querySelector('.modal-player-total strong').textContent=(pnl>=0?'+':'')+fmt(pnl);
-  g('cashModal').querySelector('.modal-player-total strong').style.color=pnlColor;
-  saveCashState();
-  renderCashTable();
-}
-
-function applyCashPaid(id){
-  const raw=parseFloat(document.getElementById('inpCashPaid').value);
-  if(isNaN(raw)||raw===0){showToast('⚠ Valor inválido');return;}
-  const p=cashPlayers.find(x=>x.id===id);
-  const next=p.paid+raw;
-  if(next<0){showToast('⚠ Pago não pode ficar negativo');return;}
-  p.paid=next;
-  document.getElementById('inpCashPaid').value='';
-  refreshCashModal(id);
-}
-
-function applyCashGained(id){
-  const raw=parseFloat(document.getElementById('inpCashGained').value);
-  if(isNaN(raw)||raw===0){showToast('⚠ Valor inválido');return;}
-  const p=cashPlayers.find(x=>x.id===id);
-  const next=p.gained+raw;
-  if(next<0){showToast('⚠ Ganho não pode ficar negativo');return;}
-  p.gained=next;
-  document.getElementById('inpCashGained').value='';
-  refreshCashModal(id);
-}
-
+function refreshCashModal(id){const p=cashPlayers.find(x=>x.id===id);const g=i=>document.getElementById(i);if(!g('cashModal'))return;const pnl=p.gained-p.paid;const pnlColor=pnl>0?'var(--green)':pnl<0?'var(--red)':'var(--text-muted)';g('cashModalPaid').textContent=fmt(p.paid);g('cashModalGained').textContent=fmt(p.gained);const strong=g('cashModal').querySelector('.modal-player-total strong');if(strong){strong.textContent=(pnl>=0?'+':'')+fmt(pnl);strong.style.color=pnlColor;}saveCashState();renderCashTable();}
+function applyCashPaid(id){const raw=parseFloat(document.getElementById('inpCashPaid').value);if(isNaN(raw)||raw===0){showToast('⚠ Valor inválido');return;}const p=cashPlayers.find(x=>x.id===id);const next=p.paid+raw;if(next<0){showToast('⚠ Não pode ficar negativo');return;}p.paid=next;document.getElementById('inpCashPaid').value='';refreshCashModal(id);}
+function applyCashGained(id){const raw=parseFloat(document.getElementById('inpCashGained').value);if(isNaN(raw)||raw===0){showToast('⚠ Valor inválido');return;}const p=cashPlayers.find(x=>x.id===id);const next=p.gained+raw;if(next<0){showToast('⚠ Não pode ficar negativo');return;}p.gained=next;document.getElementById('inpCashGained').value='';refreshCashModal(id);}
 function renderCashTable(){
-  const sec=document.getElementById('cashTableSection');
-  if(cashPlayers.length===0){sec.style.display='none';return;}
-  sec.style.display='block';
-
-  // dealer cost per player
+  const sec=document.getElementById('cashTableSection');if(cashPlayers.length===0){if(sec)sec.style.display='none';return;}if(sec)sec.style.display='block';
   const dealerTotal=parseMoney(document.getElementById('cashDealerVal')?.value);
-  const dealerPerPlayer=cashPlayers.length>0&&dealerTotal>0?dealerTotal/cashPlayers.length:0;
-
-  // update dealer info
-  const infoEl=document.getElementById('cashDealerInfo');
-  if(infoEl){
-    if(dealerTotal>0&&cashPlayers.length>0){
-      infoEl.innerHTML=`${fmt(dealerTotal)} ÷ ${cashPlayers.length} jogadores = <strong style="color:var(--blue)">${fmt(dealerPerPlayer)}</strong> por jogador`;
-    } else { infoEl.innerHTML=''; }
-  }
-
-  const rowsEl=document.getElementById('cashPlayerRows');
-  rowsEl.innerHTML='';
-
-  cashPlayers.forEach(p=>{
-    const pnl=p.gained-p.paid-dealerPerPlayer;
-    const pnlClass=pnl>0?'cash-pnl-pos':pnl<0?'cash-pnl-neg':'cash-pnl-zero';
-    const row=document.createElement('div');
-    row.style.cssText='display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr 32px;border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.15s;';
-    row.onmouseover=()=>row.style.background='rgba(230,185,74,0.04)';
-    row.onmouseout=()=>row.style.background='';
-    row.innerHTML=`
-      <div class="inv-cell player-name-cell" onclick="openCashModal('${p.id}')">${p.name}<span class="edit-hint">editar</span></div>
-      <div class="inv-cell center" style="color:var(--red)" onclick="openCashModal('${p.id}')">${fmtClean(p.paid)}</div>
-      <div class="inv-cell center" style="color:var(--blue)">${fmtClean(dealerPerPlayer)}</div>
-      <div class="inv-cell center" style="color:var(--green)" onclick="openCashModal('${p.id}')">${fmtClean(p.gained)}</div>
-      <div class="inv-cell center ${pnlClass}" onclick="openCashModal('${p.id}')">${pnl>=0?'+':''}${fmtClean(pnl)}</div>
-      <div class="inv-cell"><button class="btn-remove-sm" onclick="removeCashPlayer('${p.id}')">✕</button></div>`;
-    rowsEl.appendChild(row);
-  });
-
-  const totalPaid=cashPlayers.reduce((a,p)=>a+p.paid,0);
-  const totalGained=cashPlayers.reduce((a,p)=>a+p.gained,0);
-  const totalDealer=dealerPerPlayer*cashPlayers.length;
-  const totalPnl=totalGained-totalPaid-totalDealer;
-  const footEl=document.getElementById('cashFooterRow');
-  footEl.innerHTML=`
-    <div class="inv-cell" style="font-size:11px;font-weight:800;color:var(--gold);">TOTAL</div>
-    <div class="inv-cell center" style="font-weight:800;color:var(--gold);">${fmtClean(totalPaid)}</div>
-    <div class="inv-cell center" style="font-weight:800;color:var(--blue);">${fmtClean(totalDealer)}</div>
-    <div class="inv-cell center" style="font-weight:800;color:var(--gold);">${fmtClean(totalGained)}</div>
-    <div class="inv-cell center" style="font-weight:800;color:${totalPnl>=0?'var(--green)':'var(--red)'};">${totalPnl>=0?'+':''}${fmtClean(totalPnl)}</div>
-    <div class="inv-cell"></div>`;
+  const dealerPer=cashPlayers.length>0&&dealerTotal>0?dealerTotal/cashPlayers.length:0;
+  const infoEl=document.getElementById('cashDealerInfo');if(infoEl){infoEl.innerHTML=dealerTotal>0&&cashPlayers.length>0?`${fmt(dealerTotal)} ÷ ${cashPlayers.length} jogadores = <strong style="color:var(--blue)">${fmt(dealerPer)}</strong> por jogador`:'';}
+  const rowsEl=document.getElementById('cashPlayerRows');if(!rowsEl)return;rowsEl.innerHTML='';
+  cashPlayers.forEach(p=>{const pnl=p.gained-p.paid-dealerPer;const pnlClass=pnl>0?'cash-pnl-pos':pnl<0?'cash-pnl-neg':'cash-pnl-zero';const row=document.createElement('div');row.style.cssText='display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr 32px;border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.15s;';row.onmouseover=()=>row.style.background='rgba(230,185,74,0.04)';row.onmouseout=()=>row.style.background='';row.innerHTML=`<div class="inv-cell player-name-cell" onclick="openCashModal('${p.id}')">${p.name}<span class="edit-hint">editar</span></div><div class="inv-cell center" style="color:var(--red)" onclick="openCashModal('${p.id}')">${fmtClean(p.paid)}</div><div class="inv-cell center" style="color:var(--blue)">${fmtClean(dealerPer)}</div><div class="inv-cell center" style="color:var(--green)" onclick="openCashModal('${p.id}')">${fmtClean(p.gained)}</div><div class="inv-cell center ${pnlClass}" onclick="openCashModal('${p.id}')">${pnl>=0?'+':''}${fmtClean(pnl)}</div><div class="inv-cell"><button class="btn-remove-sm" onclick="removeCashPlayer('${p.id}')">✕</button></div>`;rowsEl.appendChild(row);});
+  const totPaid=cashPlayers.reduce((a,p)=>a+p.paid,0),totGained=cashPlayers.reduce((a,p)=>a+p.gained,0),totDealer=dealerPer*cashPlayers.length,totPnl=totGained-totPaid-totDealer;
+  const footEl=document.getElementById('cashFooterRow');if(!footEl)return;footEl.innerHTML=`<div class="inv-cell" style="font-size:11px;font-weight:800;color:var(--gold);">TOTAL</div><div class="inv-cell center" style="font-weight:800;color:var(--gold);">${fmtClean(totPaid)}</div><div class="inv-cell center" style="font-weight:800;color:var(--blue);">${fmtClean(totDealer)}</div><div class="inv-cell center" style="font-weight:800;color:var(--gold);">${fmtClean(totGained)}</div><div class="inv-cell center" style="font-weight:800;color:${totPnl>=0?'var(--green)':'var(--red)'};">${totPnl>=0?'+':''}${fmtClean(totPnl)}</div><div class="inv-cell"></div>`;
 }
-
-function saveCashState(){
-  localStorage.setItem('pgCash',JSON.stringify(cashPlayers));
-}
-
-function loadCashState(){
-  try{
-    const raw=localStorage.getItem('pgCash');
-    if(raw) cashPlayers=JSON.parse(raw);
-  }catch(e){}
-}
-
-// Update switchTab to include cash
-const _origSwitchTab = switchTab;
-switchTab = function(tab){
-  // hide cash tab too
-  const cashEl=document.getElementById('cashTabPage');
-  const btnCash=document.getElementById('tabBtnCash');
-  if(cashEl) cashEl.style.display='none';
-  if(btnCash) btnCash.classList.remove('active');
-  if(tab==='cash'){
-    // hide all others
-    const mainEl=document.querySelector('.main');
-    ['expTabPage','statsTabPage','resultTabPage'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
-    if(mainEl) mainEl.style.display='none';
-    ['tabBtnMain','tabBtnExp','tabBtnStats','tabBtnResult'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.remove('active');});
-    if(cashEl) cashEl.style.display='block';
-    if(btnCash) btnCash.classList.add('active');
-    renderCashTable();
-  } else {
-    _origSwitchTab(tab);
-  }
-};
-
+function saveCashState(){localStorage.setItem('pgCash',JSON.stringify({players:cashPlayers,mode:cashMode}));}
+function loadCashState(){try{const raw=localStorage.getItem('pgCash');if(raw){const parsed=JSON.parse(raw);if(Array.isArray(parsed)){cashPlayers=parsed;}else{cashPlayers=parsed.players||[];cashMode=parsed.mode||'standalone';}}}catch(e){}}
+loadState();
+renderHistory();
+render();
 loadCashState();
 renderCashTable();
+setSyncStatus('syncing');
+startPolling();
 </script>
 </body>
 </html>
